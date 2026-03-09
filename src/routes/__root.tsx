@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { ThemeProvider } from "@/components/theme-provider"
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -8,29 +8,9 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <>
-      <div className="p-2 flex gap-2 text-lg">
-        <Link
-          to="/"
-          activeProps={{
-            className: 'font-bold text-primary',
-          }}
-          activeOptions={{ exact: true }}
-        >
-          Home
-        </Link>{' '}
-        <Link
-          to="/about"
-          activeProps={{
-            className: 'font-bold',
-          }}
-        >
-          About
-        </Link>
-      </div>
-      <hr />
+    <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
-    </>
+    </ThemeProvider>
   )
 }

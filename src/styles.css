@@ -1,44 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,600&family=Outfit:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
-   --background: hsl(0 0% 100%);
-        --foreground: hsl(0 0% 0%);
-        --card: hsl(0 0% 100%);
-        --card-foreground: hsl(0 0% 8%);
-        --popover: hsl(0 0% 100%);
-        --popover-foreground: hsl(0 0% 14.50%);
-        --primary: hsl(187 41% 17%);
-        --primary-foreground: hsl(0 0% 100%);
-        --secondary: hsl(0 5% 95%);
-        --secondary-foreground: hsl(0 0% 8%);
-        --muted: hsl(0 0% 85%);
-        --muted-foreground: hsl(0 0% 61%);
-        --accent: hsl(0 2% 97%);
-        --accent-foreground: hsl(0 0% 8%);
-        --destructive: hsl(0 100% 50%);
-        --destructive-foreground: hsl(0 0% 100%);
-        --border: hsl(0 0% 94%);
-        --sheet-handle: hsl(0 0% 88%);
-        --input: hsl(0 0% 100%);
-        --ring: hsl(0 0% 94%);
-        --chart-1: hsl(187 41% 17%);
-        --chart-2: hsl(187 49% 24%);
-        --chart-3: hsl(22 16% 39.80%);
-        --chart-4: hsl(84 63% 82.80%);
-        --chart-5: hsl(70 68% 76.90%);
-        --sidebar: hsl(0 0% 98.50%);
-        --sidebar-foreground: hsl(0 0% 14.50%);
-        --sidebar-primary: hsl(0 0% 20.50%);
-        --sidebar-primary-foreground: hsl(0 0% 98.50%);
-        --sidebar-accent: hsl(0 0% 97%);
-        --sidebar-accent-foreground: hsl(0 0% 20.50%);
-        --sidebar-border: hsl(0 0% 92.20%);
-        --sidebar-ring: hsl(0 0% 70.80%);
+        --radius: 0.625rem;
+        --background: oklch(0.98 0.004 120);
+        --foreground: oklch(0.15 0.02 150);
+        --card: oklch(0.995 0.002 120);
+        --card-foreground: oklch(0.15 0.02 150);
+        --popover: oklch(0.995 0.002 120);
+        --popover-foreground: oklch(0.15 0.02 150);
+        --primary: oklch(0.58 0.18 150);
+        --primary-foreground: oklch(0.12 0.03 150);
+        --secondary: oklch(0.93 0.02 150);
+        --secondary-foreground: oklch(0.22 0.04 150);
+        --muted: oklch(0.94 0.01 120);
+        --muted-foreground: oklch(0.50 0.02 150);
+        --accent: oklch(0.70 0.14 60);
+        --accent-foreground: oklch(0.18 0.06 60);
+        --destructive: oklch(0.577 0.245 27.325);
+        --destructive-foreground: oklch(0.985 0 0);
+        --border: oklch(0.89 0.02 150);
+        --input: oklch(0.89 0.02 150);
+        --ring: oklch(0.58 0.18 150);
+        --chart-1: oklch(0.58 0.18 150);
+        --chart-2: oklch(0.70 0.14 60);
+        --chart-3: oklch(0.68 0.14 155);
+        --chart-4: oklch(0.62 0.13 200);
+        --chart-5: oklch(0.62 0.16 280);
+        --sidebar: oklch(0.18 0.04 150);
+        --sidebar-foreground: oklch(0.93 0.01 120);
+        --sidebar-primary: oklch(0.58 0.18 150);
+        --sidebar-primary-foreground: oklch(0.12 0.03 150);
+        --sidebar-accent: oklch(0.24 0.04 150);
+        --sidebar-accent-foreground: oklch(0.93 0.01 120);
+        --sidebar-border: oklch(0.26 0.04 150);
+        --sidebar-ring: oklch(0.58 0.18 150);
         --font-sans: Inter, sans-serif;
         --font-serif: Inter, sans-serif;
         --font-mono: Inter, sans-serif;
@@ -54,39 +56,38 @@
 }
 
 .dark {
-    --background: hsl(0 0% 8%);
-    --foreground: hsl(0 0% 100%);
-    --card: hsl(240 10% 3.90%);
-    --card-foreground: hsl(0 0% 98%);
-    --popover: hsl(240 10% 3.90%);
-    --popover-foreground: hsl(0 0% 98%);
-    --primary: hsl(141 50% 95%);
-    --primary-foreground: hsl(0 0% 8%);
-    --secondary: hsl(0 1% 14.00%);
-    --secondary-foreground: hsl(0 0% 100%);
-    --muted: hsl(240 3.70% 15.90%);
-    --muted-foreground: hsl(240 5% 64.90%);
-    --accent: hsl(0 1% 14.00%);
-    --accent-foreground: hsl(0 0% 100%);
-    --destructive: hsl(0 100% 50%);
-    --destructive-foreground: hsl(0 0% 100%);
-    --border: hsl(0 1% 14.00%);
-    --sheet-handle: hsl(0 0% 37%);
-    --input: hsl(240 3.70% 15.90%);
-    --ring: hsl(0 0% 37%);
-    --chart-1: hsl(187 41% 17%);
-    --chart-2: hsl(141 50% 95%);
-    --chart-3: hsl(30 80% 55.00%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55.00%);
-    --sidebar: hsl(240 5.90% 10%);
-    --sidebar-foreground: hsl(240 4.80% 95.90%);
-    --sidebar-primary: hsl(224.30 76.30% 48%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(240 3.70% 15.90%);
-    --sidebar-accent-foreground: hsl(240 4.80% 95.90%);
-    --sidebar-border: hsl(240 3.70% 15.90%);
-    --sidebar-ring: hsl(240 4.90% 83.90%);
+    --background: oklch(0.13 0.02 150);
+    --foreground: oklch(0.94 0.01 120);
+    --card: oklch(0.17 0.03 150);
+    --card-foreground: oklch(0.94 0.01 120);
+    --popover: oklch(0.20 0.03 150);
+    --popover-foreground: oklch(0.94 0.01 120);
+    --primary: oklch(0.62 0.20 150);
+    --primary-foreground: oklch(0.10 0.03 150);
+    --secondary: oklch(0.22 0.03 150);
+    --secondary-foreground: oklch(0.88 0.01 120);
+    --muted: oklch(0.20 0.025 150);
+    --muted-foreground: oklch(0.56 0.02 150);
+    --accent: oklch(0.72 0.15 60);
+    --accent-foreground: oklch(0.16 0.05 60);
+    --destructive: oklch(0.704 0.191 22.216);
+    --destructive-foreground: oklch(0.985 0 0);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.62 0.20 150);
+    --chart-1: oklch(0.62 0.20 150);
+    --chart-2: oklch(0.72 0.15 60);
+    --chart-3: oklch(0.72 0.15 155);
+    --chart-4: oklch(0.65 0.14 200);
+    --chart-5: oklch(0.65 0.17 280);
+    --sidebar: oklch(0.10 0.02 150);
+    --sidebar-foreground: oklch(0.88 0.01 120);
+    --sidebar-primary: oklch(0.62 0.20 150);
+    --sidebar-primary-foreground: oklch(0.10 0.03 150);
+    --sidebar-accent: oklch(0.22 0.03 150);
+    --sidebar-accent-foreground: oklch(0.88 0.01 120);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.45 0.04 150);
     --font-sans: Inter, sans-serif;
     --font-serif: Inter, sans-serif;
     --font-mono: Inter, sans-serif;
@@ -153,4 +154,81 @@
   html {
     @apply font-sans;
     }
+}
+
+
+/* ── Shamba design tokens (extend :root, don't replace) ── */
+:root {
+  --shamba-forest:       #0B2618;
+  --shamba-forest-mid:   #153D26;
+  --shamba-emerald:      #00C471;
+  --shamba-emerald-soft: #E6FBF2;
+  --shamba-cream:        #F7F4EE;
+  --shamba-cream-dark:   #EDE8DF;
+  --shamba-amber:        #C8833A;
+  --shamba-ink:          #292524;
+  --shamba-muted:        #78716C;
+  --shamba-border:       #E7E2D9;
+
+  /* Typography */
+  --font-display: 'Fraunces', serif;
+  --font-body:    'Outfit', sans-serif;
+  --font-data:    'DM Mono', monospace;
+}
+
+/* ── Utility classes (only what Tailwind can't generate from CSS vars) ── */
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-data    { font-family: var(--font-data); }
+}
+
+/* ── Animations ── */
+@layer utilities {
+  @keyframes shamba-fade-up   { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes shamba-slide-left{ from { opacity:0; transform:translateX(36px); } to { opacity:1; transform:translateX(0); } }
+  @keyframes shamba-float     { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+  @keyframes shamba-ticker    { 0%{ transform:translateX(0); } 100%{ transform:translateX(-50%); } }
+  @keyframes shamba-draw-line { from{ stroke-dashoffset:800; } to{ stroke-dashoffset:0; } }
+  @keyframes shamba-glow      { 0%,100%{ box-shadow:0 0 0 0 rgba(0,196,113,0.3); } 50%{ box-shadow:0 0 40px 8px rgba(0,196,113,0.18); } }
+  @keyframes shamba-spin      { to{ transform:rotate(360deg); } }
+
+  .animate-fade-up    { animation: shamba-fade-up    0.7s cubic-bezier(.16,1,.3,1) both; }
+  .animate-slide-left { animation: shamba-slide-left 0.7s cubic-bezier(.16,1,.3,1) both; }
+  .animate-float      { animation: shamba-float      4s ease-in-out infinite; }
+  .animate-ticker     { animation: shamba-ticker     35s linear infinite; }
+  .animate-glow       { animation: shamba-glow       3s ease-in-out infinite; }
+  .animate-spin-slow  { animation: shamba-spin       0.75s linear infinite; }
+  .chart-line         { stroke-dasharray:800; animation: shamba-draw-line 1.8s ease-out 0.4s both; }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+  .delay-700 { animation-delay: 700ms; }
+}
+
+/* ── Ticker scroll track ── */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: shamba-ticker 35s linear infinite;
+}
+
+/* ── Forest background texture ── */
+.bg-forest-texture {
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(30,82,53,0.8) 0%, transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(0,196,113,0.08) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%2300C471' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.bg-forest-texture2 {
+  background-color: #0B2618;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(30,82,53,0.8) 0%, transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(0,196,113,0.08) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%2300C471' stroke-opacity='0.08' stroke-width='1.5' stroke-linecap='round'%3E%3C!-- stem --%3E%3Cline x1='30' y1='55' x2='30' y2='25'/%3E%3C!-- left leaf --%3E%3Cpath d='M30 38 C20 35 12 25 18 18 C24 12 30 20 30 28'/%3E%3C!-- right leaf --%3E%3Cpath d='M30 38 C40 35 48 25 42 18 C36 12 30 20 30 28'/%3E%3C!-- top bud --%3E%3Cpath d='M30 25 C26 18 26 12 30 10 C34 12 34 18 30 25'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: auto, auto, 60px 60px;
 }
