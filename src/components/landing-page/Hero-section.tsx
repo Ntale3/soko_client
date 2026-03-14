@@ -71,8 +71,8 @@ const HeroSection = () => {
             <Button
               variant="outline"
               onClick={()=>{}}
-              className="hover:border-(--shamba-emerald) hover:bg-white/[0.07] transition-all gap-2 font-body"
-              style={{ background: "transparent", color: "white", borderColor: "rgba(255,255,255,0.25)", padding: "15px 28px", borderRadius: 16, fontSize: 15, height: "auto" }}
+              className="flex justify-between items-center hover:-translate-y-0.5 transition-all gap-2 font-body   h-auto bg-transparent text-[15px] border-r-16"
+              style={{padding: "15px 28px", fontSize: 15}}
             >
               <Icon name="play" size={18} color="white" /> See How It Works
             </Button>
