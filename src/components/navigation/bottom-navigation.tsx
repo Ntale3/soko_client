@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import {Link,useRouterState} from "@tanstack/react-router"
 import {cn} from "@/lib/utils"
 
@@ -21,7 +21,7 @@ interface BottomNavProps {
 const NavBadge =({count}:{count:number})=>{
   if(count<=0) return null;
   return (
-    <span className='absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center bg-destructive text-[10px] font-bold text-destructive-foreground'>
+    <span className='absolute -top-0.5 -right-0.5 size-4 bg-destructive text-[6px] font-bold text-foreground rounded-full flex items-center justify-center'>
       {count > 99 ?"99+":count}
     </span>
   )
@@ -85,7 +85,7 @@ function BottomNav({items,className}:BottomNavProps){
       "md:hidden fixed bottom-0 left-0 right-0 z-50",
       "flex h-16  items-stretch",
       "border-t border-border bg-background/50 backdrop-blur-md",
-      "pb-safe-bottom", 
+      "pb-safe-bottom",
       className
     )}
     >
