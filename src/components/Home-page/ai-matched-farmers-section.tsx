@@ -1,8 +1,6 @@
-import React from 'react'
 import { Button } from '../ui/button'
 import { FarmerCard } from './famers-card'
 import { farmers } from '@/constants/dummy-data'
-import { Link } from '@tanstack/react-router'
 import { Sparkle } from 'lucide-react'
 
 const AIMatchedFarmersSection = () => {
