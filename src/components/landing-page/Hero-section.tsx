@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Icon } from './icon';
@@ -22,6 +23,9 @@ const LISTINGS = [
 ];
 
 const HeroSection = () => {
+
+  const navigation = useNavigate()
+
   return (
     <>
     <section className='relative overflow-hidden flex flex-col min-h-screen bg-forest-texture2' style={{backgroundColor: "var(--shamba-forest)"}} >
@@ -62,7 +66,7 @@ const HeroSection = () => {
 
           <div className="flex flex-col sm:flex-row gap-3.5 animate-fade-up delay-300">
             <Button
-              onClick={()=>{}}
+              // onClick={()=>{navigation({to:"/auth/sign-in"})}
               className="hover:-translate-y-0.5 transition-all gap-2 font-body font-bold"
               style={{ background: "var(--shamba-emerald)", color: "var(--shamba-forest)", padding: "15px 32px", borderRadius: 16, fontSize: 16, height: "auto" }}
             >

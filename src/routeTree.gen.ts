@@ -10,13 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
+import { Route as appSearchRouteImport } from './routes/(app)/search'
+import { Route as appProfileRouteImport } from './routes/(app)/profile'
+import { Route as appMessagesRouteImport } from './routes/(app)/messages'
+import { Route as appMarketplaceRouteImport } from './routes/(app)/marketplace'
+import { Route as appHomeRouteImport } from './routes/(app)/home'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const appRouteRoute = appRouteRouteImport.update({
+  id: '/(app)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -34,36 +44,107 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
   path: '/auth/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const appSearchRoute = appSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const appProfileRoute = appProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const appMessagesRoute = appMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const appMarketplaceRoute = appMarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const appHomeRoute = appHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => appRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/home': typeof appHomeRoute
+  '/marketplace': typeof appMarketplaceRoute
+  '/messages': typeof appMessagesRoute
+  '/profile': typeof appProfileRoute
+  '/search': typeof appSearchRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/home': typeof appHomeRoute
+  '/marketplace': typeof appMarketplaceRoute
+  '/messages': typeof appMessagesRoute
+  '/profile': typeof appProfileRoute
+  '/search': typeof appSearchRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/(app)': typeof appRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/(app)/home': typeof appHomeRoute
+  '/(app)/marketplace': typeof appMarketplaceRoute
+  '/(app)/messages': typeof appMessagesRoute
+  '/(app)/profile': typeof appProfileRoute
+  '/(app)/search': typeof appSearchRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/auth/sign-in' | '/auth/sign-up'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/home'
+    | '/marketplace'
+    | '/messages'
+    | '/profile'
+    | '/search'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth/sign-in' | '/auth/sign-up'
-  id: '__root__' | '/' | '/about' | '/auth/sign-in' | '/auth/sign-up'
+  to:
+    | '/'
+    | '/about'
+    | '/home'
+    | '/marketplace'
+    | '/messages'
+    | '/profile'
+    | '/search'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
+  id:
+    | '__root__'
+    | '/'
+    | '/(app)'
+    | '/about'
+    | '/(app)/home'
+    | '/(app)/marketplace'
+    | '/(app)/messages'
+    | '/(app)/profile'
+    | '/(app)/search'
+    | '/auth/sign-in'
+    | '/auth/sign-up'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  appRouteRoute: typeof appRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
@@ -76,6 +157,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(app)': {
+      id: '/(app)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof appRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -99,11 +187,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(app)/search': {
+      id: '/(app)/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof appSearchRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/profile': {
+      id: '/(app)/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof appProfileRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/messages': {
+      id: '/(app)/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof appMessagesRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/marketplace': {
+      id: '/(app)/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof appMarketplaceRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(app)/home': {
+      id: '/(app)/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof appHomeRouteImport
+      parentRoute: typeof appRouteRoute
+    }
   }
 }
 
+interface appRouteRouteChildren {
+  appHomeRoute: typeof appHomeRoute
+  appMarketplaceRoute: typeof appMarketplaceRoute
+  appMessagesRoute: typeof appMessagesRoute
+  appProfileRoute: typeof appProfileRoute
+  appSearchRoute: typeof appSearchRoute
+}
+
+const appRouteRouteChildren: appRouteRouteChildren = {
+  appHomeRoute: appHomeRoute,
+  appMarketplaceRoute: appMarketplaceRoute,
+  appMessagesRoute: appMessagesRoute,
+  appProfileRoute: appProfileRoute,
+  appSearchRoute: appSearchRoute,
+}
+
+const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
+  appRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  appRouteRoute: appRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
