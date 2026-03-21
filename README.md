@@ -22,11 +22,3 @@ Build for production:
 pnpm build
 ```
 
-## About This Example
-
-This example demonstrates:
-
-- Quick setup with file-based routing
-- Automatic route generation
-- Minimal configuration
-- Type-safe routes
