@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { Button } from "../ui/button";
 import { ArticleCard } from "./artical-card";
 import { Article } from "@/types";
