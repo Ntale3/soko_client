@@ -5,13 +5,13 @@ import { useState } from "react"
 import { Product } from "@/types"
 
 export const FreshListingsSection = ({ products }: { products: Product[] }) => {
-  const navigate = useNavigate()
-  const [wishlist, setWishlist] = useState<number[]>([])
+  //const navigate = useNavigate()
+  // const [wishlist, setWishlist] = useState<number[]>([])
 
-  const toggleWishlist = (id: number) =>
-    setWishlist((prev: number[]) =>
-      prev.includes(id) ? prev.filter((w) => w !== id) : [...prev, id]
-    )
+  // const toggleWishlist = (id: number) =>
+  //   setWishlist((prev: number[]) =>
+  //     prev.includes(id) ? prev.filter((w) => w !== id) : [...prev, id]
+  //   )
 
   const addToCart = (id: number) => {
     // handle cart logic here
@@ -41,8 +41,8 @@ export const FreshListingsSection = ({ products }: { products: Product[] }) => {
           <ProductCard
             key={p.id}
             product={p}
-            isWishlisted={wishlist.includes(p.id)}
-            onToggleWishlist={toggleWishlist}
+            // isWishlisted={wishlist.includes(p.id)}
+            //onToggleWishlist={toggleWishlist}
             onAddToCart={addToCart}
           />
         ))}

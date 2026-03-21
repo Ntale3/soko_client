@@ -3,7 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { BadgeCheck, MapPin, MessageCircle, Star } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { Farmer } from "./types"
+import { Farmer } from "@/types"
+// import type { Farmer } from "./types"
 
 const StarRating = ({ rating }: { rating: number }) => (
   <div className="flex items-center gap-0.5">

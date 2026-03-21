@@ -32,7 +32,7 @@ export const ProductCard = ({
   onAddToCart,
 }: {
   product: Product
-  onToggleWishlist: (id: number) => void
+  //onToggleWishlist: (id: number) => void
   onAddToCart: (id: number) => void
 }) => (
   <Card className="overflow-hidden shadow-sm">

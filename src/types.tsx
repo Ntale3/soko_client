@@ -19,6 +19,7 @@ export interface Farmer {
   produce: string[]
   online?: boolean
   reviews?:number
+  price?:string
 }
 
 
