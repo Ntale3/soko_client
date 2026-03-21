@@ -1,7 +1,5 @@
 # SOKO
 
-```
-
 ## Getting Started
 
 Install dependencies:
