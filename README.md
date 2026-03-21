@@ -1,15 +1,5 @@
-# TanStack Router - File-Based Quickstart Example
+# SOKO
 
-A quickstart example using file-based routing.
-
-- [TanStack Router Docs](https://tanstack.com/router)
-
-## Start a new project based on this example
-
-To start a new project based on this example, run:
-
-```sh
-npx gitpick TanStack/router/tree/main/examples/react/quickstart-file-based quickstart-file-based
 ```
 
 ## Getting Started
