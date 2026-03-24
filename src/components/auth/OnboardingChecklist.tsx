@@ -27,7 +27,7 @@ const steps = [
 
 export function OnboardingChecklist() {
   return (
-    <Card className="bg-primary/10 border-0 rounded-2xl p-0  w-100 overflow-hidden">
+    <Card className="border-0 rounded-2xl p-0  w-100 overflow-hidden">
      {steps.map((step,i)=>{return(
       <CardContent
       key={step.label}
