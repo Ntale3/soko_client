@@ -14,10 +14,9 @@ function RouteComponent() {
   return (
     <AuthLayout panel={panel}>
       <div >
-       
+
           {/* <RadioGroupChoiceCard/> */}
           {/* <SignUpForm/> */}
-          {/* <OnboardingChecklist/> */}
           <CheckList/>
       </div>
     </AuthLayout>
