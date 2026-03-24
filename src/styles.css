@@ -9,9 +9,9 @@
 
 :root {
         --radius: 0.625rem;
-        --background: oklch(0.98 0.004 120);
+        --background: oklch(0.94 0.008 120);
         --foreground: oklch(0.15 0.02 150);
-        --card: oklch(0.995 0.002 120);
+        --card: oklch(0.97 0.005 120);
         --card-foreground: oklch(0.15 0.02 150);
         --popover: oklch(0.995 0.002 120);
         --popover-foreground: oklch(0.15 0.02 150);
@@ -60,7 +60,7 @@
     --foreground: oklch(0.94 0.01 120);
     --card: oklch(0.17 0.03 150);
     --card-foreground: oklch(0.94 0.01 120);
-    --popover: oklch(0.20 0.03 150);
+    --popover: oklch(0.97 0.005 120);
     --popover-foreground: oklch(0.94 0.01 120);
     --primary: oklch(0.62 0.20 150);
     --primary-foreground: oklch(0.10 0.03 150);

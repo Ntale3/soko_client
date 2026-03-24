@@ -7,7 +7,7 @@ export const AIBanner = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="mb-4 flex items-center gap-3 rounded-2xl bg-linear-to-br from-primary via-muted-600 to-card p-3.5">
+    <div className="mb-4 flex items-center gap-3 rounded-2xl bg-linear-to-br from-primary via-primary/70 to-secondary p-3.5">
       <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/20">
         <Sparkles className="size-5 text-white" />
       </div>

@@ -23,7 +23,6 @@ const SignUpForm = () => {
     confirm: "",
     terms: false,
   });
-  
 
   function validate(updated: typeof fields) {
     const needsSpecialties = role === "farmer" || role === "both";
