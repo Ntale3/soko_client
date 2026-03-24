@@ -1,6 +1,7 @@
 import { Icon, type IconName } from "@/components/landing-page/icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "@tanstack/react-router";
 
 
 const STEPS: { n: string; title: string; desc: string; icon: IconName }[] = [
@@ -11,6 +12,8 @@ const STEPS: { n: string; title: string; desc: string; icon: IconName }[] = [
 ];
 
 const HowItWorksSection = ({ onSignUp }: { onSignUp?: () => void }) => {
+
+  const navigate = useNavigate();
 
   return (
     <section className="px-6 py-24 relative overflow-hidden " style={{background: "var(--shamba-forest)"}}>
@@ -52,7 +55,7 @@ const HowItWorksSection = ({ onSignUp }: { onSignUp?: () => void }) => {
 
         <div className="text-center mt-16">
           <Button
-            onClick={onSignUp}
+            onClick={()=>{navigate({to:'/auth/sign-up'})}}
             className="animate-glow hover:-translate-y-0.5 transition-all gap-2 font-body font-bold"
             style={{ background: "var(--shamba-emerald)", color: "var(--shamba-forest)", padding: "16px 48px", fontSize: 17, borderRadius: 18, height: "auto" }}
           >

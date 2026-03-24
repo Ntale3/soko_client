@@ -24,7 +24,7 @@ const LISTINGS = [
 
 const HeroSection = () => {
 
-  const navigation = useNavigate()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -66,7 +66,7 @@ const HeroSection = () => {
 
           <div className="flex flex-col sm:flex-row gap-3.5 animate-fade-up delay-300">
             <Button
-              // onClick={()=>{navigation({to:"/auth/sign-in"})}
+              onClick={()=>{navigate({to:'/auth/sign-up'})}}
               className="hover:-translate-y-0.5 transition-all gap-2 font-body font-bold"
               style={{ background: "var(--shamba-emerald)", color: "var(--shamba-forest)", padding: "15px 32px", borderRadius: 16, fontSize: 16, height: "auto" }}
             >
@@ -74,7 +74,7 @@ const HeroSection = () => {
             </Button>
             <Button
               variant="outline"
-              onClick={()=>{}}
+              onClick={()=>{navigate({to:'/auth/sign-up'})}}
               className="flex justify-between items-center hover:-translate-y-0.5 transition-all gap-2 font-body   h-auto bg-transparent text-[15px] border-r-16"
               style={{padding: "15px 28px", fontSize: 15}}
             >

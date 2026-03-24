@@ -15,7 +15,7 @@ const StickyHeader = () => {
         <div className='flex items-center justify-between mb-3'>
           <div>
             <h1 className='text-xl font-extrabold text-primary font-serif'>
-               <Logo size='md'/>
+               <Logo size='md' LogoStyle='text-foreground'/>
             </h1>
 
           </div>

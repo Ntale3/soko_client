@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { Button } from "../ui/button"
 import { Icon } from "./icon"
 import { Logo } from "./logo"
@@ -22,7 +23,7 @@ const LINKS = ["Marketplace", "Blog", "Prices", "AI Assistant"];
 
 const NavBar = ({ onSignIn, onSignUp }: NavbarProps) => {
 
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const scrolled = useSyncExternalStore(
     scrollStore.subscribe,
@@ -30,7 +31,7 @@ const NavBar = ({ onSignIn, onSignUp }: NavbarProps) => {
     scrollStore.getServerSnapshot
   )
 
-
+  const navigate = useNavigate();
 
 
   return (
@@ -43,7 +44,7 @@ const NavBar = ({ onSignIn, onSignUp }: NavbarProps) => {
          <div className="hidden md:flex items-center gap-2.5">
            <Button
             variant="outline"
-            onClick={()=>{}}
+            onClick={()=>{navigate({to:'/auth/sign-in'})}}
             className="hover:border-(--shamba-emerald) hover:bg-white/8 hover:-translate-y-0.5 transition-all font-body"
             style={{ background: "transparent", color: "white", borderColor: "rgba(255,255,255,0.25)", borderRadius: 14, height: "auto", padding: "9px 22px", fontSize: 14 }}
           >
@@ -51,7 +52,7 @@ const NavBar = ({ onSignIn, onSignUp }: NavbarProps) => {
           </Button>
 
           <Button
-            onClick={()=>{}}
+            onClick={()=>{navigate({to:'/auth/sign-up'})}}
             className="hover:-translate-y-0.5 transition-all font-body"
             style={{ background: "var(--shamba-emerald)", color: "var(--shamba-forest)", borderRadius: 14, height: "auto", padding: "9px 22px", fontSize: 14, fontWeight: 700 }}
           >
