@@ -1,7 +1,8 @@
-import { ComponentProps, ReactNode, useState } from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
-import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+import { ComponentProps, ReactNode, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 // ── Variants — unchanged + new category variant
 const badgeVariants = cva(
@@ -9,18 +10,14 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
-        secondary:
-          "bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
+        default: "bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+        secondary: "bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
         destructive:
           "bg-destructive text-white focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40 [a&]:hover:bg-destructive/90",
         outline:
           "border-border text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-        ghost:
-          "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-        link:
-          "text-primary underline-offset-4 [a&]:hover:underline",
+        ghost: "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 [a&]:hover:underline",
         category:
           "border-border bg-background text-muted-foreground cursor-pointer px-3 py-1.5 text-sm hover:border-primary hover:text-primary hover:bg-primary/5 data-[active=true]:border-primary data-[active=true]:bg-primary/10 data-[active=true]:text-primary",
       },
@@ -29,7 +26,7 @@ const badgeVariants = cva(
       variant: "default",
     },
   }
-)
+);
 
 // ── Image slot
 const BadgeImage = ({ src, alt }: { src: string; alt: string }) => (
@@ -40,16 +37,14 @@ const BadgeImage = ({ src, alt }: { src: string; alt: string }) => (
       <span className="text-xs leading-none">{src}</span>
     )}
   </span>
-)
+);
 
 //── Props
-export interface BadgeProps
-  extends ComponentProps<"span">,
-    VariantProps<typeof badgeVariants> {
-  asChild?: boolean
-  image?: string
-  active?: boolean
-  onBadgeSelect?: (label: string) => void
+export interface BadgeProps extends ComponentProps<"span">, VariantProps<typeof badgeVariants> {
+  asChild?: boolean;
+  image?: string;
+  active?: boolean;
+  onBadgeSelect?: (label: string) => void;
 }
 
 //── Badge
@@ -64,14 +59,14 @@ function Badge({
   onClick,
   ...props
 }: BadgeProps) {
-  const Comp = asChild ? Slot.Root : "span"
+  const Comp = asChild ? Slot.Root : "span";
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
-    onClick?.(e)
+    onClick?.(e);
     if (onBadgeSelect && typeof children === "string") {
-      onBadgeSelect(children)              // ← renamed
+      onBadgeSelect(children); // ← renamed
     }
-  }
+  };
 
   return (
     <Comp
@@ -85,22 +80,22 @@ function Badge({
       {image && <BadgeImage src={image} alt={String(children)} />}
       {children}
     </Comp>
-  )
+  );
 }
 
 // ── CategoryBadgeGroup
 export interface CategoryItem {
-  label: string
-  image?: string
+  label: string;
+  image?: string;
 }
 
 interface CategoryBadgeGroupProps {
-  items: CategoryItem[]
-  value?: string
-  defaultValue?: string
-  onChange?: (value: string) => void
-  multiple?: boolean
-  className?: string
+  items: CategoryItem[];
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  multiple?: boolean;
+  className?: string;
 }
 
 function CategoryBadgeGroup({
@@ -111,25 +106,23 @@ function CategoryBadgeGroup({
   multiple = false,
   className,
 }: CategoryBadgeGroupProps) {
-  const [internal, setInternal] = useState<string[]>(
-    defaultValue ? [defaultValue] : []
-  )
+  const [internal, setInternal] = useState<string[]>(defaultValue ? [defaultValue] : []);
 
-  const selected = value !== undefined ? [value] : internal
+  const selected = value !== undefined ? [value] : internal;
 
   const handleSelect = (label: string) => {
     if (multiple) {
       const next = selected.includes(label)
         ? selected.filter((s) => s !== label)
-        : [...selected, label]
-      setInternal(next)
-      onChange?.(next.join(","))
+        : [...selected, label];
+      setInternal(next);
+      onChange?.(next.join(","));
     } else {
-      const next = selected.includes(label) ? "" : label
-      setInternal(next ? [next] : [])
-      onChange?.(next)
+      const next = selected.includes(label) ? "" : label;
+      setInternal(next ? [next] : []);
+      onChange?.(next);
     }
-  }
+  };
 
   return (
     <div
@@ -152,7 +145,7 @@ function CategoryBadgeGroup({
         </Badge>
       ))}
     </div>
-  )
+  );
 }
 
-export { Badge, badgeVariants, CategoryBadgeGroup }
+export { Badge, badgeVariants, CategoryBadgeGroup };

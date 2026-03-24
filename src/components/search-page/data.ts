@@ -1,4 +1,4 @@
-import type { Farmer,Product } from "./types"
+import type { Farmer, Product } from "./types";
 
 export const farmers: Farmer[] = [
   {
@@ -54,9 +54,7 @@ export const farmers: Farmer[] = [
     produce: ["Potatoes", "Cassava", "Sweet Potato"],
     online: false,
   },
-]
-
-
+];
 
 export const products: Product[] = [
   {
@@ -118,4 +116,4 @@ export const products: Product[] = [
     rating: 4.8,
     qty: "500 litres available",
   },
-]
+];

@@ -1,11 +1,10 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MapPin, BadgeCheck, Star } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Farmer } from "@/types"
+import { BadgeCheck, MapPin, Star } from "lucide-react";
 
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Farmer } from "@/types";
 
 //── Star Rating
 const StarRating = ({ rating }: { rating: number }) => (
@@ -15,17 +14,15 @@ const StarRating = ({ rating }: { rating: number }) => (
         key={s}
         className={cn(
           "size-2.5",
-          s <= Math.floor(rating)
-            ? "fill-amber-400 text-amber-400"
-            : "fill-muted text-muted"
+          s <= Math.floor(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
         )}
       />
     ))}
     <span className="ml-1 text-[10px] text-muted-foreground">{rating}</span>
   </div>
-)
+);
 
-//── Farmer Card 
+//── Farmer Card
 export const FarmerCard = ({ farmer }: { farmer: Farmer }) => {
   // const navigate = useNavigate()
 
@@ -37,7 +34,6 @@ export const FarmerCard = ({ farmer }: { farmer: Farmer }) => {
       // }
     >
       <CardContent className="flex flex-col gap-2 p-3.5">
-
         {/* Avatar + name row */}
         <div className="flex items-center gap-2">
           {/* Online indicator wraps the avatar */}
@@ -55,15 +51,11 @@ export const FarmerCard = ({ farmer }: { farmer: Farmer }) => {
 
           {/* Name + verified */}
           <div className="min-w-0 flex-1">
-            <p className="truncate text-[11px] font-bold text-foreground">
-              {farmer.name}
-            </p>
+            <p className="truncate text-[11px] font-bold text-foreground">{farmer.name}</p>
             {farmer.verified && (
               <div className="flex items-center gap-1">
                 <BadgeCheck className="size-3 text-primary" />
-                <span className="text-[9px] font-medium text-primary">
-                  Verified
-                </span>
+                <span className="text-[9px] font-medium text-primary">Verified</span>
               </div>
             )}
           </div>
@@ -84,11 +76,8 @@ export const FarmerCard = ({ farmer }: { farmer: Farmer }) => {
         <StarRating rating={farmer.rating} />
 
         {/* Produce tags */}
-        <p className="truncate text-[10px] text-muted-foreground">
-          {farmer.produce.join(" · ")}
-        </p>
-
+        <p className="truncate text-[10px] text-muted-foreground">{farmer.produce.join(" · ")}</p>
       </CardContent>
     </Card>
-  )
-}
+  );
+};

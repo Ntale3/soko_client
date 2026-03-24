@@ -1,12 +1,13 @@
 // src/pages/marketplace/components/product-card.tsx
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Star } from "lucide-react"
-import { useNavigate } from "@tanstack/react-router"
-import { useMarketplaceStore } from "@/store/marketplace-store"
-import { cn } from "@/lib/utils"
-import type { MarketProduct } from "@/types"
+import { useNavigate } from "@tanstack/react-router";
+import { ShoppingCart, Star } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { useMarketplaceStore } from "@/store/marketplace-store";
+import type { MarketProduct } from "@/types";
 
 const StarRating = ({ rating }: { rating: number }) => (
   <div className="flex items-center gap-0.5">
@@ -15,22 +16,16 @@ const StarRating = ({ rating }: { rating: number }) => (
         key={s}
         className={cn(
           "size-2.5",
-          s <= Math.floor(rating)
-            ? "fill-amber-400 text-amber-400"
-            : "fill-muted text-muted"
+          s <= Math.floor(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
         )}
       />
     ))}
   </div>
-)
+);
 
-export const MarketProductCard = ({
-  product,
-}: {
-  product: MarketProduct
-}) => {
-  const navigate = useNavigate()
-  const addToCart = useMarketplaceStore((s) => s.addToCart)
+export const MarketProductCard = ({ product }: { product: MarketProduct }) => {
+  const navigate = useNavigate();
+  const addToCart = useMarketplaceStore((s) => s.addToCart);
 
   return (
     <Card className="overflow-hidden shadow-sm">
@@ -48,9 +43,7 @@ export const MarketProductCard = ({
 
       <CardContent className="flex flex-col gap-1.5 p-2.5">
         {/* Name */}
-        <p className="truncate text-[11px] font-bold text-foreground">
-          {product.name}
-        </p>
+        <p className="truncate text-[11px] font-bold text-foreground">{product.name}</p>
 
         {/* Farmer — navigates to farmer profile */}
         <button
@@ -86,5 +79,5 @@ export const MarketProductCard = ({
         </Button>
       </CardContent>
     </Card>
-  )
-}
+  );
+};

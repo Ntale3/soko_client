@@ -1,18 +1,17 @@
+import { ReactElement, ReactNode } from "react";
 
 import { C } from "@/constants/colors";
 import { Ic } from "@/constants/crisp-svg";
+
 import { Logo } from "../landing-page/logo";
-import { ReactElement, ReactNode } from "react";
 
-const AuthLayout = ({ children, panel }:{children:ReactNode, panel:ReactElement}) => (
+const AuthLayout = ({ children, panel }: { children: ReactNode; panel: ReactElement }) => (
   <div className="flex min-h-screen">
-
     {/* ── Left panel — decorative ── */}
     <div
       className="hidden lg:flex flex-col flex-none w-120 relative overflow-hidden p-10"
       style={{ background: C.forest }}
     >
-
       {/* Radial gradient texture */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -34,11 +33,8 @@ const AuthLayout = ({ children, panel }:{children:ReactNode, panel:ReactElement}
 
       {/* Content */}
       <div className="relative z-10 flex flex-col h-full">
-
         {/* Logo */}
-        <div
-          className="cursor-pointer mb-12"
-        >
+        <div className="cursor-pointer mb-12">
           <Logo dark size="md" />
         </div>
 
@@ -66,9 +62,8 @@ const AuthLayout = ({ children, panel }:{children:ReactNode, panel:ReactElement}
               className="fraunces italic text-base leading-relaxed mb-4"
               style={{ color: "rgba(255,255,255,.80)" }}
             >
-              "Soko changed everything. I now sell directly to Kampala
-              buyers at full market price. My family's income has never
-              been better."
+              "Soko changed everything. I now sell directly to Kampala buyers at full market price.
+              My family's income has never been better."
             </p>
 
             {/* Attribution */}
@@ -80,13 +75,8 @@ const AuthLayout = ({ children, panel }:{children:ReactNode, panel:ReactElement}
                 NS
               </div>
               <div>
-                <div className="text-white text-sm font-semibold">
-                  Nakato Sarah
-                </div>
-                <div
-                  className="text-xs"
-                  style={{ color: "rgba(255,255,255,.45)" }}
-                >
+                <div className="text-white text-sm font-semibold">Nakato Sarah</div>
+                <div className="text-xs" style={{ color: "rgba(255,255,255,.45)" }}>
                   Tomato Farmer · Wakiso
                 </div>
               </div>
@@ -97,16 +87,10 @@ const AuthLayout = ({ children, panel }:{children:ReactNode, panel:ReactElement}
     </div>
 
     {/* ── Right panel — form ── */}
-    <div
-      className="flex flex-1 flex-col items-center justify-center px-8 py-16 overflow-y-auto bg-background"
-
-    >
-      <div className="w-full max-w-105">
-        {children}
-      </div>
+    <div className="flex flex-1 flex-col items-center justify-center px-8 py-16 overflow-y-auto bg-background">
+      <div className="w-full max-w-105">{children}</div>
     </div>
-
   </div>
 );
 
-export default AuthLayout
+export default AuthLayout;

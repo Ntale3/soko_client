@@ -1,51 +1,43 @@
-import { ReactNode } from 'react';
-import {Link,useRouterState} from "@tanstack/react-router"
-import {cn} from "@/lib/utils"
+import { Link, useRouterState } from "@tanstack/react-router";
+import { ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
 
 // Types
 export interface BottomNavItem {
-  label: string
-  href: string
-  icon: ReactNode
-  activeIcon?: ReactNode
-  badge?: number
+  label: string;
+  href: string;
+  icon: ReactNode;
+  activeIcon?: ReactNode;
+  badge?: number;
 }
 
 interface BottomNavProps {
-  items: BottomNavItem[]
-  className?: string
+  items: BottomNavItem[];
+  className?: string;
 }
 
 //Badge
-const NavBadge =({count}:{count:number})=>{
-  if(count<=0) return null;
+const NavBadge = ({ count }: { count: number }) => {
+  if (count <= 0) return null;
   return (
-    <span className='absolute -top-0.5 -right-0.5 size-4 bg-destructive text-[6px] font-bold text-foreground rounded-full flex items-center justify-center'>
-      {count > 99 ?"99+":count}
+    <span className="absolute -top-0.5 -right-0.5 size-4 bg-destructive text-[6px] font-bold text-foreground rounded-full flex items-center justify-center">
+      {count > 99 ? "99+" : count}
     </span>
-  )
-}
+  );
+};
 
 // Item
 
-const BottomNavItem =({
-  item,
-  isActive
-}:
-{
-  item: BottomNavItem,
-  isActive: boolean
-}
-)=>(
-
+const BottomNavItem = ({ item, isActive }: { item: BottomNavItem; isActive: boolean }) => (
   <Link
-  to={item.href}
-  className={cn("relative flex flex-1 flex-col items-center justify-center gap-1 py-2",
-    "text-muted-foreground transition-colors duration-200",
-    "hover:text-foreground",
-    {"text-primary":isActive}
-  )}
+    to={item.href}
+    className={cn(
+      "relative flex flex-1 flex-col items-center justify-center gap-1 py-2",
+      "text-muted-foreground transition-colors duration-200",
+      "hover:text-foreground",
+      { "text-primary": isActive }
+    )}
   >
     {/* Icon with badge */}
     <div className="relative">
@@ -63,42 +55,36 @@ const BottomNavItem =({
       {item.label}
     </span>
 
-     {/* Active indicator dot */}
+    {/* Active indicator dot */}
     {isActive && (
       <span className="absolute bottom-0 left-1/2 size-1 -translate-x-1/2 rounded-full bg-primary" />
     )}
   </Link>
-
-  )
+);
 
 //Root
 
-function BottomNav({items,className}:BottomNavProps){
+function BottomNav({ items, className }: BottomNavProps) {
   const pathName = useRouterState({
-    select: (s)=> s.location.pathname
-  })
+    select: (s) => s.location.pathname,
+  });
 
   return (
     <nav
-    data-slot="bottom-nav"
-    className={cn(
-      "md:hidden fixed bottom-0 left-0 right-0 z-50",
-      "flex h-16  items-stretch",
-      "border-t border-border bg-background/50 backdrop-blur-md",
-      "pb-safe-bottom",
-      className
-    )}
+      data-slot="bottom-nav"
+      className={cn(
+        "md:hidden fixed bottom-0 left-0 right-0 z-50",
+        "flex h-16  items-stretch",
+        "border-t border-border bg-background/50 backdrop-blur-md",
+        "pb-safe-bottom",
+        className
+      )}
     >
       {items.map((item) => (
-        <BottomNavItem
-          key={item.href}
-          item={item}
-          isActive={pathName === item.href}
-        />
+        <BottomNavItem key={item.href} item={item} isActive={pathName === item.href} />
       ))}
-
     </nav>
-  )
+  );
 }
 
-export {BottomNav, type BottomNavProps}
+export { BottomNav, type BottomNavProps };

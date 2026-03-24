@@ -1,5 +1,5 @@
 // src/pages/search/components/trending-searches.tsx
-import { TrendingUp } from "lucide-react"
+import { TrendingUp } from "lucide-react";
 
 const TRENDING = [
   "Tomatoes",
@@ -8,10 +8,10 @@ const TRENDING = [
   "Sesame",
   "Grace Auma",
   "Mbarara Farmers",
-]
+];
 
 interface TrendingSearchesProps {
-  onSelect: (tag: string) => void
+  onSelect: (tag: string) => void;
 }
 
 export const TrendingSearches = ({ onSelect }: TrendingSearchesProps) => (
@@ -32,4 +32,4 @@ export const TrendingSearches = ({ onSelect }: TrendingSearchesProps) => (
       ))}
     </div>
   </div>
-)
+);

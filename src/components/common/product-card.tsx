@@ -1,13 +1,12 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Link, useNavigate } from "@tanstack/react-router"
-import { Heart, Star, ShoppingCart } from "lucide-react"
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { Product } from "@/types"
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Heart, ShoppingCart, Star } from "lucide-react";
+import { useState } from "react";
 
-
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Product } from "@/types";
 
 // Star Rating
 const StarRating = ({ rating }: { rating: number }) => (
@@ -17,26 +16,23 @@ const StarRating = ({ rating }: { rating: number }) => (
         key={s}
         className={cn(
           "size-2.5",
-          s <= Math.floor(rating)
-            ? "fill-amber-400 text-amber-400"
-            : "fill-muted text-muted"
+          s <= Math.floor(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
         )}
       />
     ))}
   </div>
-)
+);
 
 // Product Card
 export const ProductCard = ({
   product,
   onAddToCart,
 }: {
-  product: Product
+  product: Product;
   //onToggleWishlist: (id: number) => void
-  onAddToCart: (id: number) => void
+  onAddToCart: (id: number) => void;
 }) => (
   <Card className="overflow-hidden shadow-sm">
-
     {/* Image area */}
     <div className="relative flex h-24 items-center justify-center text-lg">
       {product.img}
@@ -72,22 +68,15 @@ export const ProductCard = ({
 
     {/* Content */}
     <CardContent className="flex flex-col gap-1 p-2.5">
-
       {/* Name */}
-      <p className="truncate text-[11px] font-bold text-foreground">
-        {product.name}
-      </p>
+      <p className="truncate text-[11px] font-bold text-foreground">{product.name}</p>
 
       {/* Farmer */}
-      <p className="truncate text-[10px] text-muted-foreground">
-        {product.farmer}
-      </p>
+      <p className="truncate text-[10px] text-muted-foreground">{product.farmer}</p>
 
       {/* Price + rating */}
       <div className="flex items-center justify-between">
-        <p className="text-[11px] font-bold text-primary">
-          {product.price}
-        </p>
+        <p className="text-[11px] font-bold text-primary">{product.price}</p>
         <StarRating rating={product.rating} />
       </div>
 
@@ -103,7 +92,6 @@ export const ProductCard = ({
         <ShoppingCart className="size-3" />
         Add to Cart
       </Button>
-
     </CardContent>
   </Card>
-)
+);

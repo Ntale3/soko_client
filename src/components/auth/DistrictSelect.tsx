@@ -1,7 +1,7 @@
-import { useState } from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -9,20 +9,17 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Field, FieldLabel } from "@/components/ui/field"
-import { UGANDA_DISTRICTS } from "@/constants/districts"
-import { Ic } from "@/constants/crisp-svg"
-import { C } from "@/constants/colors"
+} from "@/components/ui/command";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { C } from "@/constants/colors";
+import { Ic } from "@/constants/crisp-svg";
+import { UGANDA_DISTRICTS } from "@/constants/districts";
+import { cn } from "@/lib/utils";
 
 export function DistrictSelect() {
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
 
   return (
     <Field>
@@ -42,19 +39,14 @@ export function DistrictSelect() {
             <div className="flex items-center gap-2">
               <Ic n="map" s={16} c={C.muted} />
               <span className={cn(!value && "text-muted-foreground")}>
-                {value
-                  ? UGANDA_DISTRICTS.find((d) => d === value)
-                  : "Select your district"}
+                {value ? UGANDA_DISTRICTS.find((d) => d === value) : "Select your district"}
               </span>
             </div>
             <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent
-          className="w-[--radix-popover-trigger-width] p-0"
-          align="start"
-        >
+        <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
           <Command>
             <CommandInput placeholder="Search district..." />
             <CommandList className="max-h-64">
@@ -66,8 +58,8 @@ export function DistrictSelect() {
                     value={district}
                     onSelect={() => {
                       // use district directly — avoid onSelect's auto-lowercase
-                      setValue(district === value ? "" : district)
-                      setOpen(false)
+                      setValue(district === value ? "" : district);
+                      setOpen(false);
                     }}
                   >
                     {district}
@@ -85,5 +77,5 @@ export function DistrictSelect() {
         </PopoverContent>
       </Popover>
     </Field>
-  )
+  );
 }

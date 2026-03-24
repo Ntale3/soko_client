@@ -6,7 +6,11 @@
     "dev": "vite --port 3000",
     "build": "vite build && tsc --noEmit",
     "preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -33,11 +37,20 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@eslint/core": "^1.1.1",
+    "@eslint/js": "^10.0.1",
     "@tanstack/eslint-plugin-query": "^5.91.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^10.1.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.8.1",
     "typescript": "^5.7.2",
+    "typescript-eslint": "^8.57.2",
     "vite": "^7.3.1"
   },
   "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316"

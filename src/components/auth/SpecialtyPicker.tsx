@@ -1,5 +1,8 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Check, ChevronsUpDown, X } from "lucide-react";
+import { useState } from "react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -7,17 +10,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { useSignUpStore } from "@/store/useSignUpStore"
-import { Check, ChevronsUpDown, X } from "lucide-react"
-import { useState } from "react"
-import { cn } from "@/lib/utils"
-import { FieldLabel } from "@/components/ui/field"
+} from "@/components/ui/command";
+import { FieldLabel } from "@/components/ui/field";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { useSignUpStore } from "@/store/useSignUpStore";
 
 const SPECIALTIES = [
   "Maize",
@@ -44,46 +41,39 @@ const SPECIALTIES = [
   "Sugarcane",
   "Cotton",
   "Vanilla",
-]
+];
 
 export function SpecialtyPicker() {
-  const { specialties, setSpecialties } = useSignUpStore()
-  const [open, setOpen] = useState(false)
+  const { specialties, setSpecialties } = useSignUpStore();
+  const [open, setOpen] = useState(false);
 
-  const MAX = 3
+  const MAX = 3;
 
   function toggle(value: string) {
     if (specialties.includes(value)) {
-      setSpecialties(specialties.filter((s) => s !== value))
+      setSpecialties(specialties.filter((s) => s !== value));
     } else {
-      if (specialties.length >= MAX) return
-      setSpecialties([...specialties, value])
+      if (specialties.length >= MAX) return;
+      setSpecialties([...specialties, value]);
     }
   }
 
   function remove(value: string) {
-    setSpecialties(specialties.filter((s) => s !== value))
+    setSpecialties(specialties.filter((s) => s !== value));
   }
 
   return (
     <div className="flex flex-col gap-2">
       <FieldLabel>
-        Specialties{" "}
-        <span className="text-destructive">*</span>
-        <span className="text-muted-foreground font-normal text-xs ml-1">
-          (pick up to {MAX})
-        </span>
+        Specialties <span className="text-destructive">*</span>
+        <span className="text-muted-foreground font-normal text-xs ml-1">(pick up to {MAX})</span>
       </FieldLabel>
 
       {/* Selected badges */}
       {specialties.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {specialties.map((s) => (
-            <Badge
-              key={s}
-              variant="secondary"
-              className="gap-1 pr-1 h-6 text-xs"
-            >
+            <Badge key={s} variant="secondary" className="gap-1 pr-1 h-6 text-xs">
               {s}
               <button
                 type="button"
@@ -121,8 +111,8 @@ export function SpecialtyPicker() {
               <CommandEmpty>No produce found.</CommandEmpty>
               <CommandGroup>
                 {SPECIALTIES.map((item) => {
-                  const isSelected = specialties.includes(item)
-                  const isDisabled = !isSelected && specialties.length >= MAX
+                  const isSelected = specialties.includes(item);
+                  const isDisabled = !isSelected && specialties.length >= MAX;
                   return (
                     <CommandItem
                       key={item}
@@ -132,14 +122,11 @@ export function SpecialtyPicker() {
                       className={cn(isDisabled && "opacity-40 cursor-not-allowed")}
                     >
                       <Check
-                        className={cn(
-                          "mr-2 size-4",
-                          isSelected ? "opacity-100" : "opacity-0"
-                        )}
+                        className={cn("mr-2 size-4", isSelected ? "opacity-100" : "opacity-0")}
                       />
                       {item}
                     </CommandItem>
-                  )
+                  );
                 })}
               </CommandGroup>
             </CommandList>
@@ -148,10 +135,8 @@ export function SpecialtyPicker() {
       </Popover>
 
       {specialties.length === MAX && (
-        <p className="text-xs text-muted-foreground">
-          Maximum of {MAX} specialties reached.
-        </p>
+        <p className="text-xs text-muted-foreground">Maximum of {MAX} specialties reached.</p>
       )}
     </div>
-  )
+  );
 }

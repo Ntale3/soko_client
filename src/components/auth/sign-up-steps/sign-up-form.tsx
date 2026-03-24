@@ -1,40 +1,57 @@
-import { Button } from "@/components/ui/button"
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { C } from "@/constants/colors"
-import { Ic } from "@/constants/crisp-svg"
-import { DistrictSelect } from "../DistrictSelect"
-import { Checkbox } from "@/components/ui/checkbox"
-import { MoveLeft } from "lucide-react"
-import { useSignUpStore } from "@/store/useSignUpStore"
-import { useState } from "react"
+import { MoveLeft } from "lucide-react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { C } from "@/constants/colors";
+import { Ic } from "@/constants/crisp-svg";
+import { useSignUpStore } from "@/store/useSignUpStore";
+
+import { DistrictSelect } from "../DistrictSelect";
+import { SpecialtyPicker } from "../SpecialtyPicker";
 
 const SignUpForm = () => {
-  const { next, back, setCanProceed } = useSignUpStore();
+  const { next, back, setCanProceed, role, specialties } = useSignUpStore();
 
   const [fields, setFields] = useState({
-    fullName: "", email: "", phone: "", password: "", confirm: "", terms: false,
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirm: "",
+    terms: false,
   });
+  console.log(role);
 
   function validate(updated: typeof fields) {
+    const needsSpecialties = role === "farmer" || role === "both";
     const valid =
       updated.fullName.trim().length > 1 &&
       updated.email.includes("@") &&
       updated.phone.trim().length >= 9 &&
       updated.password.length >= 8 &&
       updated.password === updated.confirm &&
-      updated.terms;
+      updated.terms &&
+      (!needsSpecialties || specialties.length > 0); // at least 1 specialty picked
     setCanProceed(valid);
   }
 
-  function update<K extends keyof typeof fields>(key: K, value: typeof fields[K]) {
+  function update<K extends keyof typeof fields>(key: K, value: (typeof fields)[K]) {
     const updated = { ...fields, [key]: value };
     setFields(updated);
     validate(updated);
   }
 
   return (
-    <form className="w-full max-w-sm" onSubmit={(e) => { e.preventDefault(); next(); }}>
+    <form
+      className="w-full max-w-sm"
+      onSubmit={(e) => {
+        e.preventDefault();
+        next();
+      }}
+    >
       <FieldGroup>
         <Field>
           <h3 className="font-bold text-2xl">Create your account</h3>
@@ -44,9 +61,14 @@ const SignUpForm = () => {
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="form-name">FullName <span className="text-destructive">*</span></FieldLabel>
+          <FieldLabel htmlFor="form-name">
+            FullName <span className="text-destructive">*</span>
+          </FieldLabel>
           <Input
-            id="form-name" type="text" className="h-11" placeholder="Kasule Andrew"
+            id="form-name"
+            type="text"
+            className="h-11"
+            placeholder="Kasule Andrew"
             leftIcon={<Ic n="user" s={18} c={C.muted} />}
             value={fields.fullName}
             onChange={(e) => update("fullName", e.target.value)}
@@ -57,7 +79,10 @@ const SignUpForm = () => {
         <Field>
           <FieldLabel htmlFor="form-email">Email</FieldLabel>
           <Input
-            id="form-email" type="email" placeholder="andrew@example.com" className="h-11"
+            id="form-email"
+            type="email"
+            placeholder="andrew@example.com"
+            className="h-11"
             leftIcon={<Ic n="mail" s={18} c={C.muted} />}
             value={fields.email}
             onChange={(e) => update("email", e.target.value)}
@@ -67,9 +92,14 @@ const SignUpForm = () => {
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="form-phone">PhoneNumber <span className="text-destructive">*</span></FieldLabel>
+          <FieldLabel htmlFor="form-phone">
+            PhoneNumber <span className="text-destructive">*</span>
+          </FieldLabel>
           <Input
-            id="form-phone" type="tel" placeholder="7XX XXX XXX" className="h-11"
+            id="form-phone"
+            type="tel"
+            placeholder="7XX XXX XXX"
+            className="h-11"
             value={fields.phone}
             onChange={(e) => update("phone", e.target.value)}
             required
@@ -77,21 +107,33 @@ const SignUpForm = () => {
         </Field>
 
         <DistrictSelect />
+        {/* Conditionally show specialty picker */}
+        {(role === "farmer" || role === "both") && <SpecialtyPicker />}
 
         <div className="grid grid-cols-2 gap-4">
           <Field>
-            <FieldLabel htmlFor="form-password">Password <span className="text-destructive">*</span></FieldLabel>
+            <FieldLabel htmlFor="form-password">
+              Password <span className="text-destructive">*</span>
+            </FieldLabel>
             <Input
-              id="form-password" type="password" placeholder="Min 8 chars" className="h-11"
+              id="form-password"
+              type="password"
+              placeholder="Min 8 chars"
+              className="h-11"
               value={fields.password}
               onChange={(e) => update("password", e.target.value)}
               required
             />
           </Field>
           <Field>
-            <FieldLabel htmlFor="form-password-confirm">Confirm <span className="text-destructive">*</span></FieldLabel>
+            <FieldLabel htmlFor="form-password-confirm">
+              Confirm <span className="text-destructive">*</span>
+            </FieldLabel>
             <Input
-              id="form-password-confirm" type="password" placeholder="Repeat password" className="h-11"
+              id="form-password-confirm"
+              type="password"
+              placeholder="Repeat password"
+              className="h-11"
               value={fields.confirm}
               onChange={(e) => update("confirm", e.target.value)}
               required
@@ -107,7 +149,9 @@ const SignUpForm = () => {
           />
           <FieldLabel htmlFor="terms-checkbox" className="text-muted-foreground">
             <p className="text-xs">
-              I agree to Shamba's <span className="text-primary">Terms of Service, Privacy Policy</span>, and <span className="text-primary">Farmer Agreement.</span>
+              I agree to Shamba's{" "}
+              <span className="text-primary">Terms of Service, Privacy Policy</span>, and{" "}
+              <span className="text-primary">Farmer Agreement.</span>
             </p>
           </FieldLabel>
         </Field>
@@ -125,7 +169,7 @@ const SignUpForm = () => {
         </Field>
       </FieldGroup>
     </form>
-  )
-}
+  );
+};
 
-export default SignUpForm
+export default SignUpForm;

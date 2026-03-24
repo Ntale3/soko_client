@@ -1,9 +1,10 @@
-import { useNavigate } from "@tanstack/react-router"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { BadgeCheck, MapPin, MessageCircle, Star } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Farmer } from "@/types"
+import { useNavigate } from "@tanstack/react-router";
+import { BadgeCheck, MapPin, MessageCircle, Star } from "lucide-react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { Farmer } from "@/types";
 // import type { Farmer } from "./types"
 
 const StarRating = ({ rating }: { rating: number }) => (
@@ -13,17 +14,15 @@ const StarRating = ({ rating }: { rating: number }) => (
         key={s}
         className={cn(
           "size-2.5",
-          s <= Math.floor(rating)
-            ? "fill-amber-400 text-amber-400"
-            : "fill-muted text-muted"
+          s <= Math.floor(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
         )}
       />
     ))}
   </div>
-)
+);
 
 export const FarmerResultCard = ({ farmer }: { farmer: Farmer }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div
@@ -46,12 +45,8 @@ export const FarmerResultCard = ({ farmer }: { farmer: Farmer }) => {
       {/* Info */}
       <div className="min-w-0 flex-1">
         <div className="mb-0.5 flex items-center gap-1.5">
-          <p className="truncate text-[13px] font-bold text-foreground">
-            {farmer.name}
-          </p>
-          {farmer.verified && (
-            <BadgeCheck className="size-3.5 shrink-0 text-primary" />
-          )}
+          <p className="truncate text-[13px] font-bold text-foreground">{farmer.name}</p>
+          {farmer.verified && <BadgeCheck className="size-3.5 shrink-0 text-primary" />}
           <Badge variant="secondary" className="text-[10px]">
             {farmer.badge}
           </Badge>
@@ -64,9 +59,7 @@ export const FarmerResultCard = ({ farmer }: { farmer: Farmer }) => {
 
         <div className="mb-2 flex items-center gap-2">
           <StarRating rating={farmer.rating} />
-          <span className="text-[10px] text-muted-foreground">
-            {farmer.reviews} reviews
-          </span>
+          <span className="text-[10px] text-muted-foreground">{farmer.reviews} reviews</span>
         </div>
 
         <div className="flex flex-wrap gap-1">
@@ -87,7 +80,7 @@ export const FarmerResultCard = ({ farmer }: { farmer: Farmer }) => {
         <button
           type="button"
           onClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation();
             // navigate({ to: "/chat" })
           }}
           className="flex items-center gap-1 rounded-xl bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary transition-colors hover:bg-primary/20"
@@ -97,5 +90,5 @@ export const FarmerResultCard = ({ farmer }: { farmer: Farmer }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};

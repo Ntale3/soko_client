@@ -1,14 +1,13 @@
+import { Article } from "@/types";
+
 import { Button } from "../ui/button";
 import { ArticleCard } from "./artical-card";
-import { Article } from "@/types";
 
 export const LatestArticlesSection = ({ blogs }: { blogs: Article[] }) => (
   <div>
     {/* Header */}
     <div className="mb-3 flex items-center justify-between">
-      <h3 className="text-[13px] font-bold text-foreground">
-        📝 Latest Articles
-      </h3>
+      <h3 className="text-[13px] font-bold text-foreground">📝 Latest Articles</h3>
       <Button
         variant="link"
         size="sm"
@@ -27,4 +26,4 @@ export const LatestArticlesSection = ({ blogs }: { blogs: Article[] }) => (
       ))}
     </div>
   </div>
-)
+);

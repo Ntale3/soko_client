@@ -22,8 +22,7 @@ export const pricePredictions: PricePrediction[] = [
     trend: "up",
     confidence: 91,
   },
-]
-
+];
 
 export const farmers: Farmer[] = [
   {
@@ -49,7 +48,7 @@ export const farmers: Farmer[] = [
     reviews: 31,
     produce: ["Tomatoes", "Onions", "Pepper"],
   },
-   {
+  {
     id: 3,
     name: "Okello James",
     avatar: "OJ",
@@ -72,7 +71,7 @@ export const farmers: Farmer[] = [
     produce: ["Tomatoes", "Onions", "Pepper"],
     reviews: 31,
   },
-]
+];
 
 export const products: Product[] = [
   {
@@ -114,7 +113,7 @@ export const products: Product[] = [
     rating: 4.9,
     qty: "800 kg available",
   },
-]
+];
 
 //blogs
 export const blogs: Article[] = [
@@ -134,8 +133,7 @@ export const blogs: Article[] = [
     author: "Dr. Harriet Mwanje",
     readTime: "12 min read",
   },
-]
-
+];
 
 // src/data/products.ts
 // import type { MarketProduct } from "@/pages/marketplace/types"
@@ -377,4 +375,4 @@ export const products3: MarketProduct[] = [
     qty: "500 kg available",
     category: "Cash Crops",
   },
-]
+];

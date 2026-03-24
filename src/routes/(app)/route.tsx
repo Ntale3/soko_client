@@ -1,10 +1,7 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { Home, HomeIcon, MessageCircle, Search, ShoppingBag, User } from "lucide-react";
 
-import {
-  Home, HomeIcon, ShoppingBag,
-  MessageCircle, User,Search
-} from "lucide-react"
-import { BottomNav, type BottomNavItem } from "@/components/navigation/bottom-navigation"
+import { BottomNav, type BottomNavItem } from "@/components/navigation/bottom-navigation";
 
 const NAV_ITEMS: BottomNavItem[] = [
   {
@@ -34,17 +31,17 @@ const NAV_ITEMS: BottomNavItem[] = [
     href: "/profile",
     icon: <User className="size-5" />,
   },
-]
+];
 
-export const Route = createFileRoute('/(app)')({
+export const Route = createFileRoute("/(app)")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
     <div>
-      <Outlet/>
-      <BottomNav items={NAV_ITEMS}/>
+      <Outlet />
+      <BottomNav items={NAV_ITEMS} />
     </div>
-  )
+  );
 }

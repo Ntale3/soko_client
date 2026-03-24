@@ -3,9 +3,27 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 const TESTIMONIALS = [
-  { name: "Okello James",    role: "Maize Farmer · Gulu",    text: "Before Shamba I was selling to middlemen at half price. Now I get market price and know exactly when to sell based on AI forecasts. My income has tripled.", av: "OJ", ac: "#166534" },
-  { name: "Nakato Sarah",    role: "Tomato Farmer · Wakiso", text: "The disease detection feature saved my entire harvest. I uploaded a photo and within seconds got a diagnosis and treatment plan. Remarkable.", av: "NS", ac: "#1E40AF" },
-  { name: "Tumuhaise Peter", role: "Organic Honey · Mbarara", text: "I export to Kampala supermarkets now. Shamba connected me to buyers I never would have reached. The blog also helped me improve my processing quality.", av: "TP", ac: "var(--shamba-amber)" },
+  {
+    name: "Okello James",
+    role: "Maize Farmer · Gulu",
+    text: "Before Shamba I was selling to middlemen at half price. Now I get market price and know exactly when to sell based on AI forecasts. My income has tripled.",
+    av: "OJ",
+    ac: "#166534",
+  },
+  {
+    name: "Nakato Sarah",
+    role: "Tomato Farmer · Wakiso",
+    text: "The disease detection feature saved my entire harvest. I uploaded a photo and within seconds got a diagnosis and treatment plan. Remarkable.",
+    av: "NS",
+    ac: "#1E40AF",
+  },
+  {
+    name: "Tumuhaise Peter",
+    role: "Organic Honey · Mbarara",
+    text: "I export to Kampala supermarkets now. Shamba connected me to buyers I never would have reached. The blog also helped me improve my processing quality.",
+    av: "TP",
+    ac: "var(--shamba-amber)",
+  },
 ];
 
 export function TestimonialsSection() {
@@ -13,11 +31,19 @@ export function TestimonialsSection() {
     <section className="px-6 py-24 bg-background">
       <div className="max-w-300 mx-auto">
         <div className="text-center mb-16">
-          <Badge variant="secondary" className="mb-4 font-body text-xs font-semibold rounded-full px-3.5 py-1 text-primary" style={{ background: "var(--shamba-emerald-soft)" }}>
+          <Badge
+            variant="secondary"
+            className="mb-4 font-body text-xs font-semibold rounded-full px-3.5 py-1 text-primary"
+            style={{ background: "var(--shamba-emerald-soft)" }}
+          >
             ✦ Farmer Stories
           </Badge>
-          <h2 className="font-display font-black leading-[1.1] tracking-tight text-foreground" style={{ fontSize: "clamp(32px,5vw,52px)" }}>
-            Real farmers,<br />
+          <h2
+            className="font-display font-black leading-[1.1] tracking-tight text-foreground"
+            style={{ fontSize: "clamp(32px,5vw,52px)" }}
+          >
+            Real farmers,
+            <br />
             <em style={{ color: "var(--shamba-emerald)" }}>real results</em>
           </h2>
         </div>
@@ -34,9 +60,13 @@ export function TestimonialsSection() {
                   <Icon name="quote" size={48} color="var(--foreground)" />
                 </div>
                 <div className="flex gap-1 mb-5">
-                  {[1,2,3,4,5].map(s => <Icon key={s} name="star" size={16} color="var(--shamba-amber)" />)}
+                  {[1, 2, 3, 4, 5].map((s) => (
+                    <Icon key={s} name="star" size={16} color="var(--shamba-amber)" />
+                  ))}
                 </div>
-                <p className="italic leading-[1.8] mb-7 text-[15px] text-card-foreground">"{t.text}"</p>
+                <p className="italic leading-[1.8] mb-7 text-[15px] text-card-foreground">
+                  "{t.text}"
+                </p>
                 <div className="flex gap-3 items-center">
                   <div
                     className="w-12 h-12 rounded-[14px] flex items-center justify-center font-display text-base font-extrabold text-white shrink-0"
@@ -45,8 +75,15 @@ export function TestimonialsSection() {
                     {t.av}
                   </div>
                   <div>
-                    <p className="font-display font-bold text-[15px]" style={{ color: "var(--foreground)" }}>{t.name}</p>
-                    <p className="text-xs" style={{ color: "var(--shamba-muted)" }}>{t.role}</p>
+                    <p
+                      className="font-display font-bold text-[15px]"
+                      style={{ color: "var(--foreground)" }}
+                    >
+                      {t.name}
+                    </p>
+                    <p className="text-xs" style={{ color: "var(--shamba-muted)" }}>
+                      {t.role}
+                    </p>
                   </div>
                 </div>
               </CardContent>

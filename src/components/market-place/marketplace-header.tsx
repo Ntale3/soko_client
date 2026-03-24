@@ -1,42 +1,36 @@
 // src/pages/marketplace/components/marketplace-header.tsx
-import { Filter, ShoppingCart } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { CategoryBadgeGroup } from "@/components/ui/badge"
-import { useMarketplaceStore } from "@/store/marketplace-store"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Slider } from "@/components/ui/slider"
-import { Separator } from "@/components/ui/separator"
-import { useNavigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router";
+import { Filter, ShoppingCart } from "lucide-react";
+
+import { CategoryBadgeGroup } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Slider } from "@/components/ui/slider";
+import { useMarketplaceStore } from "@/store/marketplace-store";
 
 const CATEGORIES = [
   { label: "All" },
   { label: "Vegetables", image: "🥦" },
-  { label: "Fruits",     image: "🍎" },
-  { label: "Grains",     image: "🌾" },
+  { label: "Fruits", image: "🍎" },
+  { label: "Grains", image: "🌾" },
   { label: "Cash Crops", image: "☕" },
-  { label: "Dairy",      image: "🥛" },
-  { label: "Herbs",      image: "🌿" },
-]
+  { label: "Dairy", image: "🥛" },
+  { label: "Herbs", image: "🌿" },
+];
 
-const MAX_PRICE = 500000
+const MAX_PRICE = 500000;
 
 export const MarketplaceHeader = () => {
-  const navigate = useNavigate()
-  const {
-    activeCategory,
-    priceRange,
-    cartCount,
-    setCategory,
-    setPriceRange,
-  } = useMarketplaceStore()
+  const navigate = useNavigate();
+  const { activeCategory, priceRange, cartCount, setCategory, setPriceRange } =
+    useMarketplaceStore();
 
   return (
     <div className="sticky top-0 z-40 border-b border-border bg-background px-4 pb-3 pt-12 shadow-sm">
       {/* Title row */}
       <div className="mb-3.5 flex items-center justify-between">
-        <h1 className="text-xl font-extrabold tracking-tight text-foreground">
-          Marketplace
-        </h1>
+        <h1 className="text-xl font-extrabold tracking-tight text-foreground">Marketplace</h1>
 
         <div className="flex items-center gap-2">
           {/* Filter sheet */}
@@ -56,11 +50,7 @@ export const MarketplaceHeader = () => {
                 <p className="mb-2.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Category
                 </p>
-                <CategoryBadgeGroup
-                  items={CATEGORIES}
-                  defaultValue="All"
-                  onChange={setCategory}
-                />
+                <CategoryBadgeGroup items={CATEGORIES} defaultValue="All" onChange={setCategory} />
               </div>
 
               <Separator className="mb-6" />
@@ -72,8 +62,7 @@ export const MarketplaceHeader = () => {
                     Price Range
                   </p>
                   <span className="text-xs font-semibold text-primary">
-                    UGX {priceRange[0].toLocaleString()} —{" "}
-                    UGX {priceRange[1].toLocaleString()}
+                    UGX {priceRange[0].toLocaleString()} — UGX {priceRange[1].toLocaleString()}
                   </span>
                 </div>
                 <Slider
@@ -81,9 +70,7 @@ export const MarketplaceHeader = () => {
                   max={MAX_PRICE}
                   step={5000}
                   value={priceRange}
-                  onValueChange={(val) =>
-                    setPriceRange(val as [number, number])
-                  }
+                  onValueChange={(val) => setPriceRange(val as [number, number])}
                   className="w-full"
                 />
                 <div className="mt-2 flex justify-between text-[10px] text-muted-foreground">
@@ -96,9 +83,7 @@ export const MarketplaceHeader = () => {
 
               <Button
                 className="w-full"
-                onClick={() =>
-                  setPriceRange([0, MAX_PRICE])
-                }
+                onClick={() => setPriceRange([0, MAX_PRICE])}
                 variant="outline"
               >
                 Reset Filters
@@ -124,11 +109,7 @@ export const MarketplaceHeader = () => {
       </div>
 
       {/* Category badges — inline scroll */}
-      <CategoryBadgeGroup
-        items={CATEGORIES}
-        defaultValue="All"
-        onChange={setCategory}
-      />
+      <CategoryBadgeGroup items={CATEGORIES} defaultValue="All" onChange={setCategory} />
     </div>
-  )
-}
+  );
+};

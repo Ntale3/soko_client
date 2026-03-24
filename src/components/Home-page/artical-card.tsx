@@ -1,11 +1,11 @@
 import { Article } from "@/types";
+
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
 
 export const ArticleCard = ({ article }: { article: Article }) => (
   <Card className="shadow-sm">
     <CardContent className="flex gap-3 p-3.5">
-
       {/* Thumbnail */}
       <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 text-[26px]">
         {article.img}
@@ -27,7 +27,6 @@ export const ArticleCard = ({ article }: { article: Article }) => (
           <span>{article.readTime}</span>
         </div>
       </div>
-
     </CardContent>
   </Card>
-)
+);

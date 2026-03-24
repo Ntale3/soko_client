@@ -1,8 +1,10 @@
-import { Link, useNavigate } from "@tanstack/react-router"
-import { ProductCard } from "../common/product-card"
-import { Button } from "../ui/button"
-import { useState } from "react"
-import { Product } from "@/types"
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+
+import { Product } from "@/types";
+
+import { ProductCard } from "../common/product-card";
+import { Button } from "../ui/button";
 
 export const FreshListingsSection = ({ products }: { products: Product[] }) => {
   //const navigate = useNavigate()
@@ -15,16 +17,14 @@ export const FreshListingsSection = ({ products }: { products: Product[] }) => {
 
   const addToCart = (id: number) => {
     // handle cart logic here
-    console.log("added to cart", id)
-  }
+    console.log("added to cart", id);
+  };
 
   return (
     <div>
       {/* Header */}
       <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-[13px] font-bold text-foreground">
-          🛒 Fresh Listings
-        </h3>
+        <h3 className="text-[13px] font-bold text-foreground">🛒 Fresh Listings</h3>
         <Button
           variant="link"
           size="sm"
@@ -48,5 +48,5 @@ export const FreshListingsSection = ({ products }: { products: Product[] }) => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};

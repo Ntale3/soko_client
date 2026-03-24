@@ -1,7 +1,9 @@
 // components/auth/sign-up-steps/check-list.tsx
-import { Button } from "@/components/ui/button";
-import { OnboardingChecklist } from "../OnboardingChecklist";
 import { useNavigate } from "@tanstack/react-router";
+
+import { Button } from "@/components/ui/button";
+
+import { OnboardingChecklist } from "../OnboardingChecklist";
 
 export function CheckList() {
   const navigate = useNavigate();

@@ -1,9 +1,10 @@
-import { Sparkles } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useNavigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router";
+import { Sparkles } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export const AIBanner = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="mb-4 flex items-center gap-3 rounded-2xl bg-linear-to-br from-primary via-muted-600 to-card p-3.5">
@@ -12,12 +13,10 @@ export const AIBanner = () => {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-bold text-white">AI Picks for You</p>
-        <p className="text-[11px] text-white/70">
-          Based on your purchase history
-        </p>
+        <p className="text-[11px] text-white/70">Based on your purchase history</p>
       </div>
       <Button
-      variant={"outline"}
+        variant={"outline"}
         size="sm"
         className="shrink-0 font-bold text-xs h-8"
         // onClick={() => navigate({ to: "/ai" })}
@@ -25,5 +24,5 @@ export const AIBanner = () => {
         View
       </Button>
     </div>
-  )
-}
+  );
+};
