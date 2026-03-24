@@ -8,13 +8,14 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { C } from '@/constants/colors'
 import { Ic } from '@/constants/crisp-svg'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/auth/sign-in')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const navigate = useNavigate();
   return(
     <AuthLayout panel={panel}>
       <div className="animate-[fadeUp_0.7s_cubic-bezier(.16,1,.3,1)_both]">
@@ -28,7 +29,7 @@ function RouteComponent() {
             <h1 className="fraunces text-[32px] font-extrabold tracking-[-0.3px] mb-2 text-foreground">Welcome back</h1>
             <p className="text-[15px] text-muted-foreground">
             Don't have an account?{" "}
-            <Button className='' variant={'link'} >
+            <Button className='' variant={'link'} onClick={()=>navigate({to:'/auth/sign-up'})}>
               <div className='flex items-center gap-0.5 justify-center'>
                 <p className='text-primary font-semibold block'>Sign up free</p>
                 <Ic n="arrow" s={18} c={'var(--primary)'} />
@@ -106,7 +107,7 @@ function RouteComponent() {
       </FieldGroup>
 
     </form>
-    
+
       </div>
     </AuthLayout>
   )

@@ -6,7 +6,7 @@ import { CheckList } from "./check-list";
 import { Button } from "@/components/ui/button";
 import { Ic } from "@/constants/crisp-svg";
 import { Logo } from "@/components/landing-page/logo";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 const STEPS = [
   { label: "Role",    component: RadioGroupChoiceCard },
@@ -17,6 +17,7 @@ const STEPS = [
 export function StepWrapper() {
   const current = useSignUpStore((s) => s.current);
   const StepComponent = STEPS[current].component;
+  const navigate = useNavigate()
 
   return (
     <div className="w-full max-w-sm flex flex-col gap-6 px-1 py-8">
@@ -33,7 +34,7 @@ export function StepWrapper() {
         </h1>
         <p className="text-[15px] text-muted-foreground flex items-center gap-1">
           Already have an account?
-          <Button variant="link" className="h-auto p-0" asChild>
+          <Button variant="link" className="h-auto p-0" onClick={()=>{navigate({to:"/auth/sign-in", from:"/auth/sign-up"})}}asChild>
             <Link to="/auth/sign-in" className="flex items-center gap-0.5">
               <span className="text-primary font-semibold">Sign in</span>
               <Ic n="arrow" s={16} c="var(--primary)" />

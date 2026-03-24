@@ -4,8 +4,10 @@ interface SignUpStore {
   current: number;
   canProceed: boolean;
   role: string;
+  specialties: string[];
   setCanProceed: (valid: boolean) => void;
   setRole: (role: string) => void;
+  setSpecialties: (specialties: string[]) => void;
   next: () => void;
   back: () => void;
   reset: () => void;
@@ -15,9 +17,11 @@ export const useSignUpStore = create<SignUpStore>((set, get) => ({
   current: 0,
   canProceed: false,
   role: "",
+  specialties: [],
 
   setCanProceed: (valid) => set({ canProceed: valid }),
   setRole: (role) => set({ role, canProceed: !!role }),
+  setSpecialties: (specialties) => set({ specialties }),
 
   next: () => {
     const { current, canProceed } = get();
@@ -31,5 +35,5 @@ export const useSignUpStore = create<SignUpStore>((set, get) => ({
     set({ current: current - 1, canProceed: true });
   },
 
-  reset: () => set({ current: 0, canProceed: false, role: "" }),
+  reset: () => set({ current: 0, canProceed: false, role: "", specialties: [] }),
 }));
