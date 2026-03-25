@@ -1,4 +1,3 @@
-// components/messages/ConversationAvatar.tsx
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { User } from "@/constants/mock-messages-api";
 import { cn } from "@/lib/utils";

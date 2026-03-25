@@ -1,4 +1,3 @@
-// components/messages/MessageBubble.tsx
 import { Check, CheckCheck, Package } from "lucide-react";
 
 import { Button } from "@/components/ui/button";

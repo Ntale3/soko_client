@@ -1,4 +1,3 @@
-// components/messages/ChatHeader.tsx
 import { ArrowLeft, MoreVertical, Phone } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
