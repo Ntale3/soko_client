@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Home, HomeIcon, MessageCircle, Search, ShoppingBag, User } from "lucide-react";
 
+import Navbar from "@/components/common/nav";
 import { BottomNav, type BottomNavItem } from "@/components/navigation/bottom-navigation";
 
 const NAV_ITEMS: BottomNavItem[] = [
@@ -40,6 +41,7 @@ export const Route = createFileRoute("/(app)")({
 function RouteComponent() {
   return (
     <div>
+      <Navbar />
       <Outlet />
       <BottomNav items={NAV_ITEMS} />
     </div>

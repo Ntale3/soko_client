@@ -1,97 +1,192 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { Heart, ShoppingCart, Star } from "lucide-react";
-import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { BadgeCheck, MapPin, MessageCircle, ShoppingCart, Star } from "lucide-react";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+// import { Product } from "@/constants/data/products";
 import { Product } from "@/types";
 
-// Star Rating
-const StarRating = ({ rating }: { rating: number }) => (
-  <div className="flex items-center gap-0.5">
-    {[1, 2, 3, 4, 5].map((s) => (
-      <Star
-        key={s}
-        className={cn(
-          "size-2.5",
-          s <= Math.floor(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
-        )}
-      />
-    ))}
-  </div>
-);
-
-// Product Card
-export const ProductCard = ({
-  product,
-  onAddToCart,
-}: {
+interface ProductCardProps {
   product: Product;
-  //onToggleWishlist: (id: number) => void
-  onAddToCart: (id: number) => void;
-}) => (
-  <Card className="overflow-hidden shadow-sm">
-    {/* Image area */}
-    <div className="relative flex h-24 items-center justify-center text-lg">
-      {product.img}
+  className?: string;
+}
 
-      {/* Badge — top left */}
-      {/* {product.badge && (
-        <div className="absolute left-2 top-2">
-          <Badge variant="secondary" className="text-[10px]">
-            {product.badge}
-          </Badge>
-        </div>
-      )} */}
-
-      {/* Wishlist — top right */}
-      {/* <button
-        type="button"
-        onClick={(e) => {
-          e.stopPropagation()
-          onToggleWishlist(product.id)
-        }}
-        className="absolute right-2 top-2 flex size-7 items-center justify-center rounded-full bg-background shadow-sm transition-transform active:scale-90"
-      >
-        <Heart
-          className={cn(
-            "size-3.5 transition-colors",
-            isWishlisted
-              ? "fill-red-500 text-red-500"
-              : "fill-none text-muted-foreground"
-          )}
-        />
-      </button> */}
-    </div>
-
-    {/* Content */}
-    <CardContent className="flex flex-col gap-1 p-2.5">
-      {/* Name */}
-      <p className="truncate text-[11px] font-bold text-foreground">{product.name}</p>
-
-      {/* Farmer */}
-      <p className="truncate text-[10px] text-muted-foreground">{product.farmer}</p>
-
-      {/* Price + rating */}
-      <div className="flex items-center justify-between">
-        <p className="text-[11px] font-bold text-primary">{product.price}</p>
-        <StarRating rating={product.rating} />
+// ─── Star Rating ──────────────────────────────────────────────────────────────
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5">
+        {Array.from({ length: 5 }).map((_, i) => {
+          const filled = i < Math.floor(rating);
+          const partial = !filled && i < rating;
+          return (
+            <Star
+              key={i}
+              size={12}
+              className={cn(
+                "transition-colors",
+                filled
+                  ? "fill-amber-400 text-amber-400"
+                  : partial
+                    ? "fill-amber-200 text-amber-300"
+                    : "fill-muted text-muted-foreground/30"
+              )}
+            />
+          );
+        })}
       </div>
+      <span className="text-xs text-muted-foreground font-medium tabular-nums">
+        {rating.toFixed(1)}
+      </span>
+    </div>
+  );
+}
 
-      {/* Quantity */}
-      <p className="text-[10px] text-muted-foreground">{product.qty}</p>
+// ─── Avatar initials helper ───────────────────────────────────────────────────
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
 
-      {/* Add to cart */}
-      <Button
-        size="sm"
-        className="mt-1 h-7 w-full gap-1.5 text-[11px] font-bold"
-        onClick={() => onAddToCart(product.id)}
+// ─── Product Card ─────────────────────────────────────────────────────────────
+export function ProductCard({ product: p, className }: ProductCardProps) {
+  const navigate = useNavigate();
+
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Card
+        className={cn(
+          "group  overflow-hidden cursor-pointer border-border/60",
+          "hover:shadow-md hover:shadow-emerald-900/5 hover:-translate-y-0.5",
+          "transition-all duration-200 ease-out pt-0",
+          className
+        )}
+        onClick={() => navigate({ to: `/marketplace/${p.id}` })}
       >
-        <ShoppingCart className="size-3" />
-        Add to Cart
-      </Button>
-    </CardContent>
-  </Card>
-);
+        {/* ── Image area ──────────────────────────────────────── */}
+        <div className="relative h-32 md:h-40 flex items-center justify-center overflow-hidden">
+          <span className="leading-none select-none drop-shadow-sm group-hover:scale-105 transition-transform duration-300">
+            <img src={p.image} alt={p.image} className="" />
+          </span>
+
+          {/* Fresh badge — top left */}
+          {p.fresh && (
+            <Badge
+              variant="secondary"
+              className="absolute top-3 left-3 text-[10px] font-semibold px-2 py-0.5  border gap-1 shadow-sm"
+            >
+              Fresh
+            </Badge>
+          )}
+
+          {/* Verified badge — top right */}
+          {p.verified && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="absolute top-3 right-3 w-7 h-7 rounded-full bg-emerald-600 flex items-center justify-center shadow-sm ring-2 ring-white/80 cursor-default">
+                  <BadgeCheck size={14} className="text-white fill-white/20" strokeWidth={2.5} />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="text-xs">
+                Verified farmer
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </div>
+
+        {/* ── Body ────────────────────────────────────────────── */}
+        <CardContent className="p-2 md:p-4 space-y-1 md:space-y-3">
+          {/* Name + category */}
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="text-xs md:text-[15px] text-shadow-md font-semibold text-foreground leading-tight line-clamp-1">
+              {p.name}
+            </h3>
+            <Badge
+              variant="outline"
+              className="text-[10px] font-medium shrink-0 px-2 py-0.5 text-muted-foreground border-border/70 bg-muted/40"
+            >
+              {p.category}
+            </Badge>
+          </div>
+
+          {/* Farmer + location */}
+          <div className="flex items-center gap-1.5">
+            <Avatar className="w-5.5 h-5.5 ring-1 ring-border/60">
+              <AvatarFallback className="text-[9px] font-bold">
+                {getInitials(p.farmer)}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-xs text-muted-foreground font-medium truncate">{p.farmer}</span>
+            <span className="text-muted-foreground/50 text-xs">·</span>
+            <span className="flex items-center gap-0.5 text-[11px] text-muted-foreground shrink-0">
+              <MapPin size={10} className="text-muted-foreground/60" />
+              {p.district}
+            </span>
+          </div>
+
+          {/* Rating */}
+          <StarRating rating={p.rating} />
+
+          {/* Price row */}
+          <div className="flex flex-col">
+            <div className="flex items-baseline gap-0.5">
+              <span
+                className="text-[19px] font-extrabold text-primary tracking-tight"
+                style={{ fontFamily: "'Syne', sans-serif" }}
+              >
+                UGX {p.price.toLocaleString()}
+              </span>
+              <span className="text-xs text-muted-foreground mb-0.5">/{p.unit}</span>
+            </div>
+            <span className="text-[11px] text-muted-foreground tabular-nums">
+              {p.qty.toLocaleString()} {p.unit}s avail.
+            </span>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2 pt-0.5">
+            <Button
+              size="sm"
+              className="flex-1 h-9 text-[13px] font-semibold gap-1.5  hover:bg-primary/90 active:scale-[0.97] shadow-sm rounded-lg transition-all"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate({ to: `/marketplace/${p.id}` });
+              }}
+            >
+              <ShoppingCart size={13} strokeWidth={2.2} />
+              Buy Now
+            </Button>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-9 w-9 p-0 rounded-lg border-border/70 hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate({ to: "/messages" });
+                  }}
+                  aria-label={`Message ${p.farmer}`}
+                >
+                  <MessageCircle size={14} strokeWidth={2} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="text-xs">
+                Message farmer
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </CardContent>
+      </Card>
+    </TooltipProvider>
+  );
+}

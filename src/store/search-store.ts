@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
-import type { Farmer, Product } from "@/types";
+import { Product } from "@/constants/data/products";
+import type { Farmer } from "@/types";
 
 interface SearchState {
   query: string;

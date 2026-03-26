@@ -22,14 +22,31 @@ export interface Farmer {
 }
 
 export interface Product {
-  id: number;
+  // Identification
+  id: string | number;
   name: string;
+  category: string;
+
+  // Visuals & Branding
+  image: string; // Standard URL or Emoji
+  img: string; // Alias for compatibility
+  badge?: string; // e.g., "Fresh", "Hot", "Organic"
+
+  // Supplier Info
   farmer: string;
-  img: string;
-  badge?: string;
-  price: string;
-  rating: number;
-  qty: string;
+  district: string;
+  verified: boolean;
+
+  // Pricing
+  price: number; // Raw UGX value
+  priceValue: number; // Duplicate for logic/sorting
+  unit: string; // "kg", "crate", "bunch"
+
+  // Stock & Quality
+  qty: number; // Numeric for inventory math
+  qtyDisplay: string; // Formatted: "5,000 kg available"
+  rating: number; // 0-5 decimal
+  fresh: boolean;
 }
 
 export interface MarketProduct {
@@ -53,3 +70,24 @@ export interface Article {
   author: string;
   readTime: string;
 }
+
+export type PostCategory =
+  | "Soil & Crops"
+  | "Livestock"
+  | "AgriTech"
+  | "Sustainability"
+  | "Business"
+  | "Irrigation";
+
+export type Post = {
+  slug: string;
+  image: string;
+  category: PostCategory;
+  title: string;
+  excerpt: string;
+  author: string;
+  likes: number;
+  comments: number;
+  readTime: string;
+  publishedAt: string; // ISO date string
+};

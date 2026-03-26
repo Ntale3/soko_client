@@ -1,7 +1,6 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 
-import { Product } from "@/types";
+import { Product } from "@/constants/data/products";
 
 import { ProductCard } from "../common/product-card";
 import { Button } from "../ui/button";
@@ -43,7 +42,7 @@ export const FreshListingsSection = ({ products }: { products: Product[] }) => {
             product={p}
             // isWishlisted={wishlist.includes(p.id)}
             //onToggleWishlist={toggleWishlist}
-            onAddToCart={addToCart}
+            //onAddToCart={addToCart}
           />
         ))}
       </div>

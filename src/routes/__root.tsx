@@ -12,7 +12,6 @@ function RootComponent() {
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
-      {/* <BottomNav items={NAV_ITEMS}/> */}
     </ThemeProvider>
   );
 }

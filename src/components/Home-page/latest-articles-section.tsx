@@ -1,9 +1,9 @@
-import { Article } from "@/types";
+import { Post } from "@/types";
 
+import { BlogCard } from "../common/blog-card";
 import { Button } from "../ui/button";
-import { ArticleCard } from "./artical-card";
 
-export const LatestArticlesSection = ({ blogs }: { blogs: Article[] }) => (
+export const LatestArticlesSection = ({ blogs }: { blogs: Post[] }) => (
   <div>
     {/* Header */}
     <div className="mb-3 flex items-center justify-between">
@@ -20,9 +20,9 @@ export const LatestArticlesSection = ({ blogs }: { blogs: Article[] }) => (
     </div>
 
     {/* List */}
-    <div className="flex flex-col gap-2.5">
-      {blogs.slice(0, 2).map((b) => (
-        <ArticleCard key={b.id} article={b} />
+    <div className="flex gap-2 overflow-x-auto no-scrollbar">
+      {blogs.slice(0, 4).map((b) => (
+        <BlogCard key={b.slug} post={b} />
       ))}
     </div>
   </div>
