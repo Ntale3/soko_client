@@ -1,7 +1,7 @@
 import { Post } from "@/types";
 
-import { Button } from "../ui/button";
 import { BlogCard } from "../common/blog-card";
+import { Button } from "../ui/button";
 
 export const LatestArticlesSection = ({ blogs }: { blogs: Post[] }) => (
   <div>
@@ -21,8 +21,8 @@ export const LatestArticlesSection = ({ blogs }: { blogs: Post[] }) => (
 
     {/* List */}
     <div className="flex gap-2 overflow-x-auto no-scrollbar">
-      {blogs.slice(0,4).map((b) => (
-        <BlogCard key={b.slug} post={b}/>
+      {blogs.slice(0, 4).map((b) => (
+        <BlogCard key={b.slug} post={b} />
       ))}
     </div>
   </div>

@@ -1,16 +1,9 @@
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
+
 import { Button } from "../ui/button";
 
 // Stat pill shown inside the banner
-function StatPill({
-  label,
-  value,
-  trend,
-}: {
-  label: string;
-  value: string;
-  trend: "up" | "down";
-}) {
+function StatPill({ label, value, trend }: { label: string; value: string; trend: "up" | "down" }) {
   return (
     <div className="flex flex-col gap-0.5 bg-white/10 backdrop-blur-sm rounded-2xl px-3.5 py-2.5 border border-white/20 min-w-[90px]">
       <span className="text-white/60 text-[10px] uppercase tracking-widest font-medium">
@@ -44,9 +37,17 @@ const AiBanner = () => {
       <div className="absolute -top-6 -right-6 size-32 rounded-full border-16 border-white/8" />
 
       {/* Subtle grain texture via SVG filter */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.04] pointer-events-none" aria-hidden>
+      <svg
+        className="absolute inset-0 w-full h-full opacity-[0.04] pointer-events-none"
+        aria-hidden
+      >
         <filter id="grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.65"
+            numOctaves="3"
+            stitchTiles="stitch"
+          />
           <feColorMatrix type="saturate" values="0" />
         </filter>
         <rect width="100%" height="100%" filter="url(#grain)" />
@@ -59,7 +60,6 @@ const AiBanner = () => {
           DESKTOP (md+): side-by-side — text left, stats right
         */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 md:gap-8">
-
           {/* Left: text content */}
           <div className="flex-1 min-w-0">
             {/* Badge */}
@@ -72,9 +72,7 @@ const AiBanner = () => {
 
             {/* Headline */}
             <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-bold leading-tight mb-1.5 font-serif">
-              Avocado prices rising{" "}
-              <span className="text-emerald-200">37%</span>{" "}
-              in 2 weeks
+              Avocado prices rising <span className="text-emerald-200">37%</span> in 2 weeks
             </h2>
 
             {/* Sub */}
@@ -99,7 +97,9 @@ const AiBanner = () => {
 
             {/* Confidence indicator — desktop only */}
             <div className="hidden md:flex flex-col gap-1 bg-white/10 rounded-2xl px-3.5 py-2.5 border border-white/20 min-w-[90px]">
-              <span className="text-white/60 text-[10px] uppercase tracking-widest font-medium">Confidence</span>
+              <span className="text-white/60 text-[10px] uppercase tracking-widest font-medium">
+                Confidence
+              </span>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <div className="flex-1 h-1.5 rounded-full bg-white/20 overflow-hidden">
                   <div className="h-full w-[87%] rounded-full bg-emerald-300" />
