@@ -7,7 +7,8 @@ import Categories from "@/components/Home-page/categories";
 import { FreshListingsSection } from "@/components/Home-page/fresh-listing-section";
 import { LatestArticlesSection } from "@/components/Home-page/latest-articles-section";
 import StickyHeader from "@/components/Home-page/sticky-header";
-import { blogs, products } from "@/constants/dummy-data";
+import { products } from "@/constants/data/products";
+import { posts } from "@/constants/dummy-data";
 
 export const Route = createFileRoute("/(app)/home")({
   component: RouteComponent,
@@ -37,7 +38,7 @@ function RouteComponent() {
         <FreshListingsSection products={products} />
 
         {/* latest blog section */}
-        <LatestArticlesSection blogs={blogs} />
+        <LatestArticlesSection blogs={posts} />
       </div>
     </div>
   );
