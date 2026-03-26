@@ -10,7 +10,7 @@ const StickyHeader = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-card pt-12 pb-3 px-4 sticky top-0 border-b border-border shadow-sm z-50 rounded-b-4xl">
+    <div className="bg-card pt-12 pb-3 px-4 sticky top-0 border-b border-border shadow-sm z-50 rounded-b-4xl hidden">
       <div className="flex items-center justify-between mb-3">
         <div>
           <h1 className="text-xl font-extrabold text-primary font-serif">

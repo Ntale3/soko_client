@@ -28,7 +28,7 @@ export const FarmerCard = ({ farmer }: { farmer: Farmer }) => {
 
   return (
     <Card
-      className="w-42 shrink-0 cursor-pointer shadow-sm transition-shadow hover:shadow-md"
+      className="w-42 shrink-0 cursor-pointer shadow-sm transition-shadow hover:shadow-md mt-2"
       // onClick={() =>
       //   // navigate({ to: "/farmer-profile", search: { id: farmer.id } })
       // }

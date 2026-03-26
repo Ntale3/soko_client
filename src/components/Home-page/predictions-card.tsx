@@ -11,7 +11,7 @@ export const PricePredictionCard = ({ p }: { p: PricePrediction }) => {
   const isUp = p.trend === "up";
 
   return (
-    <Card className="w-38 shrink-0 shadow-sm">
+    <Card className="w-38 md:w-44 shrink-0 shadow-sm mt-1.5">
       <CardContent className="p-3.5 flex flex-col gap-2">
         {/* Crop name */}
         <p className="text-xs font-bold text-foreground truncate">{p.crop}</p>
