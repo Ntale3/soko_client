@@ -133,3 +133,13 @@ export const UGANDA_DISTRICTS = [
   "Yumbe",
   "Zombo",
 ];
+
+export const categories = [
+  "All",
+  "Vegetables",
+  "Fruits",
+  "Grains & Cereals",
+  "Livestock",
+  "Dairy & Eggs",
+  "Herbs & Spices",
+];
