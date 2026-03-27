@@ -97,7 +97,7 @@ const NavBar = ({ onSignIn, onSignUp }: NavbarProps) => {
           <div className="flex gap-2.5 mt-3">
             <Button
               variant="outline"
-              onClick={()=>navigate({to:'/auth/sign-in',from:'/'})}
+              onClick={() => navigate({ to: "/auth/sign-in", from: "/" })}
               className="flex-1"
               style={{
                 background: "transparent",
@@ -111,7 +111,7 @@ const NavBar = ({ onSignIn, onSignUp }: NavbarProps) => {
               Sign In
             </Button>
             <Button
-              onClick={()=>navigate({to:"/auth/sign-up",from:'/auth/sign-in'})}
+              onClick={() => navigate({ to: "/auth/sign-up", from: "/auth/sign-in" })}
               className="flex-1"
               style={{
                 background: "var(--shamba-emerald)",
