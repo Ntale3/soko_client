@@ -19,6 +19,7 @@ import { Route as appProfileRouteImport } from './routes/(app)/profile'
 import { Route as appMessagesRouteImport } from './routes/(app)/messages'
 import { Route as appMarketplaceRouteImport } from './routes/(app)/marketplace'
 import { Route as appHomeRouteImport } from './routes/(app)/home'
+import { Route as appBlogRouteImport } from './routes/(app)/blog'
 
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
@@ -69,10 +70,16 @@ const appHomeRoute = appHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => appRouteRoute,
 } as any)
+const appBlogRoute = appBlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => appRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/blog': typeof appBlogRoute
   '/home': typeof appHomeRoute
   '/marketplace': typeof appMarketplaceRoute
   '/messages': typeof appMessagesRoute
@@ -84,6 +91,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/blog': typeof appBlogRoute
   '/home': typeof appHomeRoute
   '/marketplace': typeof appMarketplaceRoute
   '/messages': typeof appMessagesRoute
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/(app)': typeof appRouteRouteWithChildren
   '/about': typeof AboutRoute
+  '/(app)/blog': typeof appBlogRoute
   '/(app)/home': typeof appHomeRoute
   '/(app)/marketplace': typeof appMarketplaceRoute
   '/(app)/messages': typeof appMessagesRoute
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/blog'
     | '/home'
     | '/marketplace'
     | '/messages'
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/blog'
     | '/home'
     | '/marketplace'
     | '/messages'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/'
     | '/(app)'
     | '/about'
+    | '/(app)/blog'
     | '/(app)/home'
     | '/(app)/marketplace'
     | '/(app)/messages'
@@ -222,10 +234,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appHomeRouteImport
       parentRoute: typeof appRouteRoute
     }
+    '/(app)/blog': {
+      id: '/(app)/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof appBlogRouteImport
+      parentRoute: typeof appRouteRoute
+    }
   }
 }
 
 interface appRouteRouteChildren {
+  appBlogRoute: typeof appBlogRoute
   appHomeRoute: typeof appHomeRoute
   appMarketplaceRoute: typeof appMarketplaceRoute
   appMessagesRoute: typeof appMessagesRoute
@@ -234,6 +254,7 @@ interface appRouteRouteChildren {
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
+  appBlogRoute: appBlogRoute,
   appHomeRoute: appHomeRoute,
   appMarketplaceRoute: appMarketplaceRoute,
   appMessagesRoute: appMessagesRoute,

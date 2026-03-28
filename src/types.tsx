@@ -80,9 +80,10 @@ export type PostCategory =
   | "Irrigation";
 
 export type Post = {
+  id: string;
   slug: string;
   image: string;
-  category: PostCategory;
+  category: string;
   title: string;
   excerpt: string;
   author: string;
