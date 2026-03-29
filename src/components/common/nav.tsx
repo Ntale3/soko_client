@@ -176,7 +176,7 @@ export default function Navbar() {
           </Link>
 
           {/* Sell — desktop */}
-          <Link to="/" className="hidden md:flex">
+          <Link to="/sell" className="hidden md:flex">
             <Button
               size="sm"
               className="rounded-[10px] hover:bg-primary/60 active:scale-[0.97] font-semibold gap-1.5 shadow-sm h-9 px-4"
@@ -272,7 +272,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* Sell */}
-                <Link to="/" onClick={() => setSheetOpen(false)}>
+                <Link to="/sell" onClick={() => setSheetOpen(false)}>
                   <Button
                     size="sm"
                     className="rounded-xl bg-primary hover:bg-primary/60 text-white font-semibold gap-1.5 shadow-sm h-10 px-4"
