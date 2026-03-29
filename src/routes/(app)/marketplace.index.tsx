@@ -46,7 +46,7 @@ function RouteComponent() {
         <p className="text-sm text-muted-foreground">
           <span className="font-semibold text-foreground">{filtered.length}</span> results found
         </p>
-        <Button size="sm" className="gap-1.5" onClick={() => navigate({ to: "/" })}>
+        <Button size="sm" className="gap-1.5" onClick={() => navigate({ to: "/sell" })}>
           <Plus className="w-4 h-4" />
           List Your Produce
         </Button>
