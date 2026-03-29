@@ -43,25 +43,22 @@ export const TRENDING_TOPICS = ["Climate Smart Farming", "Avocado Exports", "Van
 // ─── Store shape ──────────────────────────────────────────────────────────────
 
 interface BlogState {
-  // Data
   posts: Post[];
   featuredPost: FeaturedPost | null;
   activeCategory: BlogCategory;
   isLoading: boolean;
   error: string | null;
 
-  // Derived
   filteredPosts: () => Post[];
 
-  // Actions
   setActiveCategory: (category: BlogCategory) => void;
-  setPosts: (posts: Post[]) => void; // call this after your API fetch
-  setFeaturedPost: (post: FeaturedPost) => void; // call this after your API fetch
+  setPosts: (posts: Post[]) => void;
+  setFeaturedPost: (post: FeaturedPost) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
 }
 
-// ─── Default featured (swap out once backend is wired) ────────────────────────
+// ─── Default featured ─────────────────────────────────────────────────────────
 
 const DEFAULT_FEATURED: FeaturedPost = {
   title: "Climate Smart Farming: Adapting Uganda's Agriculture to Changing Weather Patterns",
@@ -77,7 +74,7 @@ const DEFAULT_FEATURED: FeaturedPost = {
   slug: "climate-smart-farming",
 };
 
-// ─── Placeholder posts (swap out once backend is wired) ───────────────────────
+// ─── Placeholder posts ────────────────────────────────────────────────────────
 
 export const PLACEHOLDER_POSTS: Post[] = [
   {
@@ -168,24 +165,19 @@ export const PLACEHOLDER_POSTS: Post[] = [
 // ─── Store ────────────────────────────────────────────────────────────────────
 
 export const useBlogStore = create<BlogState>((set, get) => ({
-  // Initial data — replace PLACEHOLDER_POSTS with [] once you fetch from backend
   posts: PLACEHOLDER_POSTS,
   featuredPost: DEFAULT_FEATURED,
   activeCategory: "All",
   isLoading: false,
   error: null,
 
-  // Derived: filter posts by active category
   filteredPosts: () => {
     const { posts, activeCategory } = get();
     if (activeCategory === "All") return posts;
     return posts.filter((p) => p.category === activeCategory);
   },
 
-  // Actions
   setActiveCategory: (category) => set({ activeCategory: category }),
-
-  // ↓ Call these from your TanStack Query onSuccess / useEffect after fetch
   setPosts: (posts) => set({ posts }),
   setFeaturedPost: (post) => set({ featuredPost: post }),
   setLoading: (isLoading) => set({ isLoading }),

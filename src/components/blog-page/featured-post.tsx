@@ -32,7 +32,8 @@ export function FeaturedPost({ post, isLoading }: FeaturedPostProps) {
 
   return (
     <Link
-      to={`/`}
+      to={`/blog/$slug`}
+      params={{ slug: post.slug }}
       className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-3xl"
     >
       <div className="relative rounded-3xl overflow-hidden bg-linear-to-br from-emerald-900 via-emerald-800 to-emerald-600 shadow-xl">

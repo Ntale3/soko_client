@@ -12,7 +12,7 @@ export function BlogPageHeader() {
           Farming knowledge, market insights & success stories
         </p>
       </div>
-      <Link to="/">
+      <Link to="/blog/write">
         <Button size="sm" className="rounded-xl gap-1.5 font-semibold h-9">
           <PenLine size={14} />
           Write Article
