@@ -20,7 +20,9 @@ import { Route as appMessagesRouteImport } from './routes/(app)/messages'
 import { Route as appMarketplaceRouteImport } from './routes/(app)/marketplace'
 import { Route as appHomeRouteImport } from './routes/(app)/home'
 import { Route as appBlogRouteImport } from './routes/(app)/blog'
+import { Route as appMarketplaceIndexRouteImport } from './routes/(app)/marketplace.index'
 import { Route as appBlogIndexRouteImport } from './routes/(app)/blog.index'
+import { Route as appMarketplaceIdRouteImport } from './routes/(app)/marketplace.$id'
 import { Route as appBlogWriteRouteImport } from './routes/(app)/blog.write'
 import { Route as appBlogSlugRouteImport } from './routes/(app)/blog.$slug'
 
@@ -78,10 +80,20 @@ const appBlogRoute = appBlogRouteImport.update({
   path: '/blog',
   getParentRoute: () => appRouteRoute,
 } as any)
+const appMarketplaceIndexRoute = appMarketplaceIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => appMarketplaceRoute,
+} as any)
 const appBlogIndexRoute = appBlogIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => appBlogRoute,
+} as any)
+const appMarketplaceIdRoute = appMarketplaceIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => appMarketplaceRoute,
 } as any)
 const appBlogWriteRoute = appBlogWriteRouteImport.update({
   id: '/write',
@@ -99,7 +111,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/blog': typeof appBlogRouteWithChildren
   '/home': typeof appHomeRoute
-  '/marketplace': typeof appMarketplaceRoute
+  '/marketplace': typeof appMarketplaceRouteWithChildren
   '/messages': typeof appMessagesRoute
   '/profile': typeof appProfileRoute
   '/search': typeof appSearchRoute
@@ -107,13 +119,14 @@ export interface FileRoutesByFullPath {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/blog/$slug': typeof appBlogSlugRoute
   '/blog/write': typeof appBlogWriteRoute
+  '/marketplace/$id': typeof appMarketplaceIdRoute
   '/blog/': typeof appBlogIndexRoute
+  '/marketplace/': typeof appMarketplaceIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/home': typeof appHomeRoute
-  '/marketplace': typeof appMarketplaceRoute
   '/messages': typeof appMessagesRoute
   '/profile': typeof appProfileRoute
   '/search': typeof appSearchRoute
@@ -121,7 +134,9 @@ export interface FileRoutesByTo {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/blog/$slug': typeof appBlogSlugRoute
   '/blog/write': typeof appBlogWriteRoute
+  '/marketplace/$id': typeof appMarketplaceIdRoute
   '/blog': typeof appBlogIndexRoute
+  '/marketplace': typeof appMarketplaceIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -130,7 +145,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/(app)/blog': typeof appBlogRouteWithChildren
   '/(app)/home': typeof appHomeRoute
-  '/(app)/marketplace': typeof appMarketplaceRoute
+  '/(app)/marketplace': typeof appMarketplaceRouteWithChildren
   '/(app)/messages': typeof appMessagesRoute
   '/(app)/profile': typeof appProfileRoute
   '/(app)/search': typeof appSearchRoute
@@ -138,7 +153,9 @@ export interface FileRoutesById {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/(app)/blog/$slug': typeof appBlogSlugRoute
   '/(app)/blog/write': typeof appBlogWriteRoute
+  '/(app)/marketplace/$id': typeof appMarketplaceIdRoute
   '/(app)/blog/': typeof appBlogIndexRoute
+  '/(app)/marketplace/': typeof appMarketplaceIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -155,13 +172,14 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/blog/$slug'
     | '/blog/write'
+    | '/marketplace/$id'
     | '/blog/'
+    | '/marketplace/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/home'
-    | '/marketplace'
     | '/messages'
     | '/profile'
     | '/search'
@@ -169,7 +187,9 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/blog/$slug'
     | '/blog/write'
+    | '/marketplace/$id'
     | '/blog'
+    | '/marketplace'
   id:
     | '__root__'
     | '/'
@@ -185,7 +205,9 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/(app)/blog/$slug'
     | '/(app)/blog/write'
+    | '/(app)/marketplace/$id'
     | '/(app)/blog/'
+    | '/(app)/marketplace/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -275,12 +297,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appBlogRouteImport
       parentRoute: typeof appRouteRoute
     }
+    '/(app)/marketplace/': {
+      id: '/(app)/marketplace/'
+      path: '/'
+      fullPath: '/marketplace/'
+      preLoaderRoute: typeof appMarketplaceIndexRouteImport
+      parentRoute: typeof appMarketplaceRoute
+    }
     '/(app)/blog/': {
       id: '/(app)/blog/'
       path: '/'
       fullPath: '/blog/'
       preLoaderRoute: typeof appBlogIndexRouteImport
       parentRoute: typeof appBlogRoute
+    }
+    '/(app)/marketplace/$id': {
+      id: '/(app)/marketplace/$id'
+      path: '/$id'
+      fullPath: '/marketplace/$id'
+      preLoaderRoute: typeof appMarketplaceIdRouteImport
+      parentRoute: typeof appMarketplaceRoute
     }
     '/(app)/blog/write': {
       id: '/(app)/blog/write'
@@ -314,10 +350,24 @@ const appBlogRouteChildren: appBlogRouteChildren = {
 const appBlogRouteWithChildren =
   appBlogRoute._addFileChildren(appBlogRouteChildren)
 
+interface appMarketplaceRouteChildren {
+  appMarketplaceIdRoute: typeof appMarketplaceIdRoute
+  appMarketplaceIndexRoute: typeof appMarketplaceIndexRoute
+}
+
+const appMarketplaceRouteChildren: appMarketplaceRouteChildren = {
+  appMarketplaceIdRoute: appMarketplaceIdRoute,
+  appMarketplaceIndexRoute: appMarketplaceIndexRoute,
+}
+
+const appMarketplaceRouteWithChildren = appMarketplaceRoute._addFileChildren(
+  appMarketplaceRouteChildren,
+)
+
 interface appRouteRouteChildren {
   appBlogRoute: typeof appBlogRouteWithChildren
   appHomeRoute: typeof appHomeRoute
-  appMarketplaceRoute: typeof appMarketplaceRoute
+  appMarketplaceRoute: typeof appMarketplaceRouteWithChildren
   appMessagesRoute: typeof appMessagesRoute
   appProfileRoute: typeof appProfileRoute
   appSearchRoute: typeof appSearchRoute
@@ -326,7 +376,7 @@ interface appRouteRouteChildren {
 const appRouteRouteChildren: appRouteRouteChildren = {
   appBlogRoute: appBlogRouteWithChildren,
   appHomeRoute: appHomeRoute,
-  appMarketplaceRoute: appMarketplaceRoute,
+  appMarketplaceRoute: appMarketplaceRouteWithChildren,
   appMessagesRoute: appMessagesRoute,
   appProfileRoute: appProfileRoute,
   appSearchRoute: appSearchRoute,
