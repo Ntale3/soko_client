@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Home, HomeIcon, MessageCircle, Search, ShoppingBag, User } from "lucide-react";
 
+import { CartDrawer } from "@/components/cart/cart-drawer";
 import Navbar from "@/components/common/nav";
 import { BottomNav, type BottomNavItem } from "@/components/navigation/bottom-navigation";
 
@@ -44,6 +45,7 @@ function RouteComponent() {
       <Navbar />
       <Outlet />
       <BottomNav items={NAV_ITEMS} />
+      <CartDrawer />
     </div>
   );
 }

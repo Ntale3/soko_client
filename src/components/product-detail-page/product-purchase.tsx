@@ -1,7 +1,9 @@
 import { Heart, Loader2, Minus, Plus, Share2, ShoppingCart } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { Product } from "@/types";
 
 // ─── Quantity Selector ────────────────────────────────────────────────────────
 
@@ -34,9 +36,7 @@ export function QuantitySelector({
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Decrement */}
         <Button
-          type="button"
           size="icon"
           variant="outline"
           className="size-10 rounded-xl shrink-0"
@@ -46,40 +46,14 @@ export function QuantitySelector({
           <Minus size={14} />
         </Button>
 
-        {/* Direct number input — controlled, always a number */}
-        <input
+        <Input
           type="number"
           value={quantity}
-          min={minimumOrder}
-          max={available}
-          onChange={(e) => {
-            // e.target.valueAsNumber avoids the [object Object] bug
-            const parsed = e.target.valueAsNumber;
-            if (!isNaN(parsed)) onChange(parsed);
-          }}
-          onBlur={(e) => {
-            // Clamp on blur so partial input gets corrected
-            const parsed = e.target.valueAsNumber;
-            const clamped = Math.min(
-              available,
-              Math.max(minimumOrder, isNaN(parsed) ? minimumOrder : parsed)
-            );
-            onChange(clamped);
-          }}
-          className={cn(
-            "flex-1 h-10 rounded-xl border border-border/60 bg-background",
-            "text-center font-bold text-base text-foreground",
-            "focus:outline-none focus:ring-2 focus:ring-primary/40",
-            // Hide browser spin arrows
-            "[appearance:textfield]",
-            "[&::-webkit-outer-spin-button]:appearance-none",
-            "[&::-webkit-inner-spin-button]:appearance-none"
-          )}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="text-center font-bold text-base h-10 rounded-xl border-border/60 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
 
-        {/* Increment */}
         <Button
-          type="button"
           size="icon"
           variant="outline"
           className="size-10 rounded-xl shrink-0"
@@ -104,7 +78,7 @@ interface OrderSummaryProps {
   unit: string;
   effectivePrice: number;
   subtotal: number;
-  originalPrice: number;
+  originalPrice: number; // product.price — to show discount if tier active
 }
 
 export function OrderSummary({
@@ -145,9 +119,22 @@ interface ProductActionsProps {
   onShare: () => void;
 }
 
+// ── Only the ProductActions component needs updating in product-purchase.tsx ──
+// Replace the existing ProductActions export with this:
+
+interface ProductActionsProps {
+  isWishlisted: boolean;
+  isAddingToCart: boolean;
+  alreadyInCart?: boolean;
+  onAddToCart: () => void;
+  onToggleWishlist: () => void;
+  onShare: () => void;
+}
+
 export function ProductActions({
   isWishlisted,
   isAddingToCart,
+  alreadyInCart = false,
   onAddToCart,
   onToggleWishlist,
   onShare,
@@ -155,16 +142,28 @@ export function ProductActions({
   return (
     <div className="flex gap-2">
       <Button
-        className="flex-1 h-11 text-sm font-semibold gap-2 shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.98] transition-all"
+        className={cn(
+          "flex-1 h-11 text-sm font-semibold gap-2 transition-all shadow-sm",
+          alreadyInCart
+            ? "bg-primary/70 hover:bg-primary cursor-default"
+            : "hover:shadow-md hover:scale-[1.01] active:scale-[0.98]"
+        )}
         onClick={onAddToCart}
         disabled={isAddingToCart}
       >
         {isAddingToCart ? (
           <Loader2 size={15} className="animate-spin" />
+        ) : alreadyInCart ? (
+          <>
+            <ShoppingCart size={15} />
+            Added to Cart ✓
+          </>
         ) : (
-          <ShoppingCart size={15} />
+          <>
+            <ShoppingCart size={15} />
+            Add to Cart
+          </>
         )}
-        {isAddingToCart ? "Adding…" : "Add to Cart"}
       </Button>
 
       <Button
