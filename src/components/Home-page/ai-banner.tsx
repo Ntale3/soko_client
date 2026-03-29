@@ -26,7 +26,7 @@ const AiBanner = () => {
     <div className="relative rounded-3xl overflow-hidden shadow-xl">
       {/* ── Background layers ──────────────────────────────────────────── */}
       {/* Base gradient */}
-      <div className="absolute inset-0 bg-linear-to-br from-primary via-emerald-600 to-accent" />
+      <div className="absolute inset-0 bg-linear-to-br from-emerald-900 via-emerald-800 to-emerald-600" />
 
       {/* Mesh overlay for depth */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.15)_0%,transparent_60%)]" />
