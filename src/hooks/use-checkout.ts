@@ -81,7 +81,7 @@ export function usePlaceOrder() {
       // Clear cart and navigate to confirmation
       clearCart();
       setCheckoutStep("confirmation");
-      //vigate({ to: "/checkout/confirmation", search: { orderId: order.id } });
+      navigate({ to: "/checkout/confirmation", search: { orderId: order.id } });
     },
   });
 }
