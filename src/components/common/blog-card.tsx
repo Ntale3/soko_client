@@ -21,8 +21,8 @@ const initials = (name = "") =>
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link
-      //to={`/blog/${post.slug ?? "post"}`}
-      to={"/"}
+      to="/blog/$slug"
+      params={{ slug: post.slug }}
       className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-xl"
     >
       <Card className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition-all duration-300 ease-out hover:shadow-md hover:-translate-y-0.5 pt-0 mt-2">

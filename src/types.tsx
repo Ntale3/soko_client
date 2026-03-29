@@ -79,15 +79,52 @@ export type PostCategory =
   | "Business"
   | "Irrigation";
 
+export interface PostSection {
+  type: "paragraph" | "heading" | "quote" | "image";
+  content: string; // text for paragraph/heading/quote; URL for image
+  caption?: string; // only used when type === "image"
+  attribution?: string; // only used when type === "quote"
+}
+
 export type Post = {
+  // ── Existing fields (unchanged) ──────────────────────────────────────────
+  id: string;
   slug: string;
   image: string;
-  category: PostCategory;
+  category: string;
   title: string;
   excerpt: string;
   author: string;
   likes: number;
-  comments: number;
+  comments: number; // total count (denormalised)
   readTime: string;
   publishedAt: string; // ISO date string
+
+  // ── New fields for single-post view (all optional) ────────────────────────
+  authorInitials?: string;
+  authorBio?: string;
+  isLikedByMe?: boolean; // scoped to logged-in user; defaults to false
+  body?: PostSection[]; // structured article content
+  tags?: string[];
 };
+
+// ─── Comment ──────────────────────────────────────────────────────────────────
+
+export interface Comment {
+  id: string;
+  postId: string;
+  author: string;
+  authorInitials: string;
+  body: string;
+  likes: number;
+  isLikedByMe: boolean;
+  createdAt: string; // ISO string — format on display
+}
+
+// ─── Auth user stub (replace with your real auth type) ───────────────────────
+
+export interface AuthUser {
+  id: string;
+  name: string;
+  initials: string;
+}
