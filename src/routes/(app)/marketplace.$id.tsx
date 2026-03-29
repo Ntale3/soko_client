@@ -14,7 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { products } from "@/constants/dummy-data";
-import { useAddToCart, useSubmitRating } from "@/hooks/use-product-detail";
+import {
+  useAddToCart,
+  useProduct,
+  useSubmitRating,
+  useToggleReviewHelpful,
+  useToggleWishlist,
+} from "@/hooks/use-product-detail";
+import { useCartStore } from "@/store/cart-store";
 import { useProductDetailStore } from "@/store/product-detail-store";
 
 export const Route = createFileRoute("/(app)/marketplace/$id")({
@@ -57,37 +64,42 @@ function ProductSkeleton() {
 }
 
 function RouteComponent() {
+  const { id } = Route.useParams();
+
+  // ── Server state ───────────────────────────────────────────────────────────
+  const { data: product, isLoading, error } = useProduct(id);
+
+  // ── Client UI state ────────────────────────────────────────────────────────
   const {
-    product,
     activeImageIndex,
     quantity,
     activeTab,
-    isLoading,
-    error,
-    isAddingToCart,
     setActiveImageIndex,
     setActiveTab,
     increment,
     decrement,
     setQuantity,
-    toggleWishlist,
-    toggleReviewHelpful,
-    submitRating,
-    effectivePrice,
-    subtotal,
   } = useProductDetailStore();
 
-  const addToCartMutation = useAddToCart();
-  const submitRatingMutation = useSubmitRating(product?.id ?? "");
+  // ── Cart ───────────────────────────────────────────────────────────────────
+  const { addToCart } = useAddToCart();
+  const { isInCart } = useCartStore();
 
-  const handleAddToCart = () => {
-    if (!product) return;
-    addToCartMutation.mutate({
-      productId: product.id,
-      quantity,
-      price: effectivePrice(),
-    });
-  };
+  // ── Mutations ──────────────────────────────────────────────────────────────
+  const submitRatingMutation = useSubmitRating(id);
+  const toggleWishlistMutation = useToggleWishlist(id);
+  const toggleHelpfulMutation = useToggleReviewHelpful(id);
+
+  // ── Derived ────────────────────────────────────────────────────────────────
+  const effectivePrice = (() => {
+    if (!product) return 0;
+    if (!product.priceTiers?.length) return product.price;
+    const tier = [...product.priceTiers].reverse().find((t) => quantity >= t.minQty);
+    return tier?.price ?? product.price;
+  })();
+
+  const subtotal = quantity * effectivePrice;
+  const alreadyInCart = product ? isInCart(product.id) : false;
 
   const handleShare = () => {
     if (navigator.share) {
@@ -97,13 +109,12 @@ function RouteComponent() {
     }
   };
 
-  // ── Error state ────────────────────────────────────────────────────────────
   if (error) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center space-y-4 max-w-sm">
           <AlertCircle className="size-10 text-destructive mx-auto" />
-          <p className="text-sm text-muted-foreground">{error}</p>
+          <p className="text-sm text-muted-foreground">{(error as Error).message}</p>
           <Link to="/marketplace">
             <Button variant="outline" size="sm" className="rounded-xl gap-1.5">
               <ArrowLeft size={13} /> Back to Marketplace
@@ -117,7 +128,6 @@ function RouteComponent() {
   return (
     <div className="min-h-screen bg-background pt-4 pb-24 md:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Back */}
         <Link
           to="/marketplace"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -130,12 +140,8 @@ function RouteComponent() {
           <ProductSkeleton />
         ) : (
           <>
-            {/*
-              Mobile  → single column
-              LG+     → two-column: gallery left, purchase panel right
-            */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-              {/* ── Left: gallery ──────────────────────────────────────── */}
+              {/* Gallery */}
               <div className="lg:sticky lg:top-20">
                 <ProductGallery
                   product={product}
@@ -144,11 +150,11 @@ function RouteComponent() {
                 />
               </div>
 
-              {/* ── Right: info + purchase ─────────────────────────────── */}
+              {/* Purchase panel */}
               <div className="space-y-5">
                 <ProductInfo
                   product={product}
-                  effectivePrice={effectivePrice()}
+                  effectivePrice={effectivePrice}
                   quantity={quantity}
                 />
 
@@ -167,16 +173,18 @@ function RouteComponent() {
                 <OrderSummary
                   quantity={quantity}
                   unit={product.unit}
-                  effectivePrice={effectivePrice()}
-                  subtotal={subtotal()}
+                  effectivePrice={effectivePrice}
+                  subtotal={subtotal}
                   originalPrice={product.price}
                 />
 
                 <ProductActions
                   isWishlisted={product.isWishlisted ?? false}
-                  isAddingToCart={isAddingToCart}
-                  onAddToCart={handleAddToCart}
-                  onToggleWishlist={toggleWishlist}
+                  // not a mutation anymore — just a function call
+                  isAddingToCart={false}
+                  alreadyInCart={alreadyInCart}
+                  onAddToCart={() => addToCart(product, quantity, effectivePrice)}
+                  onToggleWishlist={() => toggleWishlistMutation.mutate()}
                   onShare={handleShare}
                 />
               </div>
@@ -184,13 +192,12 @@ function RouteComponent() {
 
             <Separator />
 
-            {/* ── Tabs: details / reviews / similar ──────────────────── */}
             <ProductTabs
               product={product}
               activeTab={activeTab}
               allProducts={products}
               onTabChange={(t) => setActiveTab(t as "details" | "reviews" | "similar")}
-              onReviewHelpful={toggleReviewHelpful}
+              onReviewHelpful={(reviewId) => toggleHelpfulMutation.mutate(reviewId)}
               onSubmitRating={(r) => submitRatingMutation.mutate(r)}
             />
           </>

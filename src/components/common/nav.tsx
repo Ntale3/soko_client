@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useCartStore } from "@/store/cart-store";
 
 import { Logo } from "../landing-page/logo";
 
@@ -112,8 +113,10 @@ function MobileNavLink({ link, onNavigate }: { link: NavLink; onNavigate: () => 
 }
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
-export default function Navbar({ cartCount = 2 }: NavbarProps) {
+export default function Navbar() {
   const [sheetOpen, setSheetOpen] = useState(false);
+  const { getSummary } = useCartStore();
+  const cartCount = getSummary().itemCount;
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
@@ -156,7 +159,7 @@ export default function Navbar({ cartCount = 2 }: NavbarProps) {
           </Link>
 
           {/* Cart — desktop */}
-          <Link to="/" className="hidden md:flex">
+          <Link to="/cart" className="hidden md:flex">
             <Button
               variant="ghost"
               size="icon"
@@ -193,7 +196,7 @@ export default function Navbar({ cartCount = 2 }: NavbarProps) {
           </Link>
 
           {/* Cart — mobile */}
-          <Link to="/" className="md:hidden">
+          <Link to="/cart" className="md:hidden">
             <Button
               variant="ghost"
               size="icon"
