@@ -1,16 +1,10 @@
 // Zustand + persist — cart survives page refresh.
 // Server state (order creation, payment) lives in TanStack Query mutations.
 
-
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import {
-  CartItem,
-  CartSummary,
-  AddToCartPayload,
-  DeliveryAddress,
-  PaymentMethod,
-} from "@/types";
+
+import { AddToCartPayload, CartItem, CartSummary, DeliveryAddress, PaymentMethod } from "@/types";
 
 const DELIVERY_FEE = 15_000; // change when backend is ready
 
@@ -27,7 +21,7 @@ interface CartStore {
   checkoutStep: CheckoutStep;
   deliveryAddress: DeliveryAddress | null;
   paymentMethod: PaymentMethod | null;
-  placedOrderId: string | null;   // set after successful order
+  placedOrderId: string | null; // set after successful order
 
   // ── Cart actions ──────────────────────────────────────────────────────────
   addItem: (payload: AddToCartPayload) => void;
@@ -92,9 +86,7 @@ export const useCartStore = create<CartStore>()(
 
       // ── Cart actions ───────────────────────────────────────────────────
       addItem: (payload) => {
-        const existing = get().items.find(
-          (i) => i.productId === payload.product.id
-        );
+        const existing = get().items.find((i) => i.productId === payload.product.id);
 
         if (existing) {
           // Increase quantity if already in cart
@@ -127,16 +119,9 @@ export const useCartStore = create<CartStore>()(
             i.cartItemId === cartItemId
               ? {
                   ...i,
-                  quantity: Math.min(
-                    i.availableQty,
-                    Math.max(i.minimumOrder, quantity)
-                  ),
+                  quantity: Math.min(i.availableQty, Math.max(i.minimumOrder, quantity)),
                   subtotal:
-                    i.unitPrice *
-                    Math.min(
-                      i.availableQty,
-                      Math.max(i.minimumOrder, quantity)
-                    ),
+                    i.unitPrice * Math.min(i.availableQty, Math.max(i.minimumOrder, quantity)),
                 }
               : i
           ),
@@ -145,14 +130,11 @@ export const useCartStore = create<CartStore>()(
       toggleSelected: (cartItemId) =>
         set((s) => ({
           items: s.items.map((i) =>
-            i.cartItemId === cartItemId
-              ? { ...i, isSelected: !i.isSelected }
-              : i
+            i.cartItemId === cartItemId ? { ...i, isSelected: !i.isSelected } : i
           ),
         })),
 
-      selectAll: () =>
-        set((s) => ({ items: s.items.map((i) => ({ ...i, isSelected: true })) })),
+      selectAll: () => set((s) => ({ items: s.items.map((i) => ({ ...i, isSelected: true })) })),
 
       clearCart: () => set({ items: [] }),
 
@@ -193,8 +175,7 @@ export const useCartStore = create<CartStore>()(
 
       getSelectedItems: () => get().items.filter((i) => i.isSelected),
 
-      isInCart: (productId) =>
-        get().items.some((i) => i.productId === productId),
+      isInCart: (productId) => get().items.some((i) => i.productId === productId),
     }),
     {
       name: "soko-cart",
