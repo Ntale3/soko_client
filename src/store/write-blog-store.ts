@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { BlogCategory, BLOG_CATEGORIES } from "./blog-store";
+
+import { BLOG_CATEGORIES, BlogCategory } from "./blog-store";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -17,8 +18,8 @@ export interface WriteBlogDraft {
   tags: string;
   sections: EditorSection[];
   // Cover image — kept separate from persist (File can't be serialised)
-  coverFile: File | null;       // the raw File object
-  coverPreviewUrl: string;      // object URL or plain URL string for preview
+  coverFile: File | null; // the raw File object
+  coverPreviewUrl: string; // object URL or plain URL string for preview
 }
 
 const EMPTY_DRAFT: WriteBlogDraft = {
@@ -79,10 +80,10 @@ export const useWriteBlogStore = create<WriteBlogState>()(
       lastSaved: null,
 
       // ── Field setters ─────────────────────────────────────────────────────
-      setTitle:    (title)    => set((s) => ({ draft: { ...s.draft, title } })),
-      setExcerpt:  (excerpt)  => set((s) => ({ draft: { ...s.draft, excerpt } })),
+      setTitle: (title) => set((s) => ({ draft: { ...s.draft, title } })),
+      setExcerpt: (excerpt) => set((s) => ({ draft: { ...s.draft, excerpt } })),
       setCategory: (category) => set((s) => ({ draft: { ...s.draft, category } })),
-      setTags:     (tags)     => set((s) => ({ draft: { ...s.draft, tags } })),
+      setTags: (tags) => set((s) => ({ draft: { ...s.draft, tags } })),
 
       // ── Cover image ───────────────────────────────────────────────────────
       setCoverImage: (file, previewUrl) =>
@@ -101,8 +102,8 @@ export const useWriteBlogStore = create<WriteBlogState>()(
           type === "quote"
             ? { type: "quote", content: "", attribution: "" }
             : type === "image"
-            ? { type: "image", content: "", caption: "" }
-            : ({ type, content: "" } as EditorSection);
+              ? { type: "image", content: "", caption: "" }
+              : ({ type, content: "" } as EditorSection);
 
         set((s) => ({
           draft: { ...s.draft, sections: [...s.draft.sections, blank] },
@@ -158,8 +159,7 @@ export const useWriteBlogStore = create<WriteBlogState>()(
         }, 600);
       },
 
-      resetDraft: () =>
-        set({ draft: EMPTY_DRAFT, activeSectionIndex: 0, lastSaved: null }),
+      resetDraft: () => set({ draft: EMPTY_DRAFT, activeSectionIndex: 0, lastSaved: null }),
 
       // ── Derived ───────────────────────────────────────────────────────────
       isReadyToPublish: () => {
@@ -179,10 +179,10 @@ export const useWriteBlogStore = create<WriteBlogState>()(
         const { draft } = get();
         const form = new FormData();
 
-        form.append("title",    draft.title.trim());
-        form.append("excerpt",  draft.excerpt.trim());
+        form.append("title", draft.title.trim());
+        form.append("excerpt", draft.excerpt.trim());
         form.append("category", draft.category);
-        form.append("status",   "published");
+        form.append("status", "published");
 
         // Tags as JSON array
         const tags = draft.tags
