@@ -154,77 +154,83 @@ export const posts: Post[] = [
     image: "https://i.pinimg.com/736x/11/9c/ea/119cea4b403ddcfcba404b6e58ddff0d.jpg",
     category: "Soil & Crops",
     title: "The Farmer's Complete Guide to Soil Health in 2025",
-    excerpt: "Understanding NPK ratios, microbial activity, and cover cropping strategies that helped our test plots yield 40% more maize this season.",
+    excerpt:
+      "Understanding NPK ratios, microbial activity, and cover cropping strategies that helped our test plots yield 40% more maize this season.",
     author: "Samuel Ochieng",
     likes: 312,
     comments: 54,
     readTime: "7 min read",
     publishedAt: "2025-02-04",
-    id: "1"
+    id: "1",
   },
   {
     slug: "drip-irrigation-small-farms",
     image: "https://i.pinimg.com/736x/11/9c/ea/119cea4b403ddcfcba404b6e58ddff0d.jpg",
     category: "Irrigation",
     title: "Drip Irrigation on a Budget: A Small Farm Setup Guide",
-    excerpt: "How a 2-acre vegetable farm in the Rift Valley cut water usage by 60% with a DIY drip system built for under $300.",
+    excerpt:
+      "How a 2-acre vegetable farm in the Rift Valley cut water usage by 60% with a DIY drip system built for under $300.",
     author: "Aisha Mwangi",
     likes: 198,
     comments: 41,
     readTime: "6 min read",
     publishedAt: "2025-02-18",
-    id: "2"
+    id: "2",
   },
   {
     slug: "drone-crop-monitoring",
     image: "https://i.pinimg.com/736x/11/9c/ea/119cea4b403ddcfcba404b6e58ddff0d.jpg",
     category: "AgriTech",
     title: "Using Drones for Crop Monitoring: Is It Worth It?",
-    excerpt: "We tested three consumer drones over two seasons to see if aerial NDVI imaging actually helps smallholder farmers catch disease early.",
+    excerpt:
+      "We tested three consumer drones over two seasons to see if aerial NDVI imaging actually helps smallholder farmers catch disease early.",
     author: "James Karanja",
     likes: 254,
     comments: 67,
     readTime: "8 min read",
     publishedAt: "2025-03-01",
-    id: "3"
+    id: "3",
   },
   {
     slug: "rotational-grazing-cattle",
     image: "https://i.pinimg.com/736x/11/9c/ea/119cea4b403ddcfcba404b6e58ddff0d.jpg",
     category: "Livestock",
     title: "Rotational Grazing: How We Doubled Pasture Productivity",
-    excerpt: "A practical breakdown of paddock design, rest periods, and stocking density — and the real numbers from our 50-head cattle operation.",
+    excerpt:
+      "A practical breakdown of paddock design, rest periods, and stocking density — and the real numbers from our 50-head cattle operation.",
     author: "Beatrice Njoroge",
     likes: 143,
     comments: 29,
     readTime: "5 min read",
     publishedAt: "2025-03-08",
-    id: "4"
+    id: "4",
   },
   {
     slug: "selling-direct-to-market",
     image: "https://i.pinimg.com/736x/11/9c/ea/119cea4b403ddcfcba404b6e58ddff0d.jpg",
     category: "Business",
     title: "Cutting Out the Middleman: Selling Direct to Urban Markets",
-    excerpt: "From WhatsApp groups to farm subscription boxes — how three Ugandan farmers increased their net income by 35% without growing more food.",
+    excerpt:
+      "From WhatsApp groups to farm subscription boxes — how three Ugandan farmers increased their net income by 35% without growing more food.",
     author: "David Ssemwanga",
     likes: 389,
     comments: 92,
     readTime: "6 min read",
     publishedAt: "2025-03-15",
-    id: "5"
+    id: "5",
   },
   {
     slug: "composting-at-scale",
     image: "https://i.pinimg.com/736x/11/9c/ea/119cea4b403ddcfcba404b6e58ddff0d.jpg",
     category: "Sustainability",
     title: "Composting at Scale: Turning Waste into Your Best Fertiliser",
-    excerpt: "A step-by-step system for managing windrow compost on farms of 5–50 acres, including temperature tracking and turning schedules.",
+    excerpt:
+      "A step-by-step system for managing windrow compost on farms of 5–50 acres, including temperature tracking and turning schedules.",
     author: "Grace Akello",
     likes: 176,
     comments: 38,
     readTime: "5 min read",
     publishedAt: "2025-03-20",
-    id: "6"
+    id: "6",
   },
 ];
