@@ -122,7 +122,7 @@ const HowItWorksSection = ({ onSignUp }: { onSignUp?: () => void }) => {
               height: "auto",
             }}
           >
-            Join Shamba Today <Icon name="arrow" size={20} color="var(--shamba-forest)" />
+            Join Soko Today <Icon name="arrow" size={20} color="var(--shamba-forest)" />
           </Button>
         </div>
       </div>
