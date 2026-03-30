@@ -6,7 +6,7 @@ const TESTIMONIALS = [
   {
     name: "Okello James",
     role: "Maize Farmer · Gulu",
-    text: "Before Shamba I was selling to middlemen at half price. Now I get market price and know exactly when to sell based on AI forecasts. My income has tripled.",
+    text: "Before Soko I was selling to middlemen at half price. Now I get market price and know exactly when to sell based on AI forecasts. My income has tripled.",
     av: "OJ",
     ac: "#166534",
   },
@@ -20,7 +20,7 @@ const TESTIMONIALS = [
   {
     name: "Tumuhaise Peter",
     role: "Organic Honey · Mbarara",
-    text: "I export to Kampala supermarkets now. Shamba connected me to buyers I never would have reached. The blog also helped me improve my processing quality.",
+    text: "I export to Kampala supermarkets now. Soko connected me to buyers I never would have reached. The blog also helped me improve my processing quality.",
     av: "TP",
     ac: "var(--shamba-amber)",
   },

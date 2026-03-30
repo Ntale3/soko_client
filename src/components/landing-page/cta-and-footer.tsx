@@ -100,7 +100,7 @@ export function CTABanner({
 const COLS = [
   {
     title: "Platform",
-    links: ["Marketplace", "Blog", "Price Intelligence", "Shamba AI", "Sell Produce"],
+    links: ["Marketplace", "Blog", "Price Intelligence", "Soko AI", "Sell Produce"],
   },
   { title: "Company", links: ["About", "Careers", "Press", "Partners", "Contact"] },
   {
