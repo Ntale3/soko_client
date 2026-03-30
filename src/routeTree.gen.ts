@@ -29,6 +29,7 @@ import { Route as appCheckoutIndexRouteImport } from './routes/(app)/checkout.in
 import { Route as appBlogIndexRouteImport } from './routes/(app)/blog.index'
 import { Route as appSellSuccessRouteImport } from './routes/(app)/sell.success'
 import { Route as appMarketplaceIdRouteImport } from './routes/(app)/marketplace.$id'
+import { Route as appFarmersIdRouteImport } from './routes/(app)/farmers.$id'
 import { Route as appCheckoutConfirmationRouteImport } from './routes/(app)/checkout.confirmation'
 import { Route as appBlogWriteRouteImport } from './routes/(app)/blog.write'
 import { Route as appBlogSlugRouteImport } from './routes/(app)/blog.$slug'
@@ -132,6 +133,11 @@ const appMarketplaceIdRoute = appMarketplaceIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => appMarketplaceRoute,
 } as any)
+const appFarmersIdRoute = appFarmersIdRouteImport.update({
+  id: '/farmers/$id',
+  path: '/farmers/$id',
+  getParentRoute: () => appRouteRoute,
+} as any)
 const appCheckoutConfirmationRoute = appCheckoutConfirmationRouteImport.update({
   id: '/confirmation',
   path: '/confirmation',
@@ -165,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof appBlogSlugRoute
   '/blog/write': typeof appBlogWriteRoute
   '/checkout/confirmation': typeof appCheckoutConfirmationRoute
+  '/farmers/$id': typeof appFarmersIdRoute
   '/marketplace/$id': typeof appMarketplaceIdRoute
   '/sell/success': typeof appSellSuccessRoute
   '/blog/': typeof appBlogIndexRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof appBlogSlugRoute
   '/blog/write': typeof appBlogWriteRoute
   '/checkout/confirmation': typeof appCheckoutConfirmationRoute
+  '/farmers/$id': typeof appFarmersIdRoute
   '/marketplace/$id': typeof appMarketplaceIdRoute
   '/sell/success': typeof appSellSuccessRoute
   '/blog': typeof appBlogIndexRoute
@@ -211,6 +219,7 @@ export interface FileRoutesById {
   '/(app)/blog/$slug': typeof appBlogSlugRoute
   '/(app)/blog/write': typeof appBlogWriteRoute
   '/(app)/checkout/confirmation': typeof appCheckoutConfirmationRoute
+  '/(app)/farmers/$id': typeof appFarmersIdRoute
   '/(app)/marketplace/$id': typeof appMarketplaceIdRoute
   '/(app)/sell/success': typeof appSellSuccessRoute
   '/(app)/blog/': typeof appBlogIndexRoute
@@ -237,6 +246,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/write'
     | '/checkout/confirmation'
+    | '/farmers/$id'
     | '/marketplace/$id'
     | '/sell/success'
     | '/blog/'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/blog/write'
     | '/checkout/confirmation'
+    | '/farmers/$id'
     | '/marketplace/$id'
     | '/sell/success'
     | '/blog'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/(app)/blog/$slug'
     | '/(app)/blog/write'
     | '/(app)/checkout/confirmation'
+    | '/(app)/farmers/$id'
     | '/(app)/marketplace/$id'
     | '/(app)/sell/success'
     | '/(app)/blog/'
@@ -440,6 +452,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appMarketplaceIdRouteImport
       parentRoute: typeof appMarketplaceRoute
     }
+    '/(app)/farmers/$id': {
+      id: '/(app)/farmers/$id'
+      path: '/farmers/$id'
+      fullPath: '/farmers/$id'
+      preLoaderRoute: typeof appFarmersIdRouteImport
+      parentRoute: typeof appRouteRoute
+    }
     '/(app)/checkout/confirmation': {
       id: '/(app)/checkout/confirmation'
       path: '/confirmation'
@@ -530,6 +549,7 @@ interface appRouteRouteChildren {
   appProfileRoute: typeof appProfileRoute
   appSearchRoute: typeof appSearchRoute
   appSellRoute: typeof appSellRouteWithChildren
+  appFarmersIdRoute: typeof appFarmersIdRoute
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
@@ -542,6 +562,7 @@ const appRouteRouteChildren: appRouteRouteChildren = {
   appProfileRoute: appProfileRoute,
   appSearchRoute: appSearchRoute,
   appSellRoute: appSellRouteWithChildren,
+  appFarmersIdRoute: appFarmersIdRoute,
 }
 
 const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
