@@ -1,94 +1,112 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { BadgeCheck, MapPin, MessageCircle, Star } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Farmer } from "@/types";
-// import type { Farmer } from "./types"
 
-const StarRating = ({ rating }: { rating: number }) => (
-  <div className="flex items-center gap-0.5">
-    {[1, 2, 3, 4, 5].map((s) => (
-      <Star
-        key={s}
-        className={cn(
-          "size-2.5",
-          s <= Math.floor(rating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"
-        )}
-      />
-    ))}
-  </div>
-);
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
 
-export const FarmerResultCard = ({ farmer }: { farmer: Farmer }) => {
-  const navigate = useNavigate();
+interface FarmerResultCardProps {
+  farmer: Farmer;
+}
 
+export function FarmerResultCard({ farmer }: FarmerResultCardProps) {
   return (
-    <div
-      // onClick={() => navigate({ to: "/farmer-profile", search: { id: farmer.id } })}
-      className="flex w-full cursor-pointer gap-3 rounded-3xl border border-border bg-background p-3.5 text-left shadow-sm transition-shadow hover:shadow-md"
+    <Link
+      to="/farmers/$id"
+      params={{ id: String(farmer.id) }}
+      className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-2xl"
     >
-      {/* Avatar */}
-      <div className="relative shrink-0">
-        <Avatar className="size-11">
-          <AvatarImage src={farmer.avatarUrl} alt={farmer.name} />
-          <AvatarFallback className="bg-primary/10 text-sm font-bold text-primary">
-            {farmer.avatar}
-          </AvatarFallback>
-        </Avatar>
-        {farmer.online && (
-          <span className="absolute bottom-0 right-0 size-2.5 rounded-full border-2 border-background bg-emerald-500" />
-        )}
-      </div>
+      <Card className="border border-border/60 bg-card hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+        <CardContent className="p-4 flex gap-4 items-center flex-wrap">
+          {/* Avatar */}
+          <div className="relative shrink-0">
+            <Avatar className="size-12 ring-2 ring-primary/20">
+              <AvatarFallback className="text-sm font-bold bg-primary text-primary-foreground">
+                {getInitials(farmer.name)}
+              </AvatarFallback>
+            </Avatar>
+            {farmer.online && (
+              <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-background" />
+            )}
+          </div>
 
-      {/* Info */}
-      <div className="min-w-0 flex-1">
-        <div className="mb-0.5 flex items-center gap-1.5">
-          <p className="truncate text-[13px] font-bold text-foreground">{farmer.name}</p>
-          {farmer.verified && <BadgeCheck className="size-3.5 shrink-0 text-primary" />}
-          <Badge variant="secondary" className="text-[10px]">
-            {farmer.badge}
-          </Badge>
-        </div>
+          {/* Info */}
+          <div className="flex-1 min-w-0 space-y-1">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <h3 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">
+                {farmer.name}
+              </h3>
+              {farmer.verified && <BadgeCheck size={14} className="text-primary shrink-0" />}
+              <Badge variant="outline" className="text-[10px] ml-auto shrink-0">
+                {farmer.badge}
+              </Badge>
+            </div>
 
-        <div className="mb-1.5 flex items-center gap-1 text-[11px] text-muted-foreground">
-          <MapPin className="size-3 shrink-0" />
-          {farmer.location}
-        </div>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <MapPin size={10} className="shrink-0" />
+              {farmer.location}
+            </div>
 
-        <div className="mb-2 flex items-center gap-2">
-          <StarRating rating={farmer.rating} />
-          <span className="text-[10px] text-muted-foreground">{farmer.reviews} reviews</span>
-        </div>
+            {/* Rating */}
+            <div className="flex items-center gap-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  size={10}
+                  className={cn(
+                    i < Math.floor(farmer.rating)
+                      ? "fill-amber-400 text-amber-400"
+                      : "fill-muted text-muted-foreground/30"
+                  )}
+                />
+              ))}
+              <span className="text-xs text-muted-foreground ml-0.5">
+                {farmer.rating.toFixed(1)}
+                {farmer.reviews && ` · ${farmer.reviews} reviews`}
+              </span>
+            </div>
 
-        <div className="flex flex-wrap gap-1">
-          {farmer.produce.map((p) => (
-            <span
-              key={p}
-              className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary"
-            >
-              {p}
-            </span>
-          ))}
-        </div>
-      </div>
+            {/* Produce tags */}
+            {farmer.produce?.length > 0 && (
+              <div className="flex gap-1 flex-wrap">
+                {farmer.produce.slice(0, 3).map((p) => (
+                  <Badge key={p} variant="secondary" className="text-[10px] rounded-full">
+                    {p}
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </div>
 
-      {/* Right col */}
-      <div className="flex shrink-0 flex-col items-end gap-2">
-        <span className="text-xs font-bold text-primary">{farmer.price}</span>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            // navigate({ to: "/chat" })
-          }}
-          className="flex items-center gap-1 rounded-xl bg-primary/10 px-2.5 py-1 text-[10px] font-semibold text-primary transition-colors hover:bg-primary/20"
-        >
-          <MessageCircle className="size-3" />
-          Chat
-        </button>
-      </div>
-    </div>
+          {/* Price + Chat */}
+          <div className="flex flex-col items-end gap-2 shrink-0">
+            {farmer.price && (
+              <p className="text-sm font-extrabold text-primary tabular-nums">{farmer.price}</p>
+            )}
+            <Link to="/messages" onClick={(e) => e.stopPropagation()}>
+              <Button
+                size="sm"
+                variant="outline"
+                className="h-8 rounded-xl gap-1.5 text-xs border-border/60 hover:bg-primary/5 hover:border-primary/40"
+              >
+                <MessageCircle size={12} /> Chat
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
-};
+}
