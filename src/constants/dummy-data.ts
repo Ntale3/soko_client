@@ -161,6 +161,7 @@ export const posts: Post[] = [
     comments: 54,
     readTime: "7 min read",
     publishedAt: "2025-02-04",
+    id: "1",
   },
   {
     slug: "drip-irrigation-small-farms",
@@ -174,6 +175,7 @@ export const posts: Post[] = [
     comments: 41,
     readTime: "6 min read",
     publishedAt: "2025-02-18",
+    id: "2",
   },
   {
     slug: "drone-crop-monitoring",
@@ -187,6 +189,7 @@ export const posts: Post[] = [
     comments: 67,
     readTime: "8 min read",
     publishedAt: "2025-03-01",
+    id: "3",
   },
   {
     slug: "rotational-grazing-cattle",
@@ -200,6 +203,7 @@ export const posts: Post[] = [
     comments: 29,
     readTime: "5 min read",
     publishedAt: "2025-03-08",
+    id: "4",
   },
   {
     slug: "selling-direct-to-market",
@@ -213,6 +217,7 @@ export const posts: Post[] = [
     comments: 92,
     readTime: "6 min read",
     publishedAt: "2025-03-15",
+    id: "5",
   },
   {
     slug: "composting-at-scale",
@@ -226,5 +231,6 @@ export const posts: Post[] = [
     comments: 38,
     readTime: "5 min read",
     publishedAt: "2025-03-20",
+    id: "6",
   },
 ];
