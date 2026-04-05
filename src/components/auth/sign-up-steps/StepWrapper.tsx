@@ -1,4 +1,3 @@
-// components/auth/sign-up-steps/StepWrapper.tsx
 import { Link, useNavigate } from "@tanstack/react-router";
 
 import { Logo } from "@/components/landing-page/logo";

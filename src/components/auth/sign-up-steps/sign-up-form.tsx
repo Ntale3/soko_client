@@ -1,5 +1,5 @@
 import { MoveLeft } from "lucide-react";
-import { useState } from "react";
+import { SubmitEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -7,13 +7,15 @@ import { Field, FieldDescription, FieldGroup, FieldLabel } from "@/components/ui
 import { Input } from "@/components/ui/input";
 import { C } from "@/constants/colors";
 import { Ic } from "@/constants/crisp-svg";
+import { useAuthStore } from "@/store/auth-store";
 import { useSignUpStore } from "@/store/useSignUpStore";
 
 import { DistrictSelect } from "../DistrictSelect";
 import { SpecialtyPicker } from "../SpecialtyPicker";
 
 const SignUpForm = () => {
-  const { next, back, setCanProceed, role, specialties } = useSignUpStore();
+  const { next, back, role, specialties, district } = useSignUpStore();
+  const { register, isLoading, error, clearError } = useAuthStore();
 
   const [fields, setFields] = useState({
     fullName: "",
@@ -24,33 +26,52 @@ const SignUpForm = () => {
     terms: false,
   });
 
-  function validate(updated: typeof fields) {
-    const needsSpecialties = role === "farmer" || role === "both";
-    const valid =
-      updated.fullName.trim().length > 1 &&
-      updated.email.includes("@") &&
-      updated.phone.trim().length >= 9 &&
-      updated.password.length >= 8 &&
-      updated.password === updated.confirm &&
-      updated.terms &&
-      (!needsSpecialties || specialties.length > 0); // at least 1 specialty picked
-    setCanProceed(valid);
-  }
+  const passwordMismatch = fields.confirm.length > 0 && fields.password !== fields.confirm;
+
+  const isValid =
+    fields.fullName.trim().length > 1 &&
+    fields.email.includes("@") &&
+    fields.phone.trim().length >= 9 &&
+    fields.password.length >= 8 &&
+    !passwordMismatch &&
+    fields.terms &&
+    district !== "" &&
+    (role === "buyer" || specialties.length > 0);
+
+  console.log(isValid);
 
   function update<K extends keyof typeof fields>(key: K, value: (typeof fields)[K]) {
-    const updated = { ...fields, [key]: value };
-    setFields(updated);
-    validate(updated);
+    if (error) clearError();
+    setFields((prev) => ({ ...prev, [key]: value }));
+  }
+
+  async function handleSubmit(e: SubmitEvent) {
+    e.preventDefault();
+    if (!isValid || isLoading) return;
+
+    const base = {
+      fullName: fields.fullName,
+      email: fields.email,
+      phone: fields.phone,
+      password: fields.password,
+      district,
+    };
+
+    const payload =
+      role === "buyer"
+        ? { ...base, role: "buyer" as const }
+        : { ...base, role: role as "farmer" | "both", specialties };
+
+    try {
+      await register(payload);
+      next(); // only advances on success
+    } catch {
+      // Errors handled in store
+    }
   }
 
   return (
-    <form
-      className="w-full max-w-sm"
-      onSubmit={(e) => {
-        e.preventDefault();
-        next();
-      }}
-    >
+    <form className="w-full max-w-sm" onSubmit={handleSubmit}>
       <FieldGroup>
         <Field>
           <h3 className="font-bold text-2xl">Create your account</h3>
@@ -59,9 +80,16 @@ const SignUpForm = () => {
           </p>
         </Field>
 
+        {/* Server error */}
+        {error && (
+          <div className="rounded-[10px] bg-destructive/10 border border-destructive/20 px-4 py-3">
+            <p className="text-sm text-destructive">{error}</p>
+          </div>
+        )}
+
         <Field>
           <FieldLabel htmlFor="form-name">
-            FullName <span className="text-destructive">*</span>
+            Full Name <span className="text-destructive">*</span>
           </FieldLabel>
           <Input
             id="form-name"
@@ -92,7 +120,7 @@ const SignUpForm = () => {
 
         <Field>
           <FieldLabel htmlFor="form-phone">
-            PhoneNumber <span className="text-destructive">*</span>
+            Phone Number <span className="text-destructive">*</span>
           </FieldLabel>
           <Input
             id="form-phone"
@@ -106,39 +134,41 @@ const SignUpForm = () => {
         </Field>
 
         <DistrictSelect />
-        {/* Conditionally show specialty picker */}
+
         {(role === "farmer" || role === "both") && <SpecialtyPicker />}
 
-        <div className="grid grid-cols-2 gap-4">
-          <Field>
-            <FieldLabel htmlFor="form-password">
-              Password <span className="text-destructive">*</span>
-            </FieldLabel>
-            <Input
-              id="form-password"
-              type="password"
-              placeholder="Min 8 chars"
-              className="h-11"
-              value={fields.password}
-              onChange={(e) => update("password", e.target.value)}
-              required
-            />
-          </Field>
-          <Field>
-            <FieldLabel htmlFor="form-password-confirm">
-              Confirm <span className="text-destructive">*</span>
-            </FieldLabel>
-            <Input
-              id="form-password-confirm"
-              type="password"
-              placeholder="Repeat password"
-              className="h-11"
-              value={fields.confirm}
-              onChange={(e) => update("confirm", e.target.value)}
-              required
-            />
-          </Field>
-        </div>
+        <Field>
+          <FieldLabel htmlFor="form-password">
+            Password <span className="text-destructive">*</span>
+          </FieldLabel>
+          <Input
+            id="form-password"
+            type="password"
+            placeholder="Min 8 chars"
+            className="h-11"
+            value={fields.password}
+            onChange={(e) => update("password", e.target.value)}
+            required
+          />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="form-password-confirm">
+            Confirm Password <span className="text-destructive">*</span>
+          </FieldLabel>
+          <Input
+            id="form-password-confirm"
+            type="password"
+            placeholder="Repeat password"
+            className="h-11"
+            value={fields.confirm}
+            onChange={(e) => update("confirm", e.target.value)}
+            required
+          />
+          {passwordMismatch && (
+            <p className="text-xs text-destructive mt-1">Passwords do not match.</p>
+          )}
+        </Field>
 
         <Field orientation="horizontal">
           <Checkbox
@@ -156,13 +186,25 @@ const SignUpForm = () => {
         </Field>
 
         <Field>
-          <Button type="submit" className="w-full h-11 mt-4">
-            Create Account <Ic n="arrow" s={18} c="var(--primary-foreground)" />
+          <Button type="submit" className="w-full h-11 mt-4" disabled={isLoading || !isValid}>
+            {isLoading ? (
+              "Creating account…"
+            ) : (
+              <>
+                Create Account <Ic n="arrow" s={18} c="var(--primary-foreground)" />
+              </>
+            )}
           </Button>
         </Field>
 
         <Field>
-          <Button type="button" className="w-full h-11" variant="ghost" onClick={back}>
+          <Button
+            type="button"
+            className="w-full h-11"
+            variant="ghost"
+            onClick={back}
+            disabled={isLoading}
+          >
             <MoveLeft /> Back
           </Button>
         </Field>
