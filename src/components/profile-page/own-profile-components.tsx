@@ -1,10 +1,7 @@
 import {
   Bell,
   ChevronRight,
-  CreditCard,
-  FileText,
   Globe,
-  Heart,
   LogOut,
   Moon,
   Package,
@@ -13,18 +10,17 @@ import {
   SunMoon,
   Wallet,
 } from "lucide-react";
-import { useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { useMyOrders, useMyPayouts } from "@/hooks/use-profile";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth-store";
-import { OrderSummaryItem, PayoutRecord, ThemePreference } from "@/types/profile";
+import { ThemePreference } from "@/types/profile";
 
+import { useTheme } from "../theme-provider";
 import { ProfileAvatar, StatCard, VerificationBadge } from "./profile-shared";
 
 // ───> Own profile hero
@@ -294,13 +290,15 @@ function SettingsRow({
 }
 
 export function SettingsPanel() {
-  const { settings, setTheme, updateSettings, logout } = useAuthStore();
+  const { settings, updateSettings, logout } = useAuthStore();
 
   const themes: { value: ThemePreference; icon: React.ReactNode; label: string }[] = [
     { value: "light", icon: <Sun size={14} />, label: "Light" },
     { value: "dark", icon: <Moon size={14} />, label: "Dark" },
     { value: "system", icon: <SunMoon size={14} />, label: "System" },
   ];
+
+  const { setTheme, theme } = useTheme();
 
   return (
     <div className="bg-card border border-border/60 rounded-2xl px-5 divide-y divide-border/40">
@@ -313,7 +311,7 @@ export function SettingsPanel() {
               onClick={() => setTheme(t.value)}
               className={cn(
                 "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all",
-                settings.theme === t.value
+                theme === t.value
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}

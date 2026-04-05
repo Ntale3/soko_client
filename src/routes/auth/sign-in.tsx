@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 import AuthLayout from "@/components/auth/auth-layout";
 import { panel } from "@/components/auth/sign-in-panel";
@@ -10,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { C } from "@/constants/colors";
 import { Ic } from "@/constants/crisp-svg";
+import { useAuthStore } from "@/store/auth-store";
 
 export const Route = createFileRoute("/auth/sign-in")({
   component: RouteComponent,
@@ -17,10 +19,29 @@ export const Route = createFileRoute("/auth/sign-in")({
 
 function RouteComponent() {
   const navigate = useNavigate();
+  const { login, isLoading, error, clearError } = useAuthStore();
+
+  const [fields, setFields] = useState({ email: "", password: "", rememberMe: false });
+
+  function update<K extends keyof typeof fields>(key: K, value: (typeof fields)[K]) {
+    if (error) clearError(); // clear server error on edit
+    setFields((prev) => ({ ...prev, [key]: value }));
+  }
+
+  async function handleSubmit(e: React.SubmitEvent) {
+    e.preventDefault();
+    try {
+      await login({ email: fields.email, password: fields.password });
+      navigate({ to: "/marketplace" });
+    } catch {
+      // error is already set in the store — nothing extra needed here
+    }
+  }
+
   return (
     <AuthLayout panel={panel}>
       <div className="animate-[fadeUp_0.7s_cubic-bezier(.16,1,.3,1)_both]">
-        {/* Heading Logo */}
+        {/* Logo */}
         <div className="mb-8 lg:hidden">
           <Logo dark size="md" LogoStyle="text-primary" />
         </div>
@@ -32,7 +53,7 @@ function RouteComponent() {
           </h1>
           <p className="text-[15px] text-muted-foreground">
             Don't have an account?{" "}
-            <Button className="" variant={"link"} onClick={() => navigate({ to: "/auth/sign-up" })}>
+            <Button variant={"link"} onClick={() => navigate({ to: "/auth/sign-up" })}>
               <div className="flex items-center gap-0.5 justify-center">
                 <p className="text-primary font-semibold block">Sign up free</p>
                 <Ic n="arrow" s={18} c={"var(--primary)"} />
@@ -41,7 +62,9 @@ function RouteComponent() {
           </p>
         </div>
 
+        {/* Google */}
         <Button
+          type="button"
           className="mb-6 gap-3 py-3.25 px-7 rounded-[14px] text-[15px] w-full h-11"
           variant={"outline"}
         >
@@ -65,46 +88,81 @@ function RouteComponent() {
           </svg>
           Continue with Google
         </Button>
+
         <div className="flex items-center gap-3">
           <Separator className="flex-1" />
           <p className="text-sm text-muted-foreground whitespace-nowrap">or continue with email</p>
           <Separator className="flex-1" />
         </div>
 
-        <form className="flex flex-col gap-2 mt-6">
+        {/* Server error */}
+        {error && (
+          <div className="mt-4 rounded-[10px] bg-destructive/10 border border-destructive/20 px-4 py-3">
+            <p className="text-sm text-destructive">{error}</p>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-6">
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="fullname-required">Email Address</FieldLabel>
-              <Input leftIcon={<Ic n="mail" s={18} c={C.muted} />} type="email" className="h-11" />
+              <FieldLabel htmlFor="email">Email Address</FieldLabel>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                className="h-11"
+                leftIcon={<Ic n="mail" s={18} c={C.muted} />}
+                value={fields.email}
+                onChange={(e) => update("email", e.target.value)}
+                required
+              />
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="fullname-required">Password</FieldLabel>
+              <FieldLabel htmlFor="password">Password</FieldLabel>
               <Input
-                leftIcon={<Ic n="lock" s={18} c={C.muted} />}
+                id="password"
                 type="password"
+                placeholder="••••••••"
                 className="h-11"
+                leftIcon={<Ic n="lock" s={18} c={C.muted} />}
+                value={fields.password}
+                onChange={(e) => update("password", e.target.value)}
+                required
               />
             </Field>
 
             <Field orientation="horizontal">
-              <Checkbox id="terms-checkbox-basic" name="terms-checkbox-basic" />
-              <FieldLabel htmlFor="terms-checkbox-basic" className="text-muted-foreground">
+              <Checkbox
+                id="rememberMe"
+                checked={fields.rememberMe}
+                onCheckedChange={(v) => update("rememberMe", !!v)}
+              />
+              <FieldLabel htmlFor="rememberMe" className="text-muted-foreground">
                 Keep me signed in for 30 days
               </FieldLabel>
             </Field>
 
             <Field>
-              <Button className="w-full h-11">
-                Sign In <Ic n="arrow" s={18} c={"var(--primary-foreground"} />
+              <Button type="submit" className="w-full h-11" disabled={isLoading}>
+                {isLoading ? (
+                  "Signing in…"
+                ) : (
+                  <>
+                    Sign In <Ic n="arrow" s={18} c={"var(--primary-foreground)"} />
+                  </>
+                )}
               </Button>
             </Field>
 
             <Field>
               <p className="text-xs text-muted-foreground block">
                 By signing in you agree to our{" "}
-                <span className="text-primary hover:underline">Terms and conditions</span> and{" "}
-                <span className="text-primary hover:underline">Privacy Policy.</span>
+                <span className="text-primary hover:underline cursor-pointer">
+                  Terms and conditions
+                </span>{" "}
+                and{" "}
+                <span className="text-primary hover:underline cursor-pointer">Privacy Policy.</span>
               </p>
             </Field>
           </FieldGroup>
