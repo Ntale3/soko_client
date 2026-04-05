@@ -1,13 +1,10 @@
-//  User role
-
+// ── User role
 export type UserRole = "buyer" | "farmer" | "both";
 
-//  Verification status
-
+// ── Verification status
 export type VerificationStatus = "unverified" | "pending" | "verified" | "rejected";
 
-//  Auth user (logged-in user — private)
-
+// ── Auth user (logged-in user — private)
 export interface AuthenticatedUser {
   id: string;
   name: string;
@@ -36,8 +33,7 @@ export interface AuthenticatedUser {
   totalReviews?: number; // farmer
 }
 
-// Public farmer profile (seen by anyone)
-
+// ── Public farmer profile (seen by anyone)
 export interface FarmerProfile {
   id: string;
   name: string;
@@ -60,8 +56,7 @@ export interface FarmerProfile {
   isRatedByMe?: number | null; // 1–5 or null
 }
 
-//  Farmer review (on farmer profile)
-
+// ── Farmer review (on farmer profile)
 export interface FarmerReview {
   id: string;
   reviewerId: string;
@@ -74,8 +69,7 @@ export interface FarmerReview {
   isHelpfulByMe?: boolean;
 }
 
-//  Order summary (buyer's order history)
-
+// ── Order summary (buyer's order history)
 export interface OrderSummaryItem {
   id: string;
   productName: string;
@@ -88,8 +82,7 @@ export interface OrderSummaryItem {
   createdAt: string;
 }
 
-//  Payout record (farmer earnings)
-
+// ── Payout record (farmer earnings)
 export interface PayoutRecord {
   id: string;
   amount: number;
@@ -101,8 +94,7 @@ export interface PayoutRecord {
   createdAt: string;
 }
 
-// Settings
-
+// ── Settings ─
 export type ThemePreference = "light" | "dark" | "system";
 
 export interface UserSettings {
@@ -112,4 +104,39 @@ export interface UserSettings {
   notificationsPush: boolean;
   language: "en" | "lg" | "sw"; // English, Luganda, Swahili
   currency: "UGX";
+}
+
+// ── Auth API payloads
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+interface BaseRegisterPayload {
+  fullName: string;
+  email: string;
+  password: string;
+  phone: string;
+  district: string;
+  role: UserRole;
+}
+
+export interface FarmerRegisterPayload extends BaseRegisterPayload {
+  role: "farmer" | "both";
+  specialties: string[]; // max 3
+}
+
+export interface BuyerRegisterPayload extends BaseRegisterPayload {
+  role: "buyer";
+}
+
+// Discriminated union — TypeScript enforces specialties only for farmer/both
+export type RegisterPayload = FarmerRegisterPayload | BuyerRegisterPayload;
+
+// ── Auth API responses
+
+export interface AuthTokens {
+  access_token: string;
+  token_type: string; // "bearer"
 }
