@@ -120,8 +120,8 @@ export const useAuthStore = create<AuthStore>()(
       login: async (payload) => {
         set({ isLoading: true, error: null });
         try {
-          const {tokens} = await api.post<AuthTokens>("login", payload);
-          console.log(tokens)
+          const { tokens } = await api.post<AuthTokens>("login", payload);
+          console.log(tokens);
           const user = await api.get<AuthenticatedUser>("me", tokens.access_token);
 
           set({ user, token: tokens.access_token, isLoading: false });
@@ -135,7 +135,7 @@ export const useAuthStore = create<AuthStore>()(
       register: async (payload) => {
         set({ isLoading: true, error: null });
         try {
-          const {tokens} = await api.post<AuthTokens>("register", payload);
+          const { tokens } = await api.post<AuthTokens>("register", payload);
           const user = await api.get<AuthenticatedUser>("me", tokens.access_token);
           set({ user, token: tokens.access_token, isLoading: false });
         } catch (err) {
