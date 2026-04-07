@@ -38,7 +38,7 @@ const SignUpForm = () => {
     district !== "" &&
     (role === "buyer" || specialties.length > 0);
 
-  console.log(isValid);
+  
 
   function update<K extends keyof typeof fields>(key: K, value: (typeof fields)[K]) {
     if (error) clearError();

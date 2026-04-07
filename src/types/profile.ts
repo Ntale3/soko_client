@@ -137,6 +137,8 @@ export type RegisterPayload = FarmerRegisterPayload | BuyerRegisterPayload;
 // ── Auth API responses
 
 export interface AuthTokens {
-  access_token: string;
-  token_type: string; // "bearer"
+  tokens:{access_token: string;
+  token_type: string; // "bearer";
+  }
+  user:AuthenticatedUser
 }

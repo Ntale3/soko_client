@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cart-store";
 
 import { Logo } from "../landing-page/logo";
+import { useAuthStore } from "@/store/auth-store";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface NavbarProps {
@@ -46,7 +47,7 @@ const NAV_LINKS: NavLink[] = [
 ];
 
 // ─── User info (replace with real auth context as needed) ─────────────────────
-const USER = { name: "Amina K" };
+//const USER = { name: "Amina K" };
 
 function getInitials(name: string) {
   return name
@@ -117,6 +118,8 @@ export default function Navbar() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const { getSummary } = useCartStore();
   const cartCount = getSummary().itemCount;
+  const {user} = useAuthStore()
+
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
@@ -190,7 +193,7 @@ export default function Navbar() {
           <Link to="/profile" className="hidden md:flex ml-0.5" aria-label="Profile">
             <Avatar className="w-9 h-9 ring-2 ring-primary cursor-pointer hover:ring-emerald-400 transition-all">
               <AvatarFallback className="text-xs font-bold">
-                {getInitials(USER.name)}
+                {user?.initials}
               </AvatarFallback>
             </Avatar>
           </Link>
@@ -254,6 +257,7 @@ export default function Navbar() {
                   </Button>
                 </Link>
 
+                <div className="flex flex-col items-center">
                 {/* Profile */}
                 <Link
                   to="/profile"
@@ -262,11 +266,11 @@ export default function Navbar() {
                 >
                   <Avatar className="w-7.5 h-7.5 ring-2 ring-primary">
                     <AvatarFallback className="text-xs font-bold">
-                      {getInitials(USER.name)}
+                      {user?.initials}
                     </AvatarFallback>
                   </Avatar>
                   <div className="text-left">
-                    <p className="text-sm font-semibold text-foreground">{USER.name}</p>
+                    <p className="text-xs font-semibold text-foreground">{user?.name}</p>
                     <p className="text-xs text-muted-foreground">View profile</p>
                   </div>
                 </Link>
@@ -275,12 +279,13 @@ export default function Navbar() {
                 <Link to="/sell" onClick={() => setSheetOpen(false)}>
                   <Button
                     size="sm"
-                    className="rounded-xl bg-primary hover:bg-primary/60 text-white font-semibold gap-1.5 shadow-sm h-10 px-4"
+                    className="rounded-xl bg-primary hover:bg-primary/60  font-semibold  shadow-sm h-10 px-8"
                   >
                     <Plus size={15} strokeWidth={2.5} />
                     Sell
                   </Button>
                 </Link>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

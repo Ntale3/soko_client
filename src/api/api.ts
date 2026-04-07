@@ -1,5 +1,5 @@
 //const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000"; // TODO: set VITE_API_URL in .env
-const BASE_URL = "http://localhost:8001";
+const BASE_URL = "http://localhost/auth/";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
