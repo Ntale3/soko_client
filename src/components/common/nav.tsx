@@ -46,17 +46,6 @@ const NAV_LINKS: NavLink[] = [
   { to: "/ai", label: "AI Assistant", icon: <Sparkles size={17} /> },
 ];
 
-// ─── User info (replace with real auth context as needed) ─────────────────────
-//const USER = { name: "Amina K" };
-
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-}
 
 // ─── NavLink item — desktop ───────────────────────────────────────────────────
 function DesktopNavLink({ link }: { link: NavLink }) {

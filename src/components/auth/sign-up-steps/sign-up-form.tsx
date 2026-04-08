@@ -15,7 +15,7 @@ import { SpecialtyPicker } from "../SpecialtyPicker";
 
 const SignUpForm = () => {
   const { next, back, role, specialties, district } = useSignUpStore();
-  const { register, isLoading, error, clearError } = useAuthStore();
+  const { register, isLoading, error, clearError ,handleGoogleLogin} = useAuthStore();
 
   const [fields, setFields] = useState({
     fullName: "",

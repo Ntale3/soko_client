@@ -27,6 +27,7 @@ import { Route as appSellIndexRouteImport } from './routes/(app)/sell.index'
 import { Route as appMarketplaceIndexRouteImport } from './routes/(app)/marketplace.index'
 import { Route as appCheckoutIndexRouteImport } from './routes/(app)/checkout.index'
 import { Route as appBlogIndexRouteImport } from './routes/(app)/blog.index'
+import { Route as AuthGoogleCallbackRouteImport } from './routes/auth/google/callback'
 import { Route as appSellSuccessRouteImport } from './routes/(app)/sell.success'
 import { Route as appMarketplaceIdRouteImport } from './routes/(app)/marketplace.$id'
 import { Route as appFarmersIdRouteImport } from './routes/(app)/farmers.$id'
@@ -123,6 +124,11 @@ const appBlogIndexRoute = appBlogIndexRouteImport.update({
   path: '/',
   getParentRoute: () => appBlogRoute,
 } as any)
+const AuthGoogleCallbackRoute = AuthGoogleCallbackRouteImport.update({
+  id: '/auth/google/callback',
+  path: '/auth/google/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const appSellSuccessRoute = appSellSuccessRouteImport.update({
   id: '/success',
   path: '/success',
@@ -174,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/farmers/$id': typeof appFarmersIdRoute
   '/marketplace/$id': typeof appMarketplaceIdRoute
   '/sell/success': typeof appSellSuccessRoute
+  '/auth/google/callback': typeof AuthGoogleCallbackRoute
   '/blog/': typeof appBlogIndexRoute
   '/checkout/': typeof appCheckoutIndexRoute
   '/marketplace/': typeof appMarketplaceIndexRoute
@@ -195,6 +202,7 @@ export interface FileRoutesByTo {
   '/farmers/$id': typeof appFarmersIdRoute
   '/marketplace/$id': typeof appMarketplaceIdRoute
   '/sell/success': typeof appSellSuccessRoute
+  '/auth/google/callback': typeof AuthGoogleCallbackRoute
   '/blog': typeof appBlogIndexRoute
   '/checkout': typeof appCheckoutIndexRoute
   '/marketplace': typeof appMarketplaceIndexRoute
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/(app)/farmers/$id': typeof appFarmersIdRoute
   '/(app)/marketplace/$id': typeof appMarketplaceIdRoute
   '/(app)/sell/success': typeof appSellSuccessRoute
+  '/auth/google/callback': typeof AuthGoogleCallbackRoute
   '/(app)/blog/': typeof appBlogIndexRoute
   '/(app)/checkout/': typeof appCheckoutIndexRoute
   '/(app)/marketplace/': typeof appMarketplaceIndexRoute
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/farmers/$id'
     | '/marketplace/$id'
     | '/sell/success'
+    | '/auth/google/callback'
     | '/blog/'
     | '/checkout/'
     | '/marketplace/'
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/farmers/$id'
     | '/marketplace/$id'
     | '/sell/success'
+    | '/auth/google/callback'
     | '/blog'
     | '/checkout'
     | '/marketplace'
@@ -296,6 +307,7 @@ export interface FileRouteTypes {
     | '/(app)/farmers/$id'
     | '/(app)/marketplace/$id'
     | '/(app)/sell/success'
+    | '/auth/google/callback'
     | '/(app)/blog/'
     | '/(app)/checkout/'
     | '/(app)/marketplace/'
@@ -308,6 +320,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
+  AuthGoogleCallbackRoute: typeof AuthGoogleCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -437,6 +450,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/blog/'
       preLoaderRoute: typeof appBlogIndexRouteImport
       parentRoute: typeof appBlogRoute
+    }
+    '/auth/google/callback': {
+      id: '/auth/google/callback'
+      path: '/auth/google/callback'
+      fullPath: '/auth/google/callback'
+      preLoaderRoute: typeof AuthGoogleCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(app)/sell/success': {
       id: '/(app)/sell/success'
@@ -575,6 +595,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
+  AuthGoogleCallbackRoute: AuthGoogleCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

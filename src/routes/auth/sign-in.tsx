@@ -19,7 +19,7 @@ export const Route = createFileRoute("/auth/sign-in")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const { login, isLoading, error, clearError } = useAuthStore();
+  const { login, isLoading, error, clearError ,handleGoogleLogin} = useAuthStore();
 
   const [fields, setFields] = useState({ email: "", password: "", rememberMe: false });
 
@@ -67,6 +67,7 @@ function RouteComponent() {
           type="button"
           className="mb-6 gap-3 py-3.25 px-7 rounded-[14px] text-[15px] w-full h-11"
           variant={"outline"}
+          onClick={handleGoogleLogin}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" className="shrink-0">
             <path

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { useSignUpStore } from "@/store/useSignUpStore";
 
 import { Button } from "../../ui/button";
+import { useAuthStore } from "@/store/auth-store";
 
 interface RoleOption {
   value: string;
@@ -42,6 +43,7 @@ const ROLE_OPTIONS: RoleOption[] = [
 
 export function RadioGroupChoiceCard() {
   const { role, setRole, next, canProceed } = useSignUpStore();
+  const {handleGoogleLogin}= useAuthStore();
 
   return (
     <div className="flex flex-col gap-3 w-full max-w-sm">
@@ -87,6 +89,7 @@ export function RadioGroupChoiceCard() {
         <Button
           className="mb-6 gap-3 py-3.25 px-7 rounded-[14px] text-[15px] w-full h-11 hover:-translate-y-0.5 transition-all"
           variant="outline"
+          onClick={handleGoogleLogin}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" className="shrink-0">
             <path
