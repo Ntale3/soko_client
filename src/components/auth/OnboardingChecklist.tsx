@@ -28,22 +28,22 @@ const steps = [
 
 export function OnboardingChecklist() {
   return (
-    <Card className="border-0 rounded-2xl p-0  w-100 overflow-hidden">
+    <Card className="w-full max-w-md rounded-2xl overflow-hidden border shadow-sm">
       {steps.map((step, i) => {
         return (
           <CardContent
             key={step.label}
             className={cn(
-              "flex items-center gap-4 p-4",
+              "flex items-center gap-3 sm:gap-4 p-3 sm:p-4",
               i < steps.length - 1 && "border-b border-border"
             )}
           >
             {/* Icon */}
             <div
               className={cn(
-                "flex  shrink-0 items-center justify-center rounded-full ",
+                "flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full border",
                 step.done
-                  ? "border border-emerald-500 text-emerald-500"
+                  ? "border-emerald-500 text-emerald-500"
                   : "border-muted-foreground/30 text-muted-foreground/50"
               )}
             >
@@ -53,8 +53,8 @@ export function OnboardingChecklist() {
             {/* Label */}
             <span
               className={cn(
-                "flex-1 text-sm",
-                step.done ? "font-bold text-card-foreground" : "font-normal text-muted-foreground"
+                "flex-1 text-xs sm:text-sm leading-snug",
+                step.done ? "font-semibold text-card-foreground" : "text-muted-foreground"
               )}
             >
               {step.label}

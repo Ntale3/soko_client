@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth-store";
 import { useCartStore } from "@/store/cart-store";
 
 import { Logo } from "../landing-page/logo";
@@ -44,18 +45,6 @@ const NAV_LINKS: NavLink[] = [
   { to: "/messages", label: "Messages", icon: <MessageCircle size={17} /> },
   { to: "/ai", label: "AI Assistant", icon: <Sparkles size={17} /> },
 ];
-
-// ─── User info (replace with real auth context as needed) ─────────────────────
-const USER = { name: "Amina K" };
-
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-}
 
 // ─── NavLink item — desktop ───────────────────────────────────────────────────
 function DesktopNavLink({ link }: { link: NavLink }) {
@@ -117,6 +106,7 @@ export default function Navbar() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const { getSummary } = useCartStore();
   const cartCount = getSummary().itemCount;
+  const { user } = useAuthStore();
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
@@ -189,9 +179,7 @@ export default function Navbar() {
           {/* Avatar — desktop */}
           <Link to="/profile" className="hidden md:flex ml-0.5" aria-label="Profile">
             <Avatar className="w-9 h-9 ring-2 ring-primary cursor-pointer hover:ring-emerald-400 transition-all">
-              <AvatarFallback className="text-xs font-bold">
-                {getInitials(USER.name)}
-              </AvatarFallback>
+              <AvatarFallback className="text-xs font-bold">{user?.initials}</AvatarFallback>
             </Avatar>
           </Link>
 
@@ -254,33 +242,35 @@ export default function Navbar() {
                   </Button>
                 </Link>
 
-                {/* Profile */}
-                <Link
-                  to="/profile"
-                  onClick={() => setSheetOpen(false)}
-                  className="flex items-center gap-2 flex-1 px-3 py-2 rounded-xl hover:bg-muted transition-colors"
-                >
-                  <Avatar className="w-7.5 h-7.5 ring-2 ring-primary">
-                    <AvatarFallback className="text-xs font-bold">
-                      {getInitials(USER.name)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="text-left">
-                    <p className="text-sm font-semibold text-foreground">{USER.name}</p>
-                    <p className="text-xs text-muted-foreground">View profile</p>
-                  </div>
-                </Link>
-
-                {/* Sell */}
-                <Link to="/sell" onClick={() => setSheetOpen(false)}>
-                  <Button
-                    size="sm"
-                    className="rounded-xl bg-primary hover:bg-primary/60 text-white font-semibold gap-1.5 shadow-sm h-10 px-4"
+                <div className="flex flex-col items-center">
+                  {/* Profile */}
+                  <Link
+                    to="/profile"
+                    onClick={() => setSheetOpen(false)}
+                    className="flex items-center gap-2 flex-1 px-3 py-2 rounded-xl hover:bg-muted transition-colors"
                   >
-                    <Plus size={15} strokeWidth={2.5} />
-                    Sell
-                  </Button>
-                </Link>
+                    <Avatar className="w-7.5 h-7.5 ring-2 ring-primary">
+                      <AvatarFallback className="text-xs font-bold">
+                        {user?.initials}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="text-left">
+                      <p className="text-xs font-semibold text-foreground">{user?.name}</p>
+                      <p className="text-xs text-muted-foreground">View profile</p>
+                    </div>
+                  </Link>
+
+                  {/* Sell */}
+                  <Link to="/sell" onClick={() => setSheetOpen(false)}>
+                    <Button
+                      size="sm"
+                      className="rounded-xl bg-primary hover:bg-primary/60  font-semibold  shadow-sm h-10 px-8"
+                    >
+                      <Plus size={15} strokeWidth={2.5} />
+                      Sell
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

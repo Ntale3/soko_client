@@ -2,8 +2,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-import { AuthenticatedUser, ThemePreference, UserSettings } from "@/types/profile";
-
+import { api } from "@/api/api";
+import {
+  AuthenticatedUser,
+  AuthTokens,
+  LoginPayload,
+  RegisterPayload,
+  ThemePreference,
+  UserSettings,
+} from "@/types/profile";
 //  Mock users (swap with real JWT/session)
 
 export const MOCK_BUYER: AuthenticatedUser = {
@@ -80,59 +87,98 @@ const DEFAULT_SETTINGS: UserSettings = {
 
 interface AuthStore {
   user: AuthenticatedUser | null;
-  settings: UserSettings;
+  token: string | null;
   isLoading: boolean;
+  error: string | null;
+  settings: UserSettings;
 
-  // Auth actions (replace internals with real API calls)
-  setUser: (user: AuthenticatedUser | null) => void;
+  //Actions
+  login: (payload: LoginPayload) => Promise<void>;
+  register: (payload: RegisterPayload) => Promise<void>;
   logout: () => void;
-
-  // Settings
+  clearError: () => void;
   updateSettings: (patch: Partial<UserSettings>) => void;
-  setTheme: (theme: ThemePreference) => void;
+  handleGoogleLogin: () => void;
 
-  // Profile update
-  updateProfile: (patch: Partial<AuthenticatedUser>) => void;
-
-  // Helpers
+  //Helpers
   isFarmer: () => boolean;
   isBuyer: () => boolean;
+  isBoth: () => boolean;
+  isAuthenticated: () => boolean;
 }
 
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set, get) => ({
-      // Default to mock farmer so the profile page works immediately
-      // Replace with null and populate from your real auth flow
-      user: MOCK_FARMER,
-      settings: DEFAULT_SETTINGS,
+      user: null,
+      token: null,
       isLoading: false,
+      error: null,
+      settings: DEFAULT_SETTINGS,
+      theme: "",
 
-      setUser: (user) => set({ user }),
-      logout: () => set({ user: null }),
+      //Login
+      login: async (payload) => {
+        set({ isLoading: true, error: null });
+        try {
+          const { tokens } = await api.post<AuthTokens>("login", payload);
+          console.log(tokens);
+          const user = await api.get<AuthenticatedUser>("me", tokens.access_token);
 
+          set({ user, token: tokens.access_token, isLoading: false });
+        } catch (err) {
+          set({ error: (err as Error).message, isLoading: false });
+          throw err;
+        }
+      },
+
+      //Register
+      register: async (payload) => {
+        set({ isLoading: true, error: null });
+        try {
+          const { tokens } = await api.post<AuthTokens>("register", payload);
+          const user = await api.get<AuthenticatedUser>("me", tokens.access_token);
+          set({ user, token: tokens.access_token, isLoading: false });
+        } catch (err) {
+          set({ error: (err as Error).message, isLoading: false });
+          throw err;
+        }
+      },
+
+      //Logout
+      logout: () => set({ user: null, token: null, error: null }),
+
+      //Google Auth
+      handleGoogleLogin: () => {
+        window.location.href = "http://localhost/auth/google/login";
+      },
+
+      //Settings Update
       updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } })),
 
-      setTheme: (theme) => set((s) => ({ settings: { ...s.settings, theme } })),
+      clearError: () => set({ error: null }),
 
-      updateProfile: (patch) =>
-        set((s) => ({
-          user: s.user ? { ...s.user, ...patch } : null,
-        })),
-
+      // Helpers
       isFarmer: () => {
-        const { role } = get().user ?? {};
-        return role === "farmer" || role === "both";
+        const role = get().user?.role;
+        return role === "farmer";
       },
 
       isBuyer: () => {
-        const { role } = get().user ?? {};
-        return role === "buyer" || role === "both";
+        const role = get().user?.role;
+        return role === "buyer";
       },
+
+      isBoth: () => {
+        const role = get().user?.role;
+        return role === "both";
+      },
+
+      isAuthenticated: () => !!get().token && !!get().user,
     }),
     {
       name: "soko-auth",
-      partialize: (s) => ({ user: s.user, settings: s.settings }),
+      partialize: (s) => ({ user: s.user, settings: s.settings, token: s.token }),
     }
   )
 );

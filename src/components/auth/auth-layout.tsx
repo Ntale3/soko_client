@@ -42,7 +42,7 @@ const AuthLayout = ({ children, panel }: { children: ReactNode; panel: ReactElem
         {panel}
 
         {/* Testimonial — pushed to bottom */}
-        <div className="mt-auto pt-12">
+        <div className="my-8 pt-12">
           <div
             className="rounded-2xl p-6"
             style={{

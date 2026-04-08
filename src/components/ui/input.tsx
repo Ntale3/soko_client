@@ -131,7 +131,7 @@ function Input({ className, type, leftIcon, rightIcon, ...props }: InputProps) {
 
       {/* Input field */}
       <input
-        type={type}
+        type={resolvedType}
         data-slot="input"
         className={cn(
           "h-full w-full min-w-0 bg-transparent px-2.5 py-1",
