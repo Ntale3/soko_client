@@ -98,7 +98,7 @@ interface AuthStore {
   logout: () => void;
   clearError: () => void;
   updateSettings: (patch: Partial<UserSettings>) => void;
-  handleGoogleLogin: ()=>void;
+  handleGoogleLogin: () => void;
 
   //Helpers
   isFarmer: () => boolean;
@@ -149,7 +149,9 @@ export const useAuthStore = create<AuthStore>()(
       logout: () => set({ user: null, token: null, error: null }),
 
       //Google Auth
-      handleGoogleLogin: ()=> {window.location.href = "http://localhost/auth/google/login"},
+      handleGoogleLogin: () => {
+        window.location.href = "http://localhost/auth/google/login";
+      },
 
       //Settings Update
       updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } })),

@@ -19,7 +19,7 @@ export const Route = createFileRoute("/auth/sign-in")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const { login, isLoading, error, clearError ,handleGoogleLogin} = useAuthStore();
+  const { login, isLoading, error, clearError, handleGoogleLogin } = useAuthStore();
 
   const [fields, setFields] = useState({ email: "", password: "", rememberMe: false });
 

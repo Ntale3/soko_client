@@ -8,10 +8,10 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Ic } from "@/constants/crisp-svg";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth-store";
 import { useSignUpStore } from "@/store/useSignUpStore";
 
 import { Button } from "../../ui/button";
-import { useAuthStore } from "@/store/auth-store";
 
 interface RoleOption {
   value: string;
@@ -43,7 +43,7 @@ const ROLE_OPTIONS: RoleOption[] = [
 
 export function RadioGroupChoiceCard() {
   const { role, setRole, next, canProceed } = useSignUpStore();
-  const {handleGoogleLogin}= useAuthStore();
+  const { handleGoogleLogin } = useAuthStore();
 
   return (
     <div className="flex flex-col gap-3 w-full max-w-sm">

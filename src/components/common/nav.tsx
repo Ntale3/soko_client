@@ -46,7 +46,6 @@ const NAV_LINKS: NavLink[] = [
   { to: "/ai", label: "AI Assistant", icon: <Sparkles size={17} /> },
 ];
 
-
 // ─── NavLink item — desktop ───────────────────────────────────────────────────
 function DesktopNavLink({ link }: { link: NavLink }) {
   return (
