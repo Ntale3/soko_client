@@ -70,18 +70,23 @@ export function SectionEditor({
 
   const handleFilePick = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !onBodyImagePick) return;
+    if (!file) return;
 
-    // Show a local preview immediately while the upload runs
+    // Always show a local blob preview immediately — independent of upload success.
+    // This is the fix: preview is set unconditionally before any async work.
     const localPreview = URL.createObjectURL(file);
     onUpdate({ content: localPreview });
 
+    // Only attempt the upload if the parent wired the handler
+    if (!onBodyImagePick) return;
+
     setIsUploading(true);
     try {
-      await onBodyImagePick(file); // parent writes the real URL into section.content
-    } catch {
-      // On failure revert the preview so the user knows something went wrong
-      onUpdate({ content: "" });
+      await onBodyImagePick(file); // parent replaces blob URL with the real CDN URL
+    } catch (err) {
+      // Keep the blob preview — don't wipe it.
+      // The user can see their image; the real URL will be re-attempted on save/publish.
+      console.error("Body image upload failed:", err);
     } finally {
       setIsUploading(false);
       // Reset so the same file can be re-picked if needed
@@ -106,7 +111,6 @@ export function SectionEditor({
           isActive ? "opacity-100" : "opacity-0 group-hover:opacity-100"
         )}
       >
-        {/* Type switcher */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -212,7 +216,6 @@ export function SectionEditor({
 
         {section.type === "image" && (
           <div className="space-y-2">
-            {/* Hidden file input */}
             <input
               ref={fileInputRef}
               type="file"
@@ -222,11 +225,9 @@ export function SectionEditor({
             />
 
             {section.content ? (
-              /* Preview + replace/remove controls */
               <div className="space-y-2">
                 <div className="relative h-48 rounded-xl overflow-hidden border border-border/40">
                   <img src={section.content} alt="preview" className="w-full h-full object-cover" />
-                  {/* Upload spinner overlay */}
                   {isUploading && (
                     <div className="absolute inset-0 bg-background/60 flex items-center justify-center gap-2">
                       <Loader2 size={18} className="animate-spin text-primary" />
@@ -235,7 +236,6 @@ export function SectionEditor({
                   )}
                 </div>
 
-                {/* Replace / remove buttons */}
                 <div className="flex items-center gap-2">
                   <Button
                     type="button"
@@ -264,7 +264,6 @@ export function SectionEditor({
                   >
                     Remove
                   </Button>
-                  {/* Fallback: still allow pasting a URL manually */}
                   <span className="text-[10px] text-muted-foreground ml-auto">
                     or paste a URL below
                   </span>
@@ -278,7 +277,6 @@ export function SectionEditor({
                 />
               </div>
             ) : (
-              /* Empty state — pick file or paste URL */
               <div className="space-y-2">
                 <button
                   type="button"
@@ -321,7 +319,6 @@ export function SectionEditor({
               </div>
             )}
 
-            {/* Caption — always visible */}
             <Input
               value={"caption" in section ? section.caption : ""}
               onChange={(e) => onUpdate({ caption: e.target.value })}
