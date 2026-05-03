@@ -1,5 +1,6 @@
 import { Input } from "@base-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { Separator } from "@/components/ui/separator";
 import { AddSectionBar } from "@/components/write-blog-page/add-section-bar";
@@ -7,7 +8,13 @@ import { PostMeta } from "@/components/write-blog-page/post-meta";
 import { PublishChecklist } from "@/components/write-blog-page/publish-checklist";
 import { SectionEditor } from "@/components/write-blog-page/section-editor";
 import { WriteHeader } from "@/components/write-blog-page/write-header";
-import { usePublishPost, useSaveDraft } from "@/hooks/use-publish-post";
+import {
+  useCreateDraft,
+  usePublishPost,
+  useUpdateDraft,
+  useUploadBodyImage,
+  useUploadCover,
+} from "@/hooks/useWriteBlog";
 import { useWriteBlogStore } from "@/store/write-blog-store";
 
 export const Route = createFileRoute("/(app)/blog/write")({
@@ -32,12 +39,66 @@ function RouteComponent() {
     moveSectionUp,
     moveSectionDown,
     setActiveSectionIndex,
-    saveDraft,
     isReadyToPublish,
   } = useWriteBlogStore();
 
-  const publishMutation = usePublishPost();
-  const saveDraftMutation = useSaveDraft();
+  // Track the server-side post id once the first draft is created
+  const [postId, setPostId] = useState<string | undefined>();
+
+  // ── Mutations ────────────────────────────────────────────────────────────
+  const { mutateAsync: createDraft, isPending: isCreating } = useCreateDraft();
+  const { mutateAsync: updateDraft, isPending: isUpdating } = useUpdateDraft(postId ?? "");
+  const { mutateAsync: uploadCover } = useUploadCover(postId ?? "");
+  const { mutateAsync: uploadBody } = useUploadBodyImage(postId ?? "");
+  const {
+    mutate: publish,
+    isPending: isPublishing,
+    isError: publishError,
+    error: publishErr,
+  } = usePublishPost();
+
+  const isSaving = isCreating || isUpdating || isSavingDraft;
+
+  // ── Save draft ────────────────────────────────────────────────────────────
+  const handleSaveDraft = async () => {
+    if (!postId) {
+      const post = await createDraft();
+      setPostId(post.id);
+    } else {
+      await updateDraft();
+    }
+  };
+
+  // ── Cover image picked ────────────────────────────────────────────────────
+  // PostMeta calls setCoverImage(file, previewUrl) — we intercept by wrapping it.
+  const handleCoverImageChange = async (file: File, previewUrl: string) => {
+    // Always update the local preview immediately
+    setCoverImage(file, previewUrl);
+
+    // If we already have a postId, upload straight away so the server stays in sync.
+    // If not, the file will be uploaded as part of the publish flow.
+    if (postId) {
+      await uploadCover(file);
+    }
+  };
+
+  // ── Body image picked ─────────────────────────────────────────────────────
+  // Call this from your SectionEditor when the user picks an image for a section.
+  // It uploads the file and writes the returned URL back into the section content.
+  const handleBodyImagePick = async (file: File, sectionIndex: number) => {
+    // Ensure a draft exists first
+    let id = postId;
+    if (!id) {
+      const post = await createDraft();
+      id = post.id;
+      setPostId(id);
+    }
+    const { url } = await uploadBody({ file, order: sectionIndex });
+    updateSection(sectionIndex, { content: url });
+  };
+
+  // ── Publish ───────────────────────────────────────────────────────────────
+  const handlePublish = () => publish(postId);
 
   const hasSections = draft.sections.some((s) => s.content.trim().length > 0);
 
@@ -47,27 +108,20 @@ function RouteComponent() {
         {/* ── Page header ───────────────────────────────────────────── */}
         <WriteHeader
           isReadyToPublish={isReadyToPublish()}
-          isSavingDraft={isSavingDraft || saveDraftMutation.isPending}
-          isPublishing={publishMutation.isPending}
+          isSavingDraft={isSaving}
+          isPublishing={isPublishing}
           lastSaved={lastSaved}
-          publishError={publishMutation.isError ? (publishMutation.error as Error).message : null}
-          onSaveDraft={() => saveDraftMutation.mutate()}
-          onPublish={() => publishMutation.mutate()}
+          publishError={publishError ? (publishErr as Error).message : null}
+          onSaveDraft={handleSaveDraft}
+          onPublish={handlePublish}
         />
 
         <Separator />
 
-        {/*
-          Mobile  → single column, full width
-          lg+     → two-column: editor (flex-1) | sidebar (w-72, sticky)
-
-          The sidebar sticks at top-[calc(4rem+1rem)] = navbar height (64px)
-          + a little breathing room so it never hides under the navbar.
-        */}
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* ── Main editor ─────────────────────────────────────────── */}
           <div className="w-full lg:flex-1 min-w-0 space-y-4">
-            {/* Title input */}
+            {/* Title */}
             <div className="bg-card border border-border/60 rounded-2xl px-4 sm:px-5 py-4">
               <Input
                 value={draft.title}
@@ -77,20 +131,20 @@ function RouteComponent() {
               />
             </div>
 
-            {/* Article meta */}
+            {/* Meta */}
             <PostMeta
               category={draft.category}
               coverPreviewUrl={draft.coverPreviewUrl}
               tags={draft.tags}
               excerpt={draft.excerpt}
               onCategoryChange={setCategory}
-              onCoverImageChange={setCoverImage}
+              onCoverImageChange={handleCoverImageChange}
               onCoverImageRemove={removeCoverImage}
               onTagsChange={setTags}
               onExcerptChange={setExcerpt}
             />
 
-            {/* Sections header */}
+            {/* Sections label */}
             <div className="flex items-center gap-2 px-1">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
                 Article Body
@@ -116,16 +170,15 @@ function RouteComponent() {
                   onMoveUp={() => moveSectionUp(i)}
                   onMoveDown={() => moveSectionDown(i)}
                   onFocus={() => setActiveSectionIndex(i)}
+                  // Pass this down to your image section component
+                  onBodyImagePick={(file) => handleBodyImagePick(file, i)}
                 />
               ))}
             </div>
 
             <AddSectionBar onAdd={addSection} />
 
-            {/*
-              Mobile-only publish checklist — sits at the bottom of the
-              editor flow so it doesn't take up precious screen width
-            */}
+            {/* Mobile-only checklist */}
             <div className="lg:hidden">
               <PublishChecklist
                 title={draft.title}
@@ -147,7 +200,6 @@ function RouteComponent() {
               hasSections={hasSections}
             />
 
-            {/* Writing tips */}
             <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 space-y-2">
               <p className="text-xs font-semibold text-primary uppercase tracking-widest">
                 Writing Tips

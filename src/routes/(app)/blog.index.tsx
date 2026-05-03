@@ -6,6 +6,7 @@ import { CategoryFilter } from "@/components/blog-page/category-filter";
 import { FeaturedPost } from "@/components/blog-page/featured-post";
 import { ResultsCount } from "@/components/blog-page/result-count";
 import { TrendingStrip } from "@/components/blog-page/trending-strip";
+import { useFeaturedPost, usePosts } from "@/hooks/useBlog";
 import { useBlogStore } from "@/store/blog-store";
 
 export const Route = createFileRoute("/(app)/blog/")({
@@ -13,6 +14,11 @@ export const Route = createFileRoute("/(app)/blog/")({
 });
 
 function RouteComponent() {
+  // ── Fetch & sync into store
+  usePosts();
+  useFeaturedPost();
+
+  // Read from store
   const { featuredPost, activeCategory, isLoading, setActiveCategory, filteredPosts } =
     useBlogStore();
 

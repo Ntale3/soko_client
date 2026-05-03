@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertCircle, ArrowLeft } from "lucide-react";
+import { useEffect } from "react";
 
 import { AuthorCard } from "@/components/blog-post-page/auth-card";
 import { CommentsSection } from "@/components/blog-post-page/comment-section";
@@ -10,29 +11,21 @@ import { PostTags } from "@/components/blog-post-page/post-tags";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  useAddComment,
+  useComments,
+  useDeleteComment,
+  usePost,
+  useToggleCommentLike,
+  useTogglePostLike,
+} from "@/hooks/useBlogPost";
+import { useAuthStore } from "@/store/auth-store";
 import { useBlogPostStore } from "@/store/blog-post-store";
 
 export const Route = createFileRoute("/(app)/blog/$slug")({
   component: RouteComponent,
-  //   loader: async ({ params }) => {
-  //   const store = useBlogPostStore.getState();
-  //   store.setPostLoading(true);
-  //   try {
-  //     const [post, comments] = await Promise.all([
-  //       fetchPost(params.slug),
-  //       fetchComments(params.slug),
-  //     ]);
-  //     store.setCurrentPost(post);
-  //     store.setComments(comments);
-  //   } catch (e) {
-  //     store.setPostError("Failed to load post.");
-  //   } finally {
-  //     store.setPostLoading(false);
-  //   }
-  // },
 });
 
-//loading skeleton
 function PostSkeleton() {
   return (
     <div className="space-y-6">
@@ -52,6 +45,25 @@ function PostSkeleton() {
 }
 
 function RouteComponent() {
+  const { slug } = Route.useParams();
+
+  // ── Sync auth user into post store so optimistic comments get real name ──
+  const authUser = useAuthStore((s) => s.user);
+  const setCurrentUser = useBlogPostStore((s) => s.setCurrentUser);
+  useEffect(() => {
+    if (authUser) {
+      setCurrentUser({
+        id: authUser.id,
+        name: authUser.name,
+        initials: authUser.initials,
+      });
+    }
+  }, [authUser, setCurrentUser]);
+
+  // ── Fetch post
+  usePost(slug);
+
+  // ── Read from store
   const {
     currentPost,
     comments,
@@ -60,13 +72,18 @@ function RouteComponent() {
     isCommentsLoading,
     isSubmittingComment,
     postError,
-    togglePostLike,
-    addComment,
-    toggleCommentLike,
-    deleteComment,
   } = useBlogPostStore();
 
-  //Error state
+  // Fetch comments once we have the post id
+  useComments(currentPost?.id);
+
+  //  Mutations
+  const { mutate: togglePostLike } = useTogglePostLike();
+  const { mutate: addComment } = useAddComment(currentPost?.id);
+  const { mutate: deleteComment } = useDeleteComment(currentPost?.id);
+  const { mutate: toggleCommentLike } = useToggleCommentLike(currentPost?.id);
+
+  // Error state
   if (postError) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
@@ -82,45 +99,29 @@ function RouteComponent() {
       </div>
     );
   }
+
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-12">
-      {/*
-        Layout:
-        - Mobile: full-width single column
-        - Desktop (lg+): centred narrow column (max-w-3xl) for readability
-      */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6 space-y-6">
         {isPostLoading || !currentPost ? (
           <PostSkeleton />
         ) : (
           <>
-            {/* 1. Cover image + back button + badges */}
             <PostHero post={currentPost} />
-
-            {/* 2. Title, excerpt, author row, like + share */}
-            <PostHeader post={currentPost} onLike={togglePostLike} />
-
-            {/* 3. Structured article body */}
+            <PostHeader post={currentPost} onLike={() => togglePostLike()} />
             <PostBody sections={currentPost.body} />
-
-            {/* 4. Tags */}
             <PostTags tags={currentPost.tags} />
-
-            {/* 5. Author bio card */}
             <AuthorCard post={currentPost} />
-
             <Separator />
-
-            {/* 6. Comments — composer + list */}
             <CommentsSection
               comments={comments}
               totalCount={currentPost.comments}
               currentUser={currentUser}
               isLoading={isCommentsLoading}
               isSubmitting={isSubmittingComment}
-              onSubmit={addComment}
-              onLikeComment={toggleCommentLike}
-              onDeleteComment={deleteComment}
+              onSubmit={(body) => addComment(body)}
+              onLikeComment={(id) => toggleCommentLike(id)}
+              onDeleteComment={(id) => deleteComment(id)}
             />
           </>
         )}
