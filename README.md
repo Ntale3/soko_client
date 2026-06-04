@@ -1,5 +1,5 @@
 # Soko Client
-
+## [soko-ug.com](https://soko-ug.com/)
 The web frontend for Soko — an agricultural marketplace connecting farmers and buyers in Uganda.
 
 Built with React 19, TanStack Router, TanStack Query, Tailwind CSS v4, and shadcn/ui.
